@@ -4,6 +4,10 @@
              x:Class="MapNotepad.App"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
      <Application.Resources>
-
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor"
+                    Value="#29D695">
+            </Setter>
+        </Style>
     </Application.Resources>
 </prism:PrismApplication>

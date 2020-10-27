@@ -4,7 +4,15 @@
              xmlns:prism="http://prismlibrary.com"
              xmlns:local="clr-namespace:MapNotepad.Views"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MapNotepad.Views.MainPage">
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+             x:Class="MapNotepad.Views.MainPage"
+            Title="MAP Notepad">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem   
+                 Command="{Binding LogOutClick}"
+                 Text="Log out"/>
+    </TabbedPage.ToolbarItems>
     <TabbedPage.Children>
         <local:MapPage/>
         <local:PinsListPage/>

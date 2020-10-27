@@ -5,5 +5,13 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
              Title="My pins">
-    <Label Text="pins list page"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Text="Nothing here :("
+               HorizontalOptions="Center"
+               Margin="0,300,0,0"
+               IsVisible="{Binding IsVisibleText, Mode=TwoWay}"/>
+    </Grid>
 </ContentPage>

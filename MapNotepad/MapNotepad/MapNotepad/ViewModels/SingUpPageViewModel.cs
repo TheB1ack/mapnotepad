@@ -1,4 +1,6 @@
-﻿using Prism.Mvvm;
+﻿using Acr.UserDialogs;
+using MapNotepad.Services.Authorization;
+using Prism.Mvvm;
 using Prism.Navigation;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -6,9 +8,10 @@ using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
 {
-    public class SingUpPageViewModel : BindableBase
+    public class SingUpPageViewModel : ViewModelBase
     {
-        protected INavigationService _navigationService { get; private set; }
+        IAuthorizationService _authorizationService;
+
         private string _usernameEntry;
         public string UsernameEntry
         {
@@ -59,9 +62,9 @@ namespace MapNotepad.ViewModels
             }
         }
         public ICommand SingUpBClick => new Command(VerifyAndSaveAsync);
-        public SingUpPageViewModel(INavigationService navigationService)
+        public SingUpPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
-            _navigationService = navigationService;
+            _authorizationService = authorizationService;
         }
 
         private bool TryActivateButton()
@@ -69,7 +72,7 @@ namespace MapNotepad.ViewModels
             bool flag = true;
             if (string.IsNullOrWhiteSpace(UsernameEntry))
             {
-                flag =  false;
+                flag = false;
             }
             if (string.IsNullOrWhiteSpace(EmailEntry))
             {
@@ -87,9 +90,56 @@ namespace MapNotepad.ViewModels
         }
         private async void VerifyAndSaveAsync()
         {
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add("email", UsernameEntry);
-            await _navigationService.GoBackAsync(parameters);
+            if (CheckUserInput())
+            {
+                bool flag = await _authorizationService.SingUpAsync(UsernameEntry, EmailEntry, PasswordEntry);
+                if (flag)
+                {
+                    NavigationParameters parameters = new NavigationParameters();
+                    parameters.Add("email", EmailEntry);
+                    await _navigationService.GoBackAsync(parameters);
+                }
+            }
+        }
+        private bool CheckUserInput()
+        {
+            bool flag = true;
+            if (UsernameEntry.Length <= 3 || UsernameEntry.Length >= 15)
+            {
+                UserDialogs.Instance.Alert("Name must be between 3 and 15 characters long!", "", "OK");
+                flag = false;
+            }
+            //else if (!EmailValidation(EmailEntry)) 
+            //{
+              //  UserDialogs.Instance.Alert("Email is not valid", "", "OK");
+                //flag = false;
+           // }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(PasswordEntry, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || PasswordEntry.Length <= 4 || PasswordEntry.Length >= 20)
+            {
+                UserDialogs.Instance.Alert("Password must contain one capital letter, one number and be between 4 and 20 characters long!", "", "OK");
+                flag = false;
+            }
+            else if (PasswordEntry != SPasswordEntry)
+            {
+                UserDialogs.Instance.Alert("Passwords must match!", "", "OK");
+                flag = false;
+            }
+
+            return flag;
+        }
+        private bool EmailValidation(string email)
+        {
+            bool flag = true;
+            try
+            {
+                var mail = new System.Net.Mail.MailAddress(email);
+            }
+            catch
+            {
+                flag = false;
+            }
+
+            return flag;
         }
     }
 }

@@ -1,17 +1,21 @@
-﻿using Prism.Commands;
+﻿using Acr.UserDialogs;
+using MapNotepad.Services.Authorization;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Unity;
 using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
 {
-    public class SingInPageViewModel : BindableBase
+    public class SingInPageViewModel : ViewModelBase
     {
-        protected INavigationService _navigationService { get; private set; }
+        IAuthorizationService _authorizationService;
+
         private string _emailEntry;
         public string EmailEntry
         {
@@ -44,9 +48,9 @@ namespace MapNotepad.ViewModels
 
         public ICommand SingInBClick => new Command(TryToSingInAsync);
         public ICommand CreateAccountBClick => new Command(NavigateToSingUpPage);
-        public SingInPageViewModel(INavigationService navigationService)
+        public SingInPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
-            _navigationService = navigationService;
+            _authorizationService = authorizationService;
         }
         private bool TryActivateButton()
         {
@@ -59,18 +63,29 @@ namespace MapNotepad.ViewModels
             {
                 flag = false;
             }
+
             return flag;
         }
         private async void TryToSingInAsync()
         {
-            if (IsButtonEnable)
+            bool flag = await _authorizationService.SingInAsync(EmailEntry, PasswordEntry);
+            if (flag)
             {
                 await _navigationService.NavigateAsync("../MainPage");
+            }
+            else
+            {
+                UserDialogs.Instance.Alert("Incorrect password or email!", "", "OK");
+                PasswordEntry = "";
             }
         }
         private async void NavigateToSingUpPage()
         {
             await _navigationService.NavigateAsync("SingUpPage");
+        }
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            EmailEntry = (string)parameters["email"];
         }
     }
 }
