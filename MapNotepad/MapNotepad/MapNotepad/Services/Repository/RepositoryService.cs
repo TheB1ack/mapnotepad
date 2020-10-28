@@ -18,7 +18,7 @@ namespace MapNotepad.Services.Repository
             database.CreateTableAsync<User>();
             database.CreateTableAsync<CustomPin>();
         }
-        public async void DeleteItemAsync<T>(T item)
+        public async Task DeleteItemAsync<T>(T item)
         {
             await database.DeleteAsync(item);
         }

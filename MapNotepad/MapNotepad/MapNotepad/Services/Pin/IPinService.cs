@@ -11,7 +11,7 @@ namespace MapNotepad.Services.Pin
     {
          Task AddPinAsync(string name, string description, Xamarin.Forms.GoogleMaps.Pin mapPin);
          void EditPin();
-         void RemovePin();
+         Task RemovePinAsync(CustomPin item);
         Task<ObservableCollection<CustomPin>> GetPinsAsync();
     }
 }

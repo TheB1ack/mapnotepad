@@ -32,9 +32,9 @@ namespace MapNotepad.Services.Pin
 
         }
 
-        public void RemovePin()
+        public async Task RemovePinAsync(CustomPin item)
         {
-
+            await _repositoryService.DeleteItemAsync(item);
         }
         public async Task<ObservableCollection<CustomPin>> GetPinsAsync()
         {

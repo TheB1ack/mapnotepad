@@ -57,12 +57,14 @@ namespace MapNotepad.ViewModels
         }
         private async void GoToAddEditPinPageAsync(object item = null)
         {
-            await _navigationService.NavigateAsync("AddEditPinPage");
-            
+            await _navigationService.NavigateAsync("AddEditPinPage");    
         }
-        private void TryToDeleteItem(object item)
-        {
-            
+        private async void TryToDeleteItem(object item)
+        { 
+            var pin = item as CustomPin;
+            await _pinService.RemovePinAsync(pin);
+
+            CollectionResize();
         }
         private async void CollectionResize()
         {

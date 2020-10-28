@@ -11,15 +11,11 @@ namespace MapNotepad.Extentions
         public static Pin ConvertToPin(this CustomPin customPin)
         {
             Pin pin = null;
-
-            if (customPin == null)
+            pin = new Pin()
             {
-                pin = new Pin()
-                {
-                    Label = customPin.Name,
-                    Position = new Position(customPin.PositionLat,customPin.PositionLong)
-                };
-            }
+                Label = customPin.Name,
+                Position = new Position(customPin.PositionLat, customPin.PositionLong)
+            };
 
             return pin;
         }

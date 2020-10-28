@@ -9,7 +9,7 @@ namespace MapNotepad.Services.Repository
     {
         Task<IEnumerable<T>> GetItemsAsync<T>() where T : class, new();
         Task<T> GetItemAsync<T>(int id) where T : class, new();
-        void DeleteItemAsync<T>(T item);
+        Task DeleteItemAsync<T>(T item);
         Task<int> SaveItemAsync<T>(T item);
         void UpdateItemAsync<T>(T item);
     }
