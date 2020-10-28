@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
+             x:Name="_this"
              Title="My pins">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,5 +14,50 @@
                HorizontalOptions="Center"
                Margin="0,300,0,0"
                IsVisible="{Binding IsVisibleText, Mode=TwoWay}"/>
+        <ListView HasUnevenRows="True"              
+                  ItemsSource="{Binding ItemsCollection}"
+                  SeparatorVisibility="None"
+                  SelectionMode="Single"   
+                  SelectedItem="{Binding ItemSelected, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions >
+                            <MenuItem Text="Edit"
+                                      Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
+                                      CommandParameter="{Binding .}"/>
+                            <MenuItem Text="Delete"
+                                      Command="{Binding BindingContext.DeleteTap, Source={x:Reference _this}}"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="True"/>
+                        </ViewCell.ContextActions>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical" 
+                                             Padding="5,5,0,5">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="17" 
+                                           FontAttributes="Bold"/>
+                                    <Label Text="{Binding Description}" 
+                                            FontAttributes="None"
+                                            FontSize="17"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ImageButton
+            Grid.Row="0"
+            HorizontalOptions="End"
+            WidthRequest="70" 
+            HeightRequest="70"
+            Margin="0,0,20,22" 
+            VerticalOptions="End"
+            BackgroundColor="#29D695"
+            CornerRadius ="35"
+            Command="{Binding AddButtonClicked}"           
+            Padding="19"/>
     </Grid>
 </ContentPage>

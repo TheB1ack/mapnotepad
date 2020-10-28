@@ -16,6 +16,7 @@ namespace MapNotepad.Services.Repository
         {
             database = new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
             database.CreateTableAsync<User>();
+            database.CreateTableAsync<CustomPin>();
         }
         public async void DeleteItemAsync<T>(T item)
         {

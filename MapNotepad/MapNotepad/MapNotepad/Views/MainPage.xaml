@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:MapNotepad.Views"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
              android:TabbedPage.ToolbarPlacement="Bottom"
              x:Class="MapNotepad.Views.MainPage"
             Title="MAP Notepad">
@@ -17,4 +18,7 @@
         <local:MapPage/>
         <local:PinsListPage/>
     </TabbedPage.Children>
+    <TabbedPage.Behaviors>
+        <behaviors:TabbedPageNavigationBehavior />
+    </TabbedPage.Behaviors>
 </TabbedPage>

@@ -6,23 +6,28 @@
              x:Class="MapNotepad.Views.SingInPage">
     <StackLayout>
         <Entry Text="{Binding EmailEntry}"
-                   Placeholder = "Email address"  
+                   Placeholder = "Email address"
+                   HeightRequest="60"
                    Margin="50, 200, 50, 0" />
         <Entry Text="{Binding PasswordEntry}"
                    Placeholder = "Password" 
                    IsPassword ="True" 
+                   HeightRequest="60"
                    Margin="50, 0, 50, 0"/>
         <Button Command ="{Binding SingInBClick}" 
                     IsEnabled="{Binding IsButtonEnable}" 
                     Text="Login" 
                     BackgroundColor="#29D695"
+                    TextColor="Black"
                     CornerRadius ="10"
                     Margin="50, 60, 50, 0"/>
-        <Label Text="Don't have an account?" 
+        <Label Text="Don't have an account?"
+               TextColor="Black"
                HorizontalOptions="Center"/>
         <Button Command ="{Binding CreateAccountBClick}" 
                     Text="Create account"
                     BackgroundColor="#29D695"
+                    TextColor="Black"
                     CornerRadius ="10"
                     Margin="50, 0, 50, 0"/>
     </StackLayout>

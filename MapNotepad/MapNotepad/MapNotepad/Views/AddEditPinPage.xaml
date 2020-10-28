@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:control="clr-namespace:MapNotepad.Control"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MapNotepad.Views.AddEditPinPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding SaveClick}"
+                     Text="Save"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+    <Entry Text="{Binding NameEntry}" 
+               Placeholder = "Pin name"  
+               Margin="50, 70, 50, 0" />
+    <Editor Text="{Binding DescriptionEditor}" 
+                Placeholder="Description" 
+                Margin="50, 20, 50, 0" 
+                MaxLength="200 "
+                HeightRequest="200"/>
+
+        <Frame Margin="5,5,5,5" 
+               VerticalOptions="FillAndExpand" 
+               Padding="5,5,5,5" 
+               BackgroundColor="white"
+               BorderColor="Black">
+            <control:CustomMap PinsSource="{Binding PinsCollection}">
+                <map:Map.Behaviors>
+                    <prism:EventToCommandBehavior EventName="MapClicked" 
+                                                  Command="{Binding MapTapped}"
+                                                  EventArgsParameterPath="Point"/>
+                </map:Map.Behaviors>
+            </control:CustomMap>
+        </Frame>
+    </StackLayout>
+</ContentPage>
