@@ -11,21 +11,52 @@
                      Text="Save"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
-    <Entry Text="{Binding NameEntry}" 
+        <Entry Text="{Binding NameEntry}" 
                Placeholder = "Pin name"  
-               Margin="50, 70, 50, 0" />
-    <Editor Text="{Binding DescriptionEditor}" 
+               Margin="50, 20, 50, 0" 
+               HeightRequest="50"
+               MaxLength="20"/>
+        <Editor Text="{Binding DescriptionEditor}" 
                 Placeholder="Description" 
-                Margin="50, 20, 50, 0" 
-                MaxLength="200 "
-                HeightRequest="200"/>
-
+                Margin="50, 5, 50, 0" 
+                MaxLength="60"
+                HeightRequest="100"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <CheckBox IsChecked="{Binding IsCheckBoxChecked}"
+                    HorizontalOptions="Center">
+                <CheckBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="CheckedChanged" 
+                                                  Command="{Binding CheckBoxSet}"/>
+                </CheckBox.Behaviors>
+            </CheckBox>
+            <Label Text="Use map"
+                   FontSize="17"
+                   Margin="-6,3,0,0"></Label>
+        </StackLayout>
+        <StackLayout IsVisible="{Binding IsEntryVisible}">
+            <Label Text="Latitude"
+               HorizontalOptions="Center"/>
+            <Entry Text="{Binding LatitudeEntry}" 
+               Placeholder = "Pin latitude"
+               HeightRequest="50"
+               Margin="50, 0, 50, 0"
+               Keyboard="Numeric"/>
+            <Label Text="Longitude"
+               HorizontalOptions="Center"/>
+            <Entry Text="{Binding LongitudeEntry}" 
+               Placeholder = "Pin longitu"
+               HeightRequest="50"
+               Margin="50, 0, 50, 0"
+               Keyboard="Numeric"/>
+        </StackLayout>
         <Frame Margin="5,5,5,5" 
                VerticalOptions="FillAndExpand" 
                Padding="5,5,5,5" 
                BackgroundColor="white"
-               BorderColor="Black">
-            <control:CustomMap PinsSource="{Binding PinsCollection}">
+               BorderColor="Black"
+               IsVisible="{Binding IsMapVisible}">
+            <control:CustomMap PinsSource="{Binding PinsCollection}"
+                               OnlyOneFocusedPin="{Binding MyFocusedPin}">
                 <map:Map.Behaviors>
                     <prism:EventToCommandBehavior EventName="MapClicked" 
                                                   Command="{Binding MapTapped}"

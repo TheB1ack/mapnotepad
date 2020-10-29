@@ -14,28 +14,28 @@ namespace MapNotepad.Behaviors
 
         protected override void OnAttachedTo(TabbedPage bindable)
         {
-            bindable.CurrentPageChanged += this.OnCurrentPageChanged;
+            bindable.CurrentPageChanged += OnCurrentPageChanged;
             base.OnAttachedTo(bindable);
         }
 
         protected override void OnDetachingFrom(TabbedPage bindable)
         {
-            bindable.CurrentPageChanged -= this.OnCurrentPageChanged;
+            bindable.CurrentPageChanged -= OnCurrentPageChanged;
             base.OnDetachingFrom(bindable);
         }
 
         private void OnCurrentPageChanged(object sender, EventArgs e)
         {
-            var newPage = this.AssociatedObject.CurrentPage;
+            var newPage = AssociatedObject.CurrentPage;
 
-            if (this.CurrentPage != null)
+            if (CurrentPage != null)
             {
                 var parameters = new NavigationParameters();
-                PageUtilities.OnNavigatedFrom(this.CurrentPage, parameters);
+                PageUtilities.OnNavigatedFrom(CurrentPage, parameters);
                 PageUtilities.OnNavigatedTo(newPage, parameters);
             }
 
-            this.CurrentPage = newPage;
+            CurrentPage = newPage;
         }
     }
 }

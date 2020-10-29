@@ -160,4 +160,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_settings%403x.png" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarMapNotepadiOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

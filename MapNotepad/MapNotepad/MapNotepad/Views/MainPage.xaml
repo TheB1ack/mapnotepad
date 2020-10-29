@@ -8,7 +8,7 @@
              xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
              android:TabbedPage.ToolbarPlacement="Bottom"
              x:Class="MapNotepad.Views.MainPage"
-            Title="MAP Notepad">
+             Title="MAP Notepad">
     <TabbedPage.ToolbarItems>
         <ToolbarItem   
                  Command="{Binding LogOutClick}"

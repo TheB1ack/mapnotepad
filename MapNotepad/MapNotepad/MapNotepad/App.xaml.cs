@@ -9,7 +9,7 @@ using MapNotepad.ViewModels;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Authorization;
 using Plugin.Settings;
-using MapNotepad.Services.Pin;
+using MapNotepad.Services.PinsService;
 
 namespace MapNotepad
 {
@@ -25,7 +25,7 @@ namespace MapNotepad
             InitializeComponent();
             if (CrossSettings.Current.GetValueOrDefault("UserId", -1) != -1)
             {
-                await NavigationService.NavigateAsync("NavigationPage/MainPage");
+                await NavigationService.NavigateAsync("NavigationPage/MainPage?selectedTab=MapPage");
             }
             else
             {

@@ -1,5 +1,6 @@
-﻿using MapNotepad.Models;
-using MapNotepad.Services.Pin;
+﻿    using MapNotepad.Extentions;
+using MapNotepad.Models;
+using MapNotepad.Services.PinsService;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,13 +19,13 @@ namespace MapNotepad.ViewModels
     {
         IPinService _pinService;
 
-        private ObservableCollection<CustomPin> _itemsCollection;
-        public ObservableCollection<CustomPin> ItemsCollection
+        private ObservableCollection<CustomPin> _pinsCollection;
+        public ObservableCollection<CustomPin> PinsCollection
         {
-            get { return _itemsCollection; }
+            get { return _pinsCollection; }
             set
             {
-                SetProperty(ref _itemsCollection, value);
+                SetProperty(ref _pinsCollection, value);
             }
         }
         private bool _isVisibleText;
@@ -46,18 +47,32 @@ namespace MapNotepad.ViewModels
             set
             {
                 _itemSelected = value;
+                NavigateToMapPage();
+            }
+        }
+        private string _searchBarText;
+        public string SearchBarText
+        {
+            get { return _searchBarText; }
+            set
+            {
+                SetProperty(ref _searchBarText, value);
             }
         }
         public ICommand EditTap => new Command(GoToAddEditPinPageAsync);
         public ICommand DeleteTap => new Command(TryToDeleteItem);
         public ICommand AddButtonClicked => new Command(GoToAddEditPinPageAsync);
+        public ICommand UserSearching => new Command(SearchPins);
         public PinsListPageViewModel(INavigationService navigationService, IPinService pinService) : base(navigationService)
         {
             _pinService = pinService;
         }
         private async void GoToAddEditPinPageAsync(object item = null)
         {
-            await _navigationService.NavigateAsync("AddEditPinPage");    
+            var pin = item as CustomPin;
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add("pin", pin);
+            await _navigationService.NavigateAsync("AddEditPinPage", parameters);    
         }
         private async void TryToDeleteItem(object item)
         { 
@@ -66,17 +81,43 @@ namespace MapNotepad.ViewModels
 
             CollectionResize();
         }
+        private async void SearchPins()
+        {
+            if (!string.IsNullOrWhiteSpace(SearchBarText))
+            {
+                PinsCollection = await _pinService.GetPinsByText(SearchBarText);
+                CheckCollectionSize();
+            }
+            else
+            {
+                PinsCollection = await _pinService.GetPinsAsync();
+            }
+        }
         private async void CollectionResize()
         {
-            ItemsCollection = await _pinService.GetPinsAsync();
+            PinsCollection = await _pinService.GetPinsAsync();
 
-            if (ItemsCollection.Count == 0)
+            CheckCollectionSize();
+        }
+        private void CheckCollectionSize()
+        {
+            if (PinsCollection.Count == 0)
             {
                 IsVisibleText = true;
             }
             else
             {
                 IsVisibleText = false;
+            }
+        }
+        private void NavigateToMapPage()
+        {
+            if(ItemSelected != null)
+            {
+                NavigationParameters parameters = new NavigationParameters();
+                ItemSelected.IsAnimated = true;
+                parameters.Add("FocusedPin", ItemSelected);
+                _navigationService.NavigateAsync("../MainPage?selectedTab=MapPage", parameters);
             }
         }
         public override void OnNavigatedTo(INavigationParameters parameters)

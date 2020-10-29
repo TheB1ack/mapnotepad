@@ -54,22 +54,22 @@ namespace MapNotepad.ViewModels
         }
         private bool TryActivateButton()
         {
-            bool flag = true;
+            bool isOk = true;
             if (string.IsNullOrWhiteSpace(EmailEntry))
             {
-                flag = false;
+                isOk = false;
             }
             if (string.IsNullOrWhiteSpace(PasswordEntry))
             {
-                flag = false;
+                isOk = false;
             }
 
-            return flag;
+            return isOk;
         }
         private async void TryToSingInAsync()
         {
-            bool flag = await _authorizationService.SingInAsync(EmailEntry, PasswordEntry);
-            if (flag)
+            bool isOk = await _authorizationService.SingInAsync(EmailEntry, PasswordEntry);
+            if (isOk)
             {
                 await _navigationService.NavigateAsync("../MainPage");
             }

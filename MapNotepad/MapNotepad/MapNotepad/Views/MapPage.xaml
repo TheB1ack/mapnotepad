@@ -2,12 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:MapNotepad.Control" xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:controls="clr-namespace:MapNotepad.Control" 
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.MapPage"
-             Title="Map">
+             Title="Map"
+             BackgroundColor="GhostWhite">
     <StackLayout>
-        <controls:CustomMap PinsSource="{Binding PinsCollection}">
+        <SearchBar Placeholder="Pin name or..."
+                   BackgroundColor="GhostWhite"
+                   Margin="0,0,0,0"
+                   TextColor="Black"
+                   Text="{Binding SearchBarText}">
+            <SearchBar.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged" 
+                                                  Command="{Binding UserSearching}"/>
+            </SearchBar.Behaviors>
+        </SearchBar>
+        <controls:CustomMap Margin="0,0,0,0" 
+                            PinsSource="{Binding PinsCollection}" 
+                            FocusedPin="{Binding MyFocusedPin}"
+                            BackgroundColor="GhostWhite">
         </controls:CustomMap>
     </StackLayout>
 </ContentPage>

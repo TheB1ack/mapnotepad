@@ -6,7 +6,7 @@ using System.Text;
 namespace MapNotepad.Models
 {
     [Table("Users")]
-    public class User
+    public class User : IBaseModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

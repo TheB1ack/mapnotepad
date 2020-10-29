@@ -8,7 +8,8 @@
         <Entry Text="{Binding EmailEntry}"
                    Placeholder = "Email address"
                    HeightRequest="60"
-                   Margin="50, 200, 50, 0" />
+                   Margin="50, 200, 50, 0" 
+                   Keyboard="Email"/>
         <Entry Text="{Binding PasswordEntry}"
                    Placeholder = "Password" 
                    IsPassword ="True" 

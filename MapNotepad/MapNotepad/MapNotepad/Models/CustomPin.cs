@@ -6,8 +6,8 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.Models
 {
-    [Table("Users")]
-    public class CustomPin 
+    [Table("CustomPin")]
+    public class CustomPin : IBaseModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -16,5 +16,8 @@ namespace MapNotepad.Models
         public int UserId { get; set; }
         public double PositionLat { get; set; }
         public double PositionLong { get; set; }
+
+        [Ignore]
+        public bool IsAnimated { get; set; }
     }
 }
