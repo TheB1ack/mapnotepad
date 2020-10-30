@@ -185,7 +185,7 @@ namespace MapNotepad.ViewModels
                     MyFocusedPin.Name = NameEntry;
                     MyFocusedPin.Description = DescriptionEditor;
                     MyFocusedPin.PositionLat = LatitudeEntry;
-                    MyFocusedPin.PositionLong = LongitudeEntry;
+                    MyFocusedPin.PositionLong = LongitudeEntry;  
 
                     await _pinService.UpdatePinAsync(MyFocusedPin);
                     await _navigationService.GoBackAsync();

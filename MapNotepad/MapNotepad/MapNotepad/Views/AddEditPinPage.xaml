@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             xmlns:control="clr-namespace:MapNotepad.Control"
+             xmlns:control="clr-namespace:MapNotepad.Control" xmlns:renderer="clr-namespace:MapNotepad.Renderer"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.AddEditPinPage">
     <ContentPage.ToolbarItems>
@@ -11,10 +11,10 @@
                      Text="Save"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <Entry Text="{Binding NameEntry}" 
+        <renderer:CustomEntry Text="{Binding NameEntry}" 
                Placeholder = "Pin name"  
                Margin="50, 20, 50, 0" 
-               HeightRequest="50"
+               HeightRequest="45"
                MaxLength="20"/>
         <Editor Text="{Binding DescriptionEditor}" 
                 Placeholder="Description" 

@@ -1,36 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:prism="http://prismlibrary.com" xmlns:renderer="clr-namespace:MapNotepad.Renderer"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.SingUpPage"
              Title="Create Account">
     <StackLayout>
-        <Entry Text="{Binding UsernameEntry}" 
+        <renderer:CustomEntry Text="{Binding UsernameEntry}" 
                Placeholder = "Username" 
-               HeightRequest="60"
+               HeightRequest="45"
                Margin="50, 140, 50, 0" />
-        <Entry Text="{Binding EmailEntry}" 
+        <renderer:CustomEntry Text="{Binding EmailEntry}" 
                Placeholder = "Email address" 
-               HeightRequest="60"
-               Margin="50, 0, 50, 0" 
+               HeightRequest="45"
+               Margin="50, 10, 50, 0" 
                Keyboard="Email"/>
-        <Entry Text="{Binding PasswordEntry}"
+        <renderer:CustomEntry Text="{Binding PasswordEntry}"
                Placeholder = "Password" 
-               HeightRequest="60"
+               HeightRequest="45"
                IsPassword ="True" 
-               Margin="50, 0, 50, 0" />
-        <Entry Text="{Binding SPasswordEntry}"
+               Margin="50, 10, 50, 0" />
+        <renderer:CustomEntry Text="{Binding SPasswordEntry}"
                Placeholder = "Confirm password"
-               HeightRequest="60"
+               HeightRequest="45"
                IsPassword ="True" 
-               Margin="50, 0, 50, 0" />
+               Margin="50, 10, 50, 0" />
         <Button Command="{Binding SingUpBClick}"
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text = "Register" 
                 BackgroundColor="#29D695"
                 TextColor="Black"
                 CornerRadius ="10"
-                Margin="50, 60, 50, 0" />
+                Margin="50, 40, 50, 0" />
     </StackLayout>
 </ContentPage>

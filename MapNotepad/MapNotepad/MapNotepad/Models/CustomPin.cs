@@ -16,6 +16,7 @@ namespace MapNotepad.Models
         public int UserId { get; set; }
         public double PositionLat { get; set; }
         public double PositionLong { get; set; }
+        public bool IsFavourite { get; set; }
 
         [Ignore]
         public bool IsAnimated { get; set; }

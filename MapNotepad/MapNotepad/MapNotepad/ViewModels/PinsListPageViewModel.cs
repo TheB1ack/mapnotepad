@@ -72,14 +72,9 @@ namespace MapNotepad.ViewModels
         public ICommand DeleteTap => new Command(TryToDeleteItem);
         public ICommand AddButtonClicked => new Command(GoToAddEditPinPageAsync);
         public ICommand UserSearching => new Command(SearchPins);
-        public ICommand CheckBoxSet => new Command(SetFavouritePin);
         public PinsListPageViewModel(INavigationService navigationService, IPinService pinService) : base(navigationService)
         {
             _pinService = pinService;
-        }
-        private void SetFavouritePin()
-        {
-            
         }
         private async void GoToAddEditPinPageAsync(object item = null)
         {

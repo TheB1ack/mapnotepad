@@ -12,9 +12,6 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Essentials;
-using System.Runtime.InteropServices;
-using Xamarin.Forms.Internals;
 
 namespace MapNotepad.ViewModels
 {
@@ -50,11 +47,16 @@ namespace MapNotepad.ViewModels
             }
         }
         public ICommand UserSearching => new Command(SearchPins);
+        public ICommand PinTapCommand => new Command<Pin>(ShowSelectedPin);
         public MapPageViewModel(INavigationService navigationService, IPinService pinService) : base(navigationService)
         {
             _pinService = pinService;
-
             PinsCollection = new ObservableCollection<CustomPin>();
+        }
+        private void ShowSelectedPin(Pin pin)
+        {
+            
+           
         }
         private async void SetMapPins()
         {
