@@ -99,6 +99,10 @@ namespace MapNotepad.ViewModels
                     parameters.Add("email", EmailEntry);
                     await _navigationService.GoBackAsync(parameters);
                 }
+                else
+                {
+                    UserDialogs.Instance.Alert("This Email is already taken!", "", "OK");
+                }
             }
         }
         private bool CheckUserInput()
@@ -109,11 +113,11 @@ namespace MapNotepad.ViewModels
                 UserDialogs.Instance.Alert("Name must be between 3 and 15 characters long!", "", "OK");
                 flag = false;
             }
-            //else if (!EmailValidation(EmailEntry)) 
-            //{
-              //  UserDialogs.Instance.Alert("Email is not valid", "", "OK");
-                //flag = false;
-           // }
+            else if (!EmailValidation(EmailEntry))
+            {
+                UserDialogs.Instance.Alert("Email is not valid", "", "OK");
+                flag = false;
+            }
             else if (!System.Text.RegularExpressions.Regex.IsMatch(PasswordEntry, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || PasswordEntry.Length <= 4 || PasswordEntry.Length >= 20)
             {
                 UserDialogs.Instance.Alert("Password must contain one capital letter, one number and be between 4 and 20 characters long!", "", "OK");

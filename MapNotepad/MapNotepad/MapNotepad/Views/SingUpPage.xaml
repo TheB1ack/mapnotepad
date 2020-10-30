@@ -9,7 +9,7 @@
         <Entry Text="{Binding UsernameEntry}" 
                Placeholder = "Username" 
                HeightRequest="60"
-               Margin="50, 200, 50, 0" />
+               Margin="50, 140, 50, 0" />
         <Entry Text="{Binding EmailEntry}" 
                Placeholder = "Email address" 
                HeightRequest="60"

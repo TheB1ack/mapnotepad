@@ -92,7 +92,6 @@ namespace MapNotepad.Control
         {
             bool isAnimated = newPin.IsAnimated;
             var pin = newPin.ConvertToPin();
-
             map.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
         }
 

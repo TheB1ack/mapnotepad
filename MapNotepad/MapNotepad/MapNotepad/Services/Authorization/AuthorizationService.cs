@@ -42,7 +42,7 @@ namespace MapNotepad.Services.Authorization
         {
             bool flag = false;
             var items = await _repository.GetItemsAsync<User>();
-            User userResult = items.Where(x => x.Email.Equals(email)).FirstOrDefault();
+            User userResult = items.Where(x => x.Email.ToUpper().Equals(email.ToUpper())).FirstOrDefault();
 
             if (userResult?.Password == password)
             {
