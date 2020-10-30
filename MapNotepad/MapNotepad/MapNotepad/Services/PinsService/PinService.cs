@@ -40,8 +40,11 @@ namespace MapNotepad.Services.PinsService
                                     || (x.Description.ToString().ToUpper().Contains(searchText.ToUpper()))
                                     || (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper()))).ToList();
 
-            return new ObservableCollection<CustomPin>(searchedItems);
-            
+            return new ObservableCollection<CustomPin>(searchedItems);   
+        }
+        public async Task UpdatePinAsync(CustomPin pin)
+        {
+            await _repositoryService.UpdateItemAsync<CustomPin>(pin);
         }
 
         public async Task RemovePinAsync(CustomPin item)

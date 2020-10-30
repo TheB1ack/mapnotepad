@@ -59,13 +59,27 @@ namespace MapNotepad.ViewModels
                 SetProperty(ref _searchBarText, value);
             }
         }
+        private bool _isCheckBoxChecked;
+        public bool IsCheckBoxChecked
+        {
+            get { return _isCheckBoxChecked; }
+            set
+            {
+                SetProperty(ref _isCheckBoxChecked, value);
+            }
+        }
         public ICommand EditTap => new Command(GoToAddEditPinPageAsync);
         public ICommand DeleteTap => new Command(TryToDeleteItem);
         public ICommand AddButtonClicked => new Command(GoToAddEditPinPageAsync);
         public ICommand UserSearching => new Command(SearchPins);
+        public ICommand CheckBoxSet => new Command(SetFavouritePin);
         public PinsListPageViewModel(INavigationService navigationService, IPinService pinService) : base(navigationService)
         {
             _pinService = pinService;
+        }
+        private void SetFavouritePin()
+        {
+            
         }
         private async void GoToAddEditPinPageAsync(object item = null)
         {

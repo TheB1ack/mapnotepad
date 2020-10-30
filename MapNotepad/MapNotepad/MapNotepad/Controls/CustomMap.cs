@@ -7,15 +7,19 @@ using System.Collections.Specialized;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-    
+
 namespace MapNotepad.Control
 {
     public class CustomMap : Map
     {
         public CustomMap()
         {
-            UiSettings.ZoomControlsEnabled = false;
-            UiSettings.MyLocationButtonEnabled = true;
+            
+            if (UiSettings != null)
+            {
+                UiSettings.ZoomControlsEnabled = false;
+                UiSettings.MyLocationButtonEnabled = true;
+            }
             PinsSource = new ObservableCollection<CustomPin>();
             //PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
         }
@@ -37,12 +41,12 @@ namespace MapNotepad.Control
 
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
-            var thisInstance = bindable as CustomMap;
+            var map = bindable as CustomMap;
             var newPinsSource = newValue as ObservableCollection<CustomPin>;
 
-            if (thisInstance != null && newPinsSource != null)
+            if (map != null && newPinsSource != null)
             {
-                UpdatePinsSource(thisInstance, newPinsSource);
+                UpdatePinsSource(map, newPinsSource);
             }
         }
         //private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -78,18 +82,18 @@ namespace MapNotepad.Control
         {
             var map = bindable as CustomMap;
             var newPin = newValue as CustomPin;
-            
-            FocuseOnPin(map, newPin);
+
+            if (map != null && newPin != null)
+            {
+                FocuseOnPin(map, newPin);
+            }
         }
         private static void FocuseOnPin(Map map, CustomPin newPin)
         {
-            if (newPin != null)
-            {
-                bool isAnimated = newPin.IsAnimated;
-                var pin = newPin.ConvertToPin();
+            bool isAnimated = newPin.IsAnimated;
+            var pin = newPin.ConvertToPin();
 
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
-            }
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
         }
 
         public CustomPin OnlyOneFocusedPin
@@ -110,10 +114,14 @@ namespace MapNotepad.Control
         {
             var map = bindable as CustomMap;
             var newPin = newValue as CustomPin;
-            var collection = new ObservableCollection<CustomPin>(){ newPin};
-  
-            UpdatePinsSource(map, collection);
-            FocuseOnPin(map, newPin);
+
+            var collection = new ObservableCollection<CustomPin>() { newPin };
+
+            if (map != null && newPin != null)
+            {
+                UpdatePinsSource(map, collection);
+                FocuseOnPin(map, newPin);
+            }
         }
     }
 }

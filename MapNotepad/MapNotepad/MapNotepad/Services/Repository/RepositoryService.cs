@@ -34,7 +34,7 @@ namespace MapNotepad.Services.Repository
         {
             return await database.InsertAsync(item);
         }
-        public async void UpdateItemAsync<T>(T item)
+        public async Task UpdateItemAsync<T>(T item)
         {
             await database.UpdateAsync(item);
         }

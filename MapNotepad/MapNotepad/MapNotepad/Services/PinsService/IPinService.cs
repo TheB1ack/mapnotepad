@@ -10,9 +10,10 @@ namespace MapNotepad.Services.PinsService
 {
     public interface IPinService
     {
-         Task AddPinAsync(string name, string description, CustomPin mapPin);
-         Task<ObservableCollection<CustomPin>> GetPinsByText(string searchText);
-         Task RemovePinAsync(CustomPin item);
-         Task<ObservableCollection<CustomPin>> GetPinsAsync();
+        Task AddPinAsync(string name, string description, CustomPin mapPin);
+        Task<ObservableCollection<CustomPin>> GetPinsByText(string searchText);
+        Task UpdatePinAsync(CustomPin pin);
+        Task RemovePinAsync(CustomPin item);
+        Task<ObservableCollection<CustomPin>> GetPinsAsync();
     }
 }

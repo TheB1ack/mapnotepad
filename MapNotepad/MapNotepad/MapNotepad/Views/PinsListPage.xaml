@@ -50,6 +50,13 @@
                         </ViewCell.ContextActions>
                         <ViewCell.View>
                             <StackLayout Orientation="Horizontal" >
+                                <CheckBox IsChecked="{Binding IsCheckBoxChecked}"
+                                          Margin="3,0,0,3">
+                                    <CheckBox.Behaviors>
+                                        <prism:EventToCommandBehavior EventName="CheckedChanged" 
+                                                  Command="{Binding CheckBoxSet}"/>
+                                    </CheckBox.Behaviors>
+                                </CheckBox>
                                 <StackLayout Orientation="Vertical" WidthRequest="200">
                                     <Label Text="{Binding Name}"
                                            FontSize="17" 
