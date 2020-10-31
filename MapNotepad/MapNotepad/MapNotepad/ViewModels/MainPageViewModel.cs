@@ -1,10 +1,6 @@
 ﻿using MapNotepad.Services.Authorization;
-using Prism.Commands;
-using Prism.Mvvm;
+using MapNotepad.Views;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,17 +8,23 @@ namespace MapNotepad.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private readonly IAuthorizationService _authorizationService;       
 
-        IAuthorizationService _authorizationService;
-        public ICommand LogOutClick => new Command(LogOut);
         public MainPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
             _authorizationService = authorizationService;
         }
-        private async void LogOut()
+
+        #region -- Public properties --
+        public ICommand LogOutClick => new Command(LogOutAsync);
+        #endregion
+
+        #region -- Private helpers --
+        private async void LogOutAsync()
         {
             _authorizationService.LogOut();
-            await _navigationService.NavigateAsync("../SingInPage");
+            await _navigationService.NavigateAsync($"../{nameof(SingInPage)}");
         }
+        #endregion
     }
 }

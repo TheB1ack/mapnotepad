@@ -3,8 +3,6 @@ using MapNotepad.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -13,15 +11,14 @@ namespace MapNotepad.Control
     public class CustomMap : Map
     {
         public CustomMap()
-        {
-            
+        {           
             if (UiSettings != null)
             {
                 UiSettings.ZoomControlsEnabled = false;
                 UiSettings.MyLocationButtonEnabled = true;
             }
+
             PinsSource = new ObservableCollection<CustomPin>();
-            //PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
         }
 
         public ObservableCollection<CustomPin> PinsSource
@@ -29,16 +26,14 @@ namespace MapNotepad.Control
             get { return (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty); }
             set { SetValue(PinsSourceProperty, value); }
         }
-
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
-                                                         propertyName: "PinsSource",
+                                                         propertyName: nameof(PinsSource),
                                                          returnType: typeof(ObservableCollection<CustomPin>),
                                                          declaringType: typeof(CustomMap),
                                                          defaultValue: null,
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: PinsSourcePropertyChanged);
-
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
             var map = bindable as CustomMap;
@@ -49,11 +44,6 @@ namespace MapNotepad.Control
                 UpdatePinsSource(map, newPinsSource);
             }
         }
-        //private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    UpdatePinsSource(this, sender as IEnumerable<Pin>);
-        //}
-
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
         {
             bindableMap.Pins.Clear();
@@ -69,9 +59,8 @@ namespace MapNotepad.Control
             get { return (CustomPin)GetValue(FocusedPinProperty); }
             set { SetValue(FocusedPinProperty, value); }
         }
-
         public static readonly BindableProperty FocusedPinProperty = BindableProperty.Create(
-                                                         propertyName: "FocusedPin",
+                                                         propertyName: nameof(FocusedPin),
                                                          returnType: typeof(CustomPin),
                                                          declaringType: typeof(CustomMap),
                                                          defaultValue: null,
@@ -88,11 +77,12 @@ namespace MapNotepad.Control
                 FocuseOnPin(map, newPin);
             }
         }
-        private static void FocuseOnPin(Map map, CustomPin newPin)
+        private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
         {
             bool isAnimated = newPin.IsAnimated;
             var pin = newPin.ConvertToPin();
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
+
+            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
         }
 
         public CustomPin OnlyOneFocusedPin
@@ -100,9 +90,8 @@ namespace MapNotepad.Control
             get { return (CustomPin)GetValue(OnlyOneFocusedPinProperty); }
             set { SetValue(OnlyOneFocusedPinProperty, value); }
         }
-
-        public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(
-                                                         propertyName: "OnlyOneFocusedPin",
+        public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(           
+                                                         propertyName: nameof(OnlyOneFocusedPin),
                                                          returnType: typeof(CustomPin),
                                                          declaringType: typeof(CustomMap),
                                                          defaultValue: null,

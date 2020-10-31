@@ -2,7 +2,6 @@
 using System;
 using Prism.Ioc;
 using Prism.Unity;
-using Prism.Modularity;
 using Xamarin.Forms;
 using MapNotepad.Views;
 using MapNotepad.ViewModels;
@@ -10,6 +9,8 @@ using MapNotepad.Services.Repository;
 using MapNotepad.Services.Authorization;
 using Plugin.Settings;
 using MapNotepad.Services.PinsService;
+using MapNotepad.Services.Settings;
+using Acr.UserDialogs;
 
 namespace MapNotepad
 {
@@ -23,13 +24,14 @@ namespace MapNotepad
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            if (CrossSettings.Current.GetValueOrDefault("UserId", -1) != -1)
+            
+            if (Container.Resolve<IAuthorizationService>().IsAuthorized)
             {
-                await NavigationService.NavigateAsync("NavigationPage/MainPage?selectedTab=MapPage");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}");
             }
             else
             {
-                await NavigationService.NavigateAsync("NavigationPage/SingInPage");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
             }
         }
 
@@ -44,12 +46,16 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<PinsListPage, PinsListPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
 
+            //packages
+            containerRegistry.RegisterInstance(CrossSettings.Current);
+            containerRegistry.RegisterInstance(UserDialogs.Instance);
+
             //services
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());
+            containerRegistry.RegisterInstance<ISettingsService>(Container.Resolve<SettingsService>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
-
-
+           
         }
     }
 }

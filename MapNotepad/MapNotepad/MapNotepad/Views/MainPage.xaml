@@ -13,12 +13,17 @@
         <ToolbarItem   
                  Command="{Binding LogOutClick}"
                  Text="Log out"/>
+       
     </TabbedPage.ToolbarItems>
+
     <TabbedPage.Children>
         <local:MapPage/>
         <local:PinsListPage/>
+        
     </TabbedPage.Children>
+    
     <TabbedPage.Behaviors>
         <behaviors:TabbedPageNavigationBehavior />
+        
     </TabbedPage.Behaviors>
 </TabbedPage>

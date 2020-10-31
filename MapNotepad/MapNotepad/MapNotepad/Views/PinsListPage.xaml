@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             xmlns:control="clr-namespace:MapNotepad.Control" xmlns:googlemaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:prism="http://prismlibrary.com"             
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
              x:Name="_this"
@@ -12,7 +11,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
+            
         </Grid.RowDefinitions>
+        
         <SearchBar Placeholder="Pin name or..."
                    TextColor="Black"
                    Text="{Binding SearchBarText}"
@@ -20,14 +21,17 @@
                    BackgroundColor="GhostWhite">
             <SearchBar.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged" 
-                                                  Command="{Binding UserSearching}"/>
+                                              Command="{Binding UserSearching}"/>
+                
             </SearchBar.Behaviors>
         </SearchBar>
+        
         <Label Text="Nothing here :("
                HorizontalOptions="Center"
                VerticalOptions="Center"
                IsVisible="{Binding IsVisibleText, Mode=TwoWay}"
                Grid.Row="1"/>
+        
         <ListView HasUnevenRows="True"              
                   ItemsSource="{Binding PinsCollection}"
                   SelectionMode="Single"   
@@ -48,30 +52,66 @@
                                       Command="{Binding BindingContext.DeleteTap, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"/>
+                            
                         </ViewCell.ContextActions>
                         <ViewCell.View>
-                            <StackLayout Orientation="Horizontal" >
-                                <StackLayout Orientation="Vertical" WidthRequest="200">
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical"
+                                             WidthRequest="200">
                                     <Label Text="{Binding Name}"
                                            FontSize="17" 
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
-                                           Margin="5,0,0,0"/>
+                                           Margin="0,10,0,0"/>
+
                                     <Label Text="{Binding Description}" 
-                                            FontAttributes="None"
-                                            FontSize="17"
-                                            Margin="5,0,0,0"
+                                           FontAttributes="None"
+                                           FontSize="17"
                                            HorizontalOptions="Center"/>
+                                    
                                 </StackLayout>
-                                <!--<control:CustomMap IsEnabled="False"
-                                                   Margin="5,5,5,5"
-                                                   OnlyOneFocusedPin="{Binding .}"/>-->
+                                
+                                <StackLayout Orientation="Vertical"
+                                             WidthRequest="320">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Latitude" 
+                                               FontAttributes="Bold"
+                                               FontSize="17"
+                                               HorizontalOptions="Center"
+                                               WidthRequest="90"
+                                               Margin="0,10,0,0"/>
+
+                                        <Label Text="{Binding PositionLat}"
+                                               FontSize="17" 
+                                               FontAttributes="None"
+                                               HorizontalOptions="Center"
+                                               Margin="0,10,0,0"/>
+                                        
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" >
+                                        <Label Text="Longitude" 
+                                               FontAttributes="Bold"
+                                               FontSize="17"
+                                               HorizontalOptions="Center"
+                                               WidthRequest="90"
+                                               Margin="0,5,0,0"/>
+
+                                        <Label Text="{Binding PositionLong}" 
+                                               FontAttributes="None"
+                                               FontSize="17"
+                                               HorizontalOptions="Center"
+                                               Margin="0,5,0,0"/>
+
+                                    </StackLayout>
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <ImageButton
             Grid.Row="1"
             HorizontalOptions="End"
@@ -83,5 +123,6 @@
             CornerRadius ="35"
             Command="{Binding AddButtonClicked}"           
             Padding="19"/>
+        
     </Grid>
 </ContentPage>

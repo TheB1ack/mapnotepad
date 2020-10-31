@@ -3,69 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             xmlns:control="clr-namespace:MapNotepad.Control" xmlns:renderer="clr-namespace:MapNotepad.Renderer"
+             xmlns:control="clr-namespace:MapNotepad.Control" 
+             xmlns:renderer="clr-namespace:MapNotepad.Renderer"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.AddEditPinPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveClick}"
                      Text="Save"/>
+        
     </ContentPage.ToolbarItems>
+
     <StackLayout>
         <renderer:CustomEntry Text="{Binding NameEntry}" 
-               Placeholder = "Pin name"  
-               Margin="50, 20, 50, 0" 
-               HeightRequest="45"
-               MaxLength="20"/>
+                              Placeholder = "Pin name"  
+                              Margin="50, 20, 50, 0" 
+                              HeightRequest="45"
+                              MaxLength="15"/>
+        
         <Editor Text="{Binding DescriptionEditor}" 
                 Placeholder="Description" 
                 Margin="50, 5, 50, 0" 
                 MaxLength="60"
                 HeightRequest="100"/>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+        <StackLayout Orientation="Horizontal" 
+                     HorizontalOptions="Center">
             <CheckBox IsChecked="{Binding IsCheckBoxChecked}"
-                    HorizontalOptions="Center">
+                      HorizontalOptions="Center">
                 <CheckBox.Behaviors>
                     <prism:EventToCommandBehavior EventName="CheckedChanged" 
                                                   Command="{Binding CheckBoxSet}"/>
+
                 </CheckBox.Behaviors>
             </CheckBox>
+
             <Label Text="Use map"
                    FontSize="17"
-                   Margin="-6,3,0,0"></Label>
+                   Margin="-6,3,0,0"/>
+            
         </StackLayout>
+
         <StackLayout IsVisible="{Binding IsEntryVisible}">
             <Label Text="Latitude"
-               HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"/>
+            
             <Entry Text="{Binding LatitudeEntry}" 
-               Placeholder = "Pin latitude"
-               HeightRequest="50"
-               Margin="50, 0, 50, 0"
-               Keyboard="Numeric"/>
+                   Placeholder = "Pin latitude"
+                   HeightRequest="50"
+                   Margin="50, 0, 50, 0"
+                   Keyboard="Numeric"/>
+            
             <Label Text="Longitude"
-               HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"/>
+            
             <Entry Text="{Binding LongitudeEntry}" 
-               Placeholder = "Pin longitu"
-               HeightRequest="50"
-               Margin="50, 0, 50, 0"
-               Keyboard="Numeric"/>
+                   Placeholder = "Pin longitu"
+                   HeightRequest="50"
+                   Margin="50, 0, 50, 0"
+                   Keyboard="Numeric"/>
+            
         </StackLayout>
-        <!--<Frame Margin="5,5,5,5" 
-               Padding="5,5,5,5" 
-               BackgroundColor="white"
-               BorderColor="Black"
-               IsVisible="{Binding IsMapVisible}"
-               WidthRequest="100"
-               HeightRequest="100">-->
-            <control:CustomMap PinsSource="{Binding PinsCollection}"
-                               OnlyOneFocusedPin="{Binding MyFocusedPin}"
-                               Margin="10,10,10,10"
-                               IsVisible="{Binding IsMapVisible}">
-                <map:Map.Behaviors>
-                    <prism:EventToCommandBehavior EventName="MapClicked" 
-                                                  Command="{Binding MapTapped}"
-                                                  EventArgsParameterPath="Point"/>
-                </map:Map.Behaviors>
-            </control:CustomMap>
-        <!--</Frame>-->
+
+        <control:CustomMap PinsSource="{Binding PinsCollection}"
+                           OnlyOneFocusedPin="{Binding MyFocusedPin}"
+                           Margin="10,10,10,10"
+                           IsVisible="{Binding IsMapVisible}">
+            <map:Map.Behaviors>
+                <prism:EventToCommandBehavior EventName="MapClicked" 
+                                              Command="{Binding MapTapped}"
+                                              EventArgsParameterPath="Point"/>
+                
+            </map:Map.Behaviors>
+        </control:CustomMap>
+        
     </StackLayout>
 </ContentPage>

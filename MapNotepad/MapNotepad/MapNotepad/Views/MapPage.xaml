@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:MapNotepad.Control" xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
+             xmlns:controls="clr-namespace:MapNotepad.Control"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.MapPage"
-              x:Name="_this"
+             x:Name="_this"
              Title="Map"
              BackgroundColor="GhostWhite">
     <StackLayout>
@@ -14,20 +14,18 @@
                    Margin="0,0,0,0"
                    TextColor="Black"
                    Text="{Binding SearchBarText}">
+
             <SearchBar.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged" 
-                                                  Command="{Binding UserSearching}"/>
+                                              Command="{Binding UserSearching}"/>
+                
             </SearchBar.Behaviors>
         </SearchBar>
+
         <controls:CustomMap Margin="0,0,0,0" 
                             PinsSource="{Binding PinsCollection}" 
                             FocusedPin="{Binding MyFocusedPin}"
-                            BackgroundColor="GhostWhite">
-            <controls:CustomMap.Behaviors>
-                <prism:EventToCommandBehavior EventName="PinClicked" 
-                                              Command="{Binding PinTapCommand}"
-                                              EventArgsParameterPath="Pin"/>
-            </controls:CustomMap.Behaviors> 
-        </controls:CustomMap>
+                            BackgroundColor="GhostWhite"/>
+
     </StackLayout>
 </ContentPage>

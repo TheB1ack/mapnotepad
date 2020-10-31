@@ -1,6 +1,6 @@
-﻿using MapNotepad.Extentions;
-using MapNotepad.Models;
+﻿using MapNotepad.Models;
 using MapNotepad.Services.Repository;
+using MapNotepad.Services.Settings;
 using Plugin.Settings;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,21 +11,24 @@ namespace MapNotepad.Services.PinsService
     public class PinService : IPinService
     {
         private readonly IRepositoryService _repositoryService;
-        public PinService(IRepositoryService repositoryService)
+        private readonly ISettingsService _settingsService;
+        public PinService(IRepositoryService repositoryService, ISettingsService settingsService)
         {
             _repositoryService = repositoryService;
+            _settingsService = settingsService;
         }
-        public async Task AddPinAsync(string name, string description, CustomPin mapPin)
+        public async Task AddPinAsync(string pinName, string pinDescription, CustomPin mapPin)
         {
-            int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
-            mapPin.Description = description ?? "";
-            mapPin.Name = name;
+            int userId = _settingsService.UserId;
+
+            mapPin.Description = pinDescription ?? "";
+            mapPin.Name = pinName;
             mapPin.UserId = userId;
 
-            await _repositoryService.SaveItemAsync<CustomPin>(mapPin);
+            await _repositoryService.SaveItemAsync(mapPin);
         }
 
-        public async Task<ObservableCollection<CustomPin>> GetPinsByText(string searchText) 
+        public async Task<ObservableCollection<CustomPin>> GetPinsByTextAsync(string searchText) 
         {
             var items = await GetPinsAsync();
             var searchedItems = items.Where(x => (x.Name.ToUpper().Contains(searchText.ToUpper()))
@@ -40,13 +43,13 @@ namespace MapNotepad.Services.PinsService
         {
             await _repositoryService.UpdateItemAsync<CustomPin>(pin);
         }
-        public async Task RemovePinAsync(CustomPin item)
+        public async Task RemovePinAsync(CustomPin pin)
         {
-            await _repositoryService.DeleteItemAsync(item);
+            await _repositoryService.DeleteItemAsync(pin);
         }
         public async Task<ObservableCollection<CustomPin>> GetPinsAsync()
         {
-            int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
+            int userId = _settingsService.UserId;
             var repositoryItems = await _repositoryService.GetItemsAsync<CustomPin>();
             var newPins = new ObservableCollection<CustomPin>(repositoryItems.Where(x => x.UserId == userId));
 

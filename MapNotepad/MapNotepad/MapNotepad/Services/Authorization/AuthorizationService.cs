@@ -1,60 +1,70 @@
 ﻿using MapNotepad.Models;
 using MapNotepad.Services.Repository;
-using Plugin.Settings;
-using System;
-using System.Collections.Generic;
+using MapNotepad.Services.Settings;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Authorization
 {
     public class AuthorizationService : IAuthorizationService
     {
-        private readonly IRepositoryService _repository;
-        public AuthorizationService(IRepositoryService repository)
+        private readonly IRepositoryService _repositoryService;
+        private readonly ISettingsService _settingsService;
+
+        public bool IsAuthorized
         {
-            _repository = repository;
+            get
+            {
+                return _settingsService.UserId != -1;
+            }
         }
-        public async Task<bool> SingUpAsync(string name, string email, string password)
+
+        public AuthorizationService(IRepositoryService repositoryService, ISettingsService settingsService)
         {
-            bool flag = true;
-            var items = await _repository.GetItemsAsync<User>();
-            User userResult = items.Where(x => x.Email == email).FirstOrDefault();
+            _repositoryService = repositoryService;
+            _settingsService = settingsService;
+        }
+
+        public async Task<bool> SignUpAsync(string userName, string userEmail, string userPassword)
+        {           
+            var items = await _repositoryService.GetItemsAsync<User>();
+            User userResult = items.Where(x => x.Email == userEmail).FirstOrDefault();
+            bool isSignedUp = true;
+
             if (userResult != null)
             {
-                flag =  false;
+                isSignedUp = false;
             }
             else
             {
                 User user = new User()
                 {
-                    Name = name,
-                    Email = email,
-                    Password = password,
+                    Name = userName,
+                    Email = userEmail,
+                    Password = userPassword,
                 };
-                await _repository.SaveItemAsync(user);
+                await _repositoryService.SaveItemAsync(user);
             }
 
-            return flag;
+            return isSignedUp;
         }
-        public async Task<bool> SingInAsync(string email, string password)
+        public async Task<bool> SignInAsync(string userEmail, string userPassword)
         {
-            bool flag = false;
-            var items = await _repository.GetItemsAsync<User>();
-            User userResult = items.Where(x => x.Email.ToUpper().Equals(email.ToUpper())).FirstOrDefault();
+            bool isSignedIn = false;
+            var items = await _repositoryService.GetItemsAsync<User>();
+            User userResult = items.Where(x => x.Email.ToUpper().Equals(userEmail.ToUpper())).FirstOrDefault();
 
-            if (userResult?.Password == password)
+            if (userResult?.Password == userPassword)
             {
-                CrossSettings.Current.AddOrUpdateValue("UserId", userResult.Id);
-                flag =  true;
+                _settingsService.UserId = userResult.Id;
+                isSignedIn = true;
             }
 
-            return flag;
+            return isSignedIn;
         }
         public void LogOut()
         {
-            CrossSettings.Current.Remove("UserId");
+            _settingsService.UserId = -1;
         }
     }
 }

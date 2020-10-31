@@ -8,6 +8,8 @@
             <Setter Property="BarBackgroundColor"
                     Value="#29D695">
             </Setter>
+            
         </Style>
+         
     </Application.Resources>
 </prism:PrismApplication>

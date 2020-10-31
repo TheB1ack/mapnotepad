@@ -1,19 +1,18 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MapNotepad.ViewModels
 {
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
-    {
-        protected INavigationService _navigationService { get; private set; }
-
+    {        
         public ViewModelBase(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }
+
+        protected INavigationService _navigationService { get; private set; }
+
+        #region -- IterfaceName implementation --
 
         public virtual void Initialize(INavigationParameters parameters)
         {
@@ -34,5 +33,8 @@ namespace MapNotepad.ViewModels
         {
 
         }
+
+        #endregion
+
     }
 }

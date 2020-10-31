@@ -1,8 +1,7 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Services.Authorization;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System.ComponentModel;
+using System.Net.Mail;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,140 +9,174 @@ namespace MapNotepad.ViewModels
 {
     public class SingUpPageViewModel : ViewModelBase
     {
-        IAuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IUserDialogs _userDialogs;
+       
+        public SingUpPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IUserDialogs userDialogs) : base(navigationService)
+        {
+            _authorizationService = authorizationService;
+            _userDialogs = userDialogs;
+        }
+
+        #region -- Public properties --
 
         private string _usernameEntry;
         public string UsernameEntry
         {
-            get { return _usernameEntry; }
+            get
+            {
+                return _usernameEntry;
+            }
             set
             {
                 _usernameEntry = value;
                 IsButtonEnable = TryActivateButton();
             }
         }
+
         private string _emailEntry;
         public string EmailEntry
         {
-            get { return _emailEntry; }
+            get
+            {
+                return _emailEntry;
+            }
             set
             {
                 _emailEntry = value;
                 IsButtonEnable = TryActivateButton();
             }
         }
+
         private string _passwordEntry;
         public string PasswordEntry
         {
-            get { return _passwordEntry; }
+            get
+            {
+                return _passwordEntry;
+            }
             set
             {
                 SetProperty(ref _passwordEntry, value);
                 IsButtonEnable = TryActivateButton();
             }
         }
+
         private string _sPasswordEntry;
         public string SPasswordEntry
         {
-            get { return _sPasswordEntry; }
+            get
+            {
+                return _sPasswordEntry;
+            }
             set
             {
                 SetProperty(ref _sPasswordEntry, value);
                 IsButtonEnable = TryActivateButton();
             }
         }
+
         private bool _isButtonEnable;
         public bool IsButtonEnable
         {
-            get { return _isButtonEnable; }
+            get
+            {
+                return _isButtonEnable;
+            }
             set
             {
                 SetProperty(ref _isButtonEnable, value);
             }
         }
+       
         public ICommand SingUpBClick => new Command(VerifyAndSaveAsync);
-        public SingUpPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
-        {
-            _authorizationService = authorizationService;
-        }
+
+        #endregion
+
+        #region -- Private helpers --
 
         private bool TryActivateButton()
         {
-            bool flag = true;
+            bool isValid = true;
             if (string.IsNullOrWhiteSpace(UsernameEntry))
             {
-                flag = false;
+                isValid = false;
             }
-            if (string.IsNullOrWhiteSpace(EmailEntry))
+            else if (string.IsNullOrWhiteSpace(EmailEntry))
             {
-                flag = false;
+                isValid = false;
             }
-            if (string.IsNullOrWhiteSpace(PasswordEntry))
+            else if(string.IsNullOrWhiteSpace(PasswordEntry))
             {
-                flag = false;
+                isValid = false;
             }
-            if (string.IsNullOrWhiteSpace(SPasswordEntry))
+            else if(string.IsNullOrWhiteSpace(SPasswordEntry))
             {
-                flag = false;
+                isValid = false;
             }
-            return flag;
+
+            return isValid;
         }
         private async void VerifyAndSaveAsync()
         {
             if (CheckUserInput())
             {
-                bool flag = await _authorizationService.SingUpAsync(UsernameEntry, EmailEntry, PasswordEntry);
-                if (flag)
+                bool isSignedUp = await _authorizationService.SignUpAsync(UsernameEntry, EmailEntry, PasswordEntry);
+                if (isSignedUp)
                 {
                     NavigationParameters parameters = new NavigationParameters();
                     parameters.Add("email", EmailEntry);
+
                     await _navigationService.GoBackAsync(parameters);
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("This Email is already taken!", "", "OK");
+                    _userDialogs.Alert("This Email is already taken!", "", "OK");
                 }
             }
         }
         private bool CheckUserInput()
         {
-            bool flag = true;
+            bool isValid = true;
             if (UsernameEntry.Length <= 3 || UsernameEntry.Length >= 15)
             {
-                UserDialogs.Instance.Alert("Name must be between 3 and 15 characters long!", "", "OK");
-                flag = false;
+                _userDialogs.Alert("Name must be between 3 and 15 characters long!", "", "OK");
+                isValid = false;
             }
             else if (!EmailValidation(EmailEntry))
             {
-                UserDialogs.Instance.Alert("Email is not valid", "", "OK");
-                flag = false;
+                _userDialogs.Alert("Email is not valid", "", "OK");
+                isValid = false;
             }
             else if (!System.Text.RegularExpressions.Regex.IsMatch(PasswordEntry, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || PasswordEntry.Length <= 4 || PasswordEntry.Length >= 20)
             {
-                UserDialogs.Instance.Alert("Password must contain one capital letter, one number and be between 4 and 20 characters long!", "", "OK");
-                flag = false;
+                _userDialogs.Alert("Password must contain one capital letter, one number and be between 4 and 20 characters long!", "", "OK");
+                isValid = false;
             }
             else if (PasswordEntry != SPasswordEntry)
             {
-                UserDialogs.Instance.Alert("Passwords must match!", "", "OK");
-                flag = false;
+                _userDialogs.Alert("Passwords must match!", "", "OK");
+                isValid = false;
             }
 
-            return flag;
+            return isValid;
         }
         private bool EmailValidation(string email)
         {
-            bool flag = true;
+            bool isValid = true;
             try
             {
-                var mail = new System.Net.Mail.MailAddress(email);
+                var mail = new MailAddress(email);
             }
             catch
             {
-                flag = false;
+                isValid = false;
             }
 
-            return flag;
+            return isValid;
         }
+
+        #endregion
+
     }
 }
