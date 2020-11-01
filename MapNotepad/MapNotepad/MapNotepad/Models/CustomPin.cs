@@ -13,6 +13,7 @@ namespace MapNotepad.Models
         public double PositionLat { get; set; }
         public double PositionLong { get; set; }
         public bool IsFavourite { get; set; }
+        public string FavouriteImageSource { get; set; }
 
         [Ignore]
         public bool IsAnimated { get; set; }

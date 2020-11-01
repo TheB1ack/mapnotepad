@@ -93,7 +93,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\full_heart.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MapNotepad\MapNotepad.csproj">
@@ -102,34 +102,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_add.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_add.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_add.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_add.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_add.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\empty_heart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

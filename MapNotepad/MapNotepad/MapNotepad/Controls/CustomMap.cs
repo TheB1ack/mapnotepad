@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using Xamarin.Forms.GoogleMaps.Clustering;
 
 namespace MapNotepad.Control
 {
-    public class CustomMap : Map
+    public class CustomMap : ClusteredMap
     {
         public CustomMap()
         {           
@@ -23,8 +24,14 @@ namespace MapNotepad.Control
 
         public ObservableCollection<CustomPin> PinsSource
         {
-            get { return (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty); }
-            set { SetValue(PinsSourceProperty, value); }
+            get 
+            { 
+                return (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty); 
+            }
+            set 
+            { 
+                SetValue(PinsSourceProperty, value); 
+            }
         }
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
                                                          propertyName: nameof(PinsSource),
@@ -56,8 +63,14 @@ namespace MapNotepad.Control
 
         public CustomPin FocusedPin
         {
-            get { return (CustomPin)GetValue(FocusedPinProperty); }
-            set { SetValue(FocusedPinProperty, value); }
+            get 
+            { 
+                return (CustomPin)GetValue(FocusedPinProperty); 
+            }
+            set 
+            { 
+                SetValue(FocusedPinProperty, value); 
+            }
         }
         public static readonly BindableProperty FocusedPinProperty = BindableProperty.Create(
                                                          propertyName: nameof(FocusedPin),
@@ -87,8 +100,14 @@ namespace MapNotepad.Control
 
         public CustomPin OnlyOneFocusedPin
         {
-            get { return (CustomPin)GetValue(OnlyOneFocusedPinProperty); }
-            set { SetValue(OnlyOneFocusedPinProperty, value); }
+            get 
+            { 
+                return (CustomPin)GetValue(OnlyOneFocusedPinProperty); 
+            }
+            set 
+            { 
+                SetValue(OnlyOneFocusedPinProperty, value); 
+            }
         }
         public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(           
                                                          propertyName: nameof(OnlyOneFocusedPin),

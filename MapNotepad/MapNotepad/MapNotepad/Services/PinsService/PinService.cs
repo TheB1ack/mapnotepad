@@ -24,6 +24,8 @@ namespace MapNotepad.Services.PinsService
             mapPin.Description = pinDescription ?? "";
             mapPin.Name = pinName;
             mapPin.UserId = userId;
+            mapPin.IsFavourite = false;
+            mapPin.FavouriteImageSource = "empty_heart.png";
 
             await _repositoryService.SaveItemAsync(mapPin);
         }

@@ -89,6 +89,7 @@ namespace MapNotepad.ViewModels
         public ICommand DeleteTap => new Command(TryToDeleteItemAsync);
         public ICommand AddButtonClicked => new Command(GoToAddEditPinPageAsync);
         public ICommand UserSearching => new Command(SearchPinsAsync);
+        public ICommand ImageTapCommand => new Command(SwitchFavouriteAsync);
 
         #endregion
 
@@ -103,6 +104,23 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
+        private async void SwitchFavouriteAsync(object item)
+        {
+            var pin = item as CustomPin;
+            if(pin.IsFavourite)
+            {
+                pin.FavouriteImageSource = "empty_heart.png";
+                pin.IsFavourite = !pin.IsFavourite;                
+            }
+            else
+            {
+                pin.FavouriteImageSource = "full_heart.png";
+                pin.IsFavourite = !pin.IsFavourite;               
+            }
+
+            await _pinService.UpdatePinAsync(pin);
+            PinsCollection = await _pinService.GetPinsAsync();
+        }
         private async void GoToAddEditPinPageAsync(object item)
         {
             var pin = item as CustomPin;

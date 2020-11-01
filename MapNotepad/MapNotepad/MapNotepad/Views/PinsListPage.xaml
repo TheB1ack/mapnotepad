@@ -43,7 +43,7 @@
                   SeparatorColor="Gray">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell Height="100">
+                    <ViewCell Height="120">
                         <ViewCell.ContextActions >
                             <MenuItem Text="Edit"
                                       Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
@@ -57,12 +57,31 @@
                         <ViewCell.View>
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical"
-                                             WidthRequest="200">
+                                             Margin="3,0,0,0"
+                                             VerticalOptions="Center">
+                                    <ImageButton Source="{Binding FavouriteImageSource}"
+                                           WidthRequest="50"
+                                           HeightRequest="50"
+                                                 BackgroundColor="GhostWhite">
+                                        <ImageButton.Behaviors>
+                                            <prism:EventToCommandBehavior EventName="Clicked"
+                                                                          Command="{Binding BindingContext.ImageTapCommand, Source={x:Reference _this}}"
+                                                                          CommandParameter="{Binding .}"/>
+                                        </ImageButton.Behaviors>
+                                        <!--<Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.ImageTapCommand, Source={x:Reference _this}}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Image.GestureRecognizers>-->
+                                    </ImageButton>
+                                    
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Vertical"
+                                             WidthRequest="300">
                                     <Label Text="{Binding Name}"
                                            FontSize="17" 
                                            FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           Margin="0,10,0,0"/>
+                                           HorizontalOptions="Center"/>
 
                                     <Label Text="{Binding Description}" 
                                            FontAttributes="None"
@@ -70,40 +89,31 @@
                                            HorizontalOptions="Center"/>
                                     
                                 </StackLayout>
-                                
+
                                 <StackLayout Orientation="Vertical"
-                                             WidthRequest="320">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Latitude" 
+                                             WidthRequest="300">
+                                    <Label Text="Latitude" 
                                                FontAttributes="Bold"
                                                FontSize="17"
                                                HorizontalOptions="Center"
-                                               WidthRequest="90"
-                                               Margin="0,10,0,0"/>
-
-                                        <Label Text="{Binding PositionLat}"
+                                               WidthRequest="90"/>
+                                    
+                                    <Label Text="{Binding PositionLat}"
                                                FontSize="17" 
                                                FontAttributes="None"
-                                               HorizontalOptions="Center"
-                                               Margin="0,10,0,0"/>
-                                        
-                                    </StackLayout>
-
-                                    <StackLayout Orientation="Horizontal" >
-                                        <Label Text="Longitude" 
+                                               HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Longitude" 
                                                FontAttributes="Bold"
                                                FontSize="17"
                                                HorizontalOptions="Center"
-                                               WidthRequest="90"
-                                               Margin="0,5,0,0"/>
-
-                                        <Label Text="{Binding PositionLong}" 
+                                               WidthRequest="90"/>
+                                    
+                                    <Label Text="{Binding PositionLong}" 
                                                FontAttributes="None"
                                                FontSize="17"
-                                               HorizontalOptions="Center"
-                                               Margin="0,5,0,0"/>
-
-                                    </StackLayout>
+                                               HorizontalOptions="Center"/>
+                                    
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
@@ -113,6 +123,7 @@
         </ListView>
         
         <ImageButton
+            Source="ic_add.png"
             Grid.Row="1"
             HorizontalOptions="End"
             WidthRequest="70" 

@@ -2,6 +2,7 @@
 using MapNotepad.Services.PinsService;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -78,7 +79,10 @@ namespace MapNotepad.ViewModels
 
         private async void SetMapPinsAsync()
         {
-            PinsCollection = await _pinService.GetPinsAsync();
+            var items = await _pinService.GetPinsAsync();
+            var favouriteItems = items.Where(x => x.IsFavourite == true).ToList();
+
+            PinsCollection = new ObservableCollection<CustomPin>(favouriteItems);
         }
         private async void SearchPinsAsync()
         {
