@@ -27,9 +27,9 @@ namespace MapNotepad.ViewModels
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
-            get 
-            { 
-                return _pinsCollection; 
+            get
+            {
+                return _pinsCollection;
             }
             set
             {
@@ -40,9 +40,9 @@ namespace MapNotepad.ViewModels
         private string _nameEntry;
         public string NameEntry
         {
-            get 
-            { 
-                return _nameEntry; 
+            get
+            {
+                return _nameEntry;
             }
             set
             {
@@ -53,9 +53,9 @@ namespace MapNotepad.ViewModels
         private string _descriptionEditor;
         public string DescriptionEditor
         {
-            get 
-            { 
-                return _descriptionEditor; 
+            get
+            {
+                return _descriptionEditor;
             }
             set
             {
@@ -66,9 +66,9 @@ namespace MapNotepad.ViewModels
         private double _latitudeEntry;
         public double LatitudeEntry
         {
-            get 
-            { 
-                return _latitudeEntry; 
+            get
+            {
+                return _latitudeEntry;
             }
             set
             {
@@ -79,16 +79,16 @@ namespace MapNotepad.ViewModels
                 else
                 {
                     SetProperty(ref _latitudeEntry, value);
-                }                     
+                }
             }
         }
 
         private double _longitudeEntry;
         public double LongitudeEntry
         {
-            get 
-            { 
-                return _longitudeEntry; 
+            get
+            {
+                return _longitudeEntry;
             }
             set
             {
@@ -99,7 +99,7 @@ namespace MapNotepad.ViewModels
                 else
                 {
                     SetProperty(ref _longitudeEntry, value);
-                    
+
                 }
             }
         }
@@ -108,8 +108,8 @@ namespace MapNotepad.ViewModels
         public CustomPin MyFocusedPin
         {
             get
-            { 
-                return _myFocusedPin; 
+            {
+                return _myFocusedPin;
             }
             set
             {
@@ -120,9 +120,9 @@ namespace MapNotepad.ViewModels
         private bool _isCheckBoxChecked;
         public bool IsCheckBoxChecked
         {
-            get 
-            { 
-                return _isCheckBoxChecked; 
+            get
+            {
+                return _isCheckBoxChecked;
             }
             set
             {
@@ -133,9 +133,9 @@ namespace MapNotepad.ViewModels
         private bool _isMapVisible;
         public bool IsMapVisible
         {
-            get 
-            { 
-                return _isMapVisible; 
+            get
+            {
+                return _isMapVisible;
             }
             set
             {
@@ -146,9 +146,9 @@ namespace MapNotepad.ViewModels
         private bool _isEntryVisible;
         public bool IsEntryVisible
         {
-            get 
-            { 
-                return _isEntryVisible; 
+            get
+            {
+                return _isEntryVisible;
             }
             set
             {
@@ -192,10 +192,11 @@ namespace MapNotepad.ViewModels
                 IsEntryVisible = true;
                 IsMapVisible = false;
             }
+
         }
         private void ChangePinPlace()
         {
-            if(PinsCollection.Count() != 0)
+            if (PinsCollection.Count() != 0)
             {
                 PinsCollection.First().PositionLat = LatitudeEntry;
                 PinsCollection.First().PositionLong = LongitudeEntry;
@@ -204,6 +205,7 @@ namespace MapNotepad.ViewModels
             {
                 OnMapClicked(new Position(LatitudeEntry, LongitudeEntry));
             }
+
         }
         private void OnMapClicked(Position clickPosition)
         {
@@ -213,6 +215,7 @@ namespace MapNotepad.ViewModels
                 PositionLat = clickPosition.Latitude,
                 PositionLong = clickPosition.Longitude
             };
+
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
 
@@ -222,23 +225,35 @@ namespace MapNotepad.ViewModels
         {
             if (EntryCheck())
             {
-                if (MyFocusedPin == null)
+                bool isValid = await _pinService.CheckPinName(NameEntry);
+
+                if (isValid)
                 {
-                    await _pinService.AddPinAsync(NameEntry, DescriptionEditor, PinsCollection.First());
-                    await _navigationService.GoBackAsync();
+                    if (MyFocusedPin == null)
+                    {
+                        await _pinService.AddPinAsync(NameEntry, DescriptionEditor, PinsCollection.First());
+                        await _navigationService.GoBackAsync();
+                    }
+                    else
+                    {
+                        MyFocusedPin.Name = NameEntry;
+                        MyFocusedPin.Description = DescriptionEditor;
+                        MyFocusedPin.PositionLat = LatitudeEntry;
+                        MyFocusedPin.PositionLong = LongitudeEntry;
+                        MyFocusedPin.IsFavourite = false;
+
+                        await _pinService.UpdatePinAsync(MyFocusedPin);
+                        await _navigationService.GoBackAsync();
+                    }
+
                 }
                 else
                 {
-                    MyFocusedPin.Name = NameEntry;
-                    MyFocusedPin.Description = DescriptionEditor;
-                    MyFocusedPin.PositionLat = LatitudeEntry;
-                    MyFocusedPin.PositionLong = LongitudeEntry;
-                    MyFocusedPin.IsFavourite = false;                   
-
-                    await _pinService.UpdatePinAsync(MyFocusedPin);
-                    await _navigationService.GoBackAsync();
+                    _userDialogs.Alert("Pin name is already exist!", "", "OK");
                 }
+
             }
+
         }
         private bool EntryCheck()
         {
@@ -254,7 +269,8 @@ namespace MapNotepad.ViewModels
                 {
                     isValid = false;
                     _userDialogs.Alert("Please, select your marker on map!", "", "OK");
-                }                
+                }
+
             }
 
             return isValid;
@@ -266,10 +282,14 @@ namespace MapNotepad.ViewModels
             DescriptionEditor = pin.Description;
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
+
+            pin.IsAnimated = true;
+
             MyFocusedPin = pin;
 
             PinsCollection = new ObservableCollection<CustomPin>() { pin };
         }
+
         #endregion
     }
 }

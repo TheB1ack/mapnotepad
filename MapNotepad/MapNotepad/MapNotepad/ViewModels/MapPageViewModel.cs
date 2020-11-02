@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Forms.Internals;
 
 namespace MapNotepad.ViewModels
 {
@@ -30,9 +29,9 @@ namespace MapNotepad.ViewModels
         private CustomPin _myFocusedPin;
         public CustomPin MyFocusedPin
         {
-            get 
-            { 
-                return _myFocusedPin; 
+            get
+            {
+                return _myFocusedPin;
             }
             set
             {
@@ -43,9 +42,9 @@ namespace MapNotepad.ViewModels
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
-            get 
-            { 
-                return _pinsCollection; 
+            get
+            {
+                return _pinsCollection;
             }
             set
             {
@@ -56,9 +55,9 @@ namespace MapNotepad.ViewModels
         private string _searchBarText;
         public string SearchBarText
         {
-            get 
-            { 
-                return _searchBarText; 
+            get
+            {
+                return _searchBarText;
             }
             set
             {
@@ -77,8 +76,70 @@ namespace MapNotepad.ViewModels
                 SetProperty(ref _cameraPositionBinding, value);
             }
         }
+        private bool _isVisibleFrame;
+        public bool IsVisibleFrame
+        {
+            get
+            {
+                return _isVisibleFrame;
+            }
+            set
+            {
+                SetProperty(ref _isVisibleFrame, value);
+            }
+        }
+        private string _frameNameLable;
+        public string FrameNameLable
+        {
+            get
+            {
+                return _frameNameLable;
+            }
+            set
+            {
+                SetProperty(ref _frameNameLable, value);
+            }
+        }
+        private string _frameDescriptionLabel;
+        public string FrameDescriptionLabel
+        {
+            get
+            {
+                return _frameDescriptionLabel;
+            }
+            set
+            {
+                SetProperty(ref _frameDescriptionLabel, value);
+            }
+        }
+        private string _frameLatitudeLabel;
+        public string FrameLatitudeLabel
+        {
+            get
+            {
+                return _frameLatitudeLabel;
+            }
+            set
+            {
+                SetProperty(ref _frameLatitudeLabel, value);
+            }
+        }
+        private string _frameLongitudeLabel;
+        public string FrameLongitudeLabel
+        {
+            get
+            {
+                return _frameLongitudeLabel;
+            }
+            set
+            {
+                SetProperty(ref _frameLongitudeLabel, value);
+            }
+        }
         public ICommand UserSearching => new Command(SearchPinsAsync);
         public ICommand OnCameraChangedBinding => new Command<CameraPosition>(SavePosition);
+        public ICommand CloseFrameCommand => new Command(CloseFrame);
+        public ICommand OnPinClickedBinding => new Command<Pin>(PinClicked);
 
         #endregion
 
@@ -98,6 +159,24 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
+        private async void PinClicked(Pin pin)
+        {
+            var items = await _pinService.GetPinsAsync();
+            var tappedPin = items.Where(x => x.Name == pin.Label).FirstOrDefault();
+
+            if (tappedPin != null)
+            {
+                FrameNameLable = tappedPin.Name;
+                FrameDescriptionLabel = tappedPin.Description;
+                FrameLatitudeLabel = tappedPin.PositionLat.ToString();
+                FrameLongitudeLabel = tappedPin.PositionLong.ToString();
+                IsVisibleFrame = true;
+            }
+        }
+        private void CloseFrame()
+        {
+            IsVisibleFrame = false;
+        }
         private void SavePosition(CameraPosition Position)
         {
             _mapService.SaveMapPosition(Position);

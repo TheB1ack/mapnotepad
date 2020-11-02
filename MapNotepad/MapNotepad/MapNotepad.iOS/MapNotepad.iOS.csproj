@@ -153,13 +153,13 @@
     <BundleResource Include="Resources\ic_add%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_settings.png" />
+    <BundleResource Include="Resources\empty_heart.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_settings%402x.png" />
+    <BundleResource Include="Resources\exit_image.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_settings%403x.png" />
+    <BundleResource Include="Resources\full_heart.png" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

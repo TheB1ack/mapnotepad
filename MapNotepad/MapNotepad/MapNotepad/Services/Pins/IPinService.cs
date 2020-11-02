@@ -11,5 +11,6 @@ namespace MapNotepad.Services.Pins
         Task UpdatePinAsync(CustomPin pin);
         Task RemovePinAsync(CustomPin pin);
         Task<ObservableCollection<CustomPin>> GetPinsAsync();
+        Task<bool> CheckPinName(string name);
     }
 }

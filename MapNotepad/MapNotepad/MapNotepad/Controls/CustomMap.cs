@@ -1,9 +1,7 @@
 ﻿using MapNotepad.Extentions;
 using MapNotepad.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http.Headers;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
@@ -128,8 +126,10 @@ namespace MapNotepad.Control
 
             if (map != null && newPin != null)
             {
+                var position = new Position(newPin.PositionLat, newPin.PositionLong);
+
+                MoveCameraToPosition(map, new CameraPosition(position, 15));
                 UpdatePinsSource(map, collection);
-                FocuseOnPin(map, newPin);
             }
         }
 

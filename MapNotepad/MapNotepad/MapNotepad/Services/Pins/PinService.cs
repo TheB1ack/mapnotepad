@@ -1,7 +1,6 @@
 ﻿using MapNotepad.Models;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Settings;
-using Plugin.Settings;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace MapNotepad.Services.Pins
             await _repositoryService.SaveItemAsync(mapPin);
         }
 
-        public async Task<ObservableCollection<CustomPin>> GetPinsByTextAsync(string searchText) 
+        public async Task<ObservableCollection<CustomPin>> GetPinsByTextAsync(string searchText)
         {
             var items = await GetPinsAsync();
             var searchedItems = items.Where(x => (x.Name.ToUpper().Contains(searchText.ToUpper()))
@@ -39,7 +38,7 @@ namespace MapNotepad.Services.Pins
                                     || (x.Description.ToString().ToUpper().Contains(searchText.ToUpper()))
                                     || (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper()))).ToList();
 
-            return new ObservableCollection<CustomPin>(searchedItems);   
+            return new ObservableCollection<CustomPin>(searchedItems);
         }
         public async Task UpdatePinAsync(CustomPin pin)
         {
@@ -56,6 +55,20 @@ namespace MapNotepad.Services.Pins
             var newPins = new ObservableCollection<CustomPin>(repositoryItems.Where(x => x.UserId == userId));
 
             return newPins;
+        }
+        public async Task<bool> CheckPinName(string name)
+        {
+            bool isValid = true;
+
+            var items = await GetPinsAsync();
+            var searchedPin = items.Where(x => x.Name == name).FirstOrDefault();
+
+            if (searchedPin != null)
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }
