@@ -9,27 +9,51 @@
         <renderer:CustomEntry Text="{Binding UsernameEntry}" 
                               Placeholder = "Username" 
                               HeightRequest="45"
-                              Margin="50, 140, 50, 0" />
-        
+                              Margin="50, 140, 50, 0" >
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
         <renderer:CustomEntry Text="{Binding EmailEntry}" 
                               Placeholder = "Email address" 
                               HeightRequest="45"
                               Margin="50, 10, 50, 0" 
-                              Keyboard="Email"/>
-        
+                              Keyboard="Email">
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
         <renderer:CustomEntry Text="{Binding PasswordEntry}"
                               Placeholder = "Password" 
                               HeightRequest="45"
                               IsPassword ="True" 
-                              Margin="50, 10, 50, 0" />
-        
+                              Margin="50, 10, 50, 0" >
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
         <renderer:CustomEntry Text="{Binding SPasswordEntry}"
                               Placeholder = "Confirm password"
                               HeightRequest="45"
                               IsPassword ="True" 
-                              Margin="50, 10, 50, 0" />
-        
-        <Button Command="{Binding SingUpBClick}"
+                              Margin="50, 10, 50, 0" >
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
+        <Button Command="{Binding SingUpButtonClickCommand}"
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text = "Register" 
                 BackgroundColor="#29D695"

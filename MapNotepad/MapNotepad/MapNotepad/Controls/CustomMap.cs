@@ -2,6 +2,7 @@
 using MapNotepad.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
@@ -17,20 +18,21 @@ namespace MapNotepad.Control
                 UiSettings.ZoomControlsEnabled = false;
                 UiSettings.MyLocationButtonEnabled = true;
             }
+            else
+            {
+                Debug.WriteLine("UiSetting was null");
+            }
 
             PinsSource = new ObservableCollection<CustomPin>();
         }
 
+        #region -- Public Properties --
+
         public ObservableCollection<CustomPin> PinsSource
         {
-            get
-            {
-                return (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty);
-            }
-            set
-            {
-                SetValue(PinsSourceProperty, value);
-            }
+            get => (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty);
+
+            set => SetValue(PinsSourceProperty, value);
         }
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
                                                          propertyName: nameof(PinsSource),
@@ -40,73 +42,27 @@ namespace MapNotepad.Control
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: PinsSourcePropertyChanged);
-        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
-        {
-            var map = bindable as CustomMap;
-            var newPinsSource = newValue as ObservableCollection<CustomPin>;
-
-            if (map != null && newPinsSource != null)
-            {
-                UpdatePinsSource(map, newPinsSource);
-            }
-        }
-        private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
-        {
-            bindableMap.Pins.Clear();
-            foreach (var item in newSource)
-            {
-                var pin = item.ConvertToPin();
-                bindableMap.Pins.Add(pin);
-            }
-        }
 
         public CustomPin FocusedPin
         {
-            get
-            {
-                return (CustomPin)GetValue(FocusedPinProperty);
-            }
-            set
-            {
-                SetValue(FocusedPinProperty, value);
-            }
+            get => (CustomPin)GetValue(FocusedPinProperty);
+
+            set => SetValue(FocusedPinProperty, value);
         }
         public static readonly BindableProperty FocusedPinProperty = BindableProperty.Create(
-                                                         propertyName: nameof(FocusedPin),
-                                                         returnType: typeof(CustomPin),
-                                                         declaringType: typeof(CustomMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: OnFocusedPinPropertyChanged);
-        private static void OnFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
-        {
-            var map = bindable as CustomMap;
-            var newPin = newValue as CustomPin;
-
-            if (map != null && newPin != null)
-            {
-                FocuseOnPin(map, newPin);
-            }
-        }
-        private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
-        {
-            bool isAnimated = newPin.IsAnimated;
-            var pin = newPin.ConvertToPin();
-
-            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
-        }
+                                                 propertyName: nameof(FocusedPin),
+                                                 returnType: typeof(CustomPin),
+                                                 declaringType: typeof(CustomMap),
+                                                 defaultValue: null,
+                                                 defaultBindingMode: BindingMode.TwoWay,
+                                                 validateValue: null,
+                                                 propertyChanged: OnFocusedPinPropertyChanged);
 
         public CustomPin OnlyOneFocusedPin
         {
-            get
-            {
-                return (CustomPin)GetValue(OnlyOneFocusedPinProperty);
-            }
-            set
-            {
-                SetValue(OnlyOneFocusedPinProperty, value);
-            }
+            get => (CustomPin)GetValue(OnlyOneFocusedPinProperty);
+            
+            set => SetValue(OnlyOneFocusedPinProperty, value);
         }
         public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(
                                                          propertyName: nameof(OnlyOneFocusedPin),
@@ -116,6 +72,58 @@ namespace MapNotepad.Control
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: OnOnlyOneFocusedPinPropertyChanged);
+
+        public CameraPosition CameraPositionOnMap
+        {
+            get => (CameraPosition)GetValue(CameraPositionOnMapProperty);
+
+            set => SetValue(CameraPositionOnMapProperty, value);
+        }
+        public static readonly BindableProperty CameraPositionOnMapProperty = BindableProperty.Create(
+                                                         propertyName: nameof(CameraPositionOnMap),
+                                                         returnType: typeof(CameraPosition),
+                                                         declaringType: typeof(CustomMap),
+                                                         defaultValue: null,
+                                                         defaultBindingMode: BindingMode.TwoWay,
+                                                         validateValue: null,
+                                                         propertyChanged: OnCameraPositionOnMapPropertyChanged);
+
+        #endregion
+
+        #region -- Private Helpers --
+
+        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        {
+            var map = bindable as CustomMap;
+            var newPinsSource = newValue as ObservableCollection<CustomPin>;
+
+            if (map != null && newPinsSource != null)
+            {
+                UpdatePinsSource(map, newPinsSource);
+            }
+            else
+            {
+                Debug.WriteLine("map or newPinsSource was null ");
+            }
+
+        }
+
+        private static void OnFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        {
+            var map = bindable as CustomMap;
+            var newPin = newValue as CustomPin;
+
+            if (map != null && newPin != null)
+            {
+                FocuseOnPin(map, newPin);
+            }
+            else
+            {
+                Debug.WriteLine("map or newPin was null ");
+            }
+
+        }
+
         private static void OnOnlyOneFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
 
@@ -131,28 +139,13 @@ namespace MapNotepad.Control
                 MoveCameraToPosition(map, new CameraPosition(position, 15));
                 UpdatePinsSource(map, collection);
             }
-        }
+            else
+            {
+                Debug.WriteLine("map or newPin was null ");
+            }
 
-        public CameraPosition CameraPositionOnMap
-        {
-            get
-            {
-                return (CameraPosition)GetValue(CameraPositionOnMapProperty);
-            }
-            set
-            {
-                SetValue(CameraPositionOnMapProperty, value);
-            }
         }
-        public static readonly BindableProperty CameraPositionOnMapProperty = BindableProperty.Create(
-                                                         propertyName: nameof(CameraPositionOnMap),
-                                                         returnType: typeof(CameraPosition),
-                                                         declaringType: typeof(CustomMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: CameraPositionOnMapPropertyChanged);
-        private static void CameraPositionOnMapPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        private static void OnCameraPositionOnMapPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
 
             var map = bindable as CustomMap;
@@ -162,6 +155,28 @@ namespace MapNotepad.Control
             {
                 MoveCameraToPosition(map, newPosition);
             }
+            else
+            {
+                Debug.WriteLine("map or newPosition was null ");
+            }
+
+        }
+        private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
+        {
+            bindableMap.Pins.Clear();
+
+            foreach (var item in newSource)
+            {
+                var pin = item.ConvertToPin();
+                bindableMap.Pins.Add(pin);
+            }
+        }
+        private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
+        {
+            bool isAnimated = newPin.IsAnimated;
+            var pin = newPin.ConvertToPin();
+
+            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
         }
         private static void MoveCameraToPosition(Map bindableMap, CameraPosition newPosition)
         {
@@ -171,5 +186,8 @@ namespace MapNotepad.Control
             bindableMap.InitialCameraUpdate = cameraUpdate;
             bindableMap.MoveCamera(cameraUpdate);
         }
+
+        #endregion
+
     }
 }

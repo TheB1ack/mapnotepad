@@ -20,12 +20,17 @@ namespace MapNotepad.Services.MapService
         }
         public CameraPosition GetSavedMapPosition()
         {
-            CameraPosition newCameraPosition = null;
+            CameraPosition newCameraPosition;
 
             if (_settingsService.MapLatitude != -1d)
             {
                 var position = new Position(_settingsService.MapLatitude, _settingsService.MapLongitude);
                 newCameraPosition = new CameraPosition(position, _settingsService.MapZoom);
+            }
+            else
+            {
+                newCameraPosition = null;
+                //debug
             }
 
             return newCameraPosition;

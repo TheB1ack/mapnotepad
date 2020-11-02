@@ -3,6 +3,7 @@ using MapNotepad.Services.Map;
 using MapNotepad.Services.Pins;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,8 +17,10 @@ namespace MapNotepad.ViewModels
         private readonly IPinService _pinService;
         private readonly IMapService _mapService;
 
-
-        public MapPageViewModel(INavigationService navigationService, IPinService pinService, IMapService mapService) : base(navigationService)
+        public MapPageViewModel(INavigationService navigationService, 
+                                IPinService pinService, 
+                                IMapService mapService) 
+                                : base(navigationService)
         {
             _pinService = pinService;
             _mapService = mapService;
@@ -29,117 +32,89 @@ namespace MapNotepad.ViewModels
         private CustomPin _myFocusedPin;
         public CustomPin MyFocusedPin
         {
-            get
-            {
-                return _myFocusedPin;
-            }
-            set
-            {
-                SetProperty(ref _myFocusedPin, value);
-            }
+            get => _myFocusedPin;
+
+            set => SetProperty(ref _myFocusedPin, value);
         }
 
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
-            get
-            {
-                return _pinsCollection;
-            }
-            set
-            {
-                SetProperty(ref _pinsCollection, value);
-            }
+            get => _pinsCollection;
+
+            set => SetProperty(ref _pinsCollection, value);
         }
 
         private string _searchBarText;
         public string SearchBarText
         {
-            get
-            {
-                return _searchBarText;
-            }
-            set
-            {
-                SetProperty(ref _searchBarText, value);
-            }
+            get => _searchBarText;
+
+            set => SetProperty(ref _searchBarText, value);
         }
+
         private CameraPosition _cameraPositionBinding;
         public CameraPosition CameraPositionBinding
         {
-            get
-            {
-                return _cameraPositionBinding;
-            }
-            set
-            {
-                SetProperty(ref _cameraPositionBinding, value);
-            }
+            get => _cameraPositionBinding;
+
+            set => SetProperty(ref _cameraPositionBinding, value);
         }
+
         private bool _isVisibleFrame;
         public bool IsVisibleFrame
         {
-            get
-            {
-                return _isVisibleFrame;
-            }
-            set
-            {
-                SetProperty(ref _isVisibleFrame, value);
-            }
+            get => _isVisibleFrame;
+
+            set => SetProperty(ref _isVisibleFrame, value);
         }
+
         private string _frameNameLable;
         public string FrameNameLable
         {
-            get
-            {
-                return _frameNameLable;
-            }
-            set
-            {
-                SetProperty(ref _frameNameLable, value);
-            }
+            get => _frameNameLable;
+
+            set => SetProperty(ref _frameNameLable, value);
         }
+
         private string _frameDescriptionLabel;
         public string FrameDescriptionLabel
         {
-            get
-            {
-                return _frameDescriptionLabel;
-            }
-            set
-            {
-                SetProperty(ref _frameDescriptionLabel, value);
-            }
+            get => _frameDescriptionLabel;
+
+            set => SetProperty(ref _frameDescriptionLabel, value);
         }
+
         private string _frameLatitudeLabel;
         public string FrameLatitudeLabel
         {
-            get
-            {
-                return _frameLatitudeLabel;
-            }
-            set
-            {
-                SetProperty(ref _frameLatitudeLabel, value);
-            }
+            get => _frameLatitudeLabel;
+
+            set => SetProperty(ref _frameLatitudeLabel, value);
         }
+
         private string _frameLongitudeLabel;
         public string FrameLongitudeLabel
         {
-            get
-            {
-                return _frameLongitudeLabel;
-            }
-            set
-            {
-                SetProperty(ref _frameLongitudeLabel, value);
-            }
+            get => _frameLongitudeLabel;
+
+            set => SetProperty(ref _frameLongitudeLabel, value);
         }
-        public ICommand UserSearching => new Command(SearchPinsAsync);
-        public ICommand OnCameraChangedBinding => new Command<CameraPosition>(SavePosition);
-        public ICommand CloseFrameCommand => new Command(CloseFrame);
-        public ICommand OnPinClickedBinding => new Command<Pin>(PinClicked);
+
+        private ICommand _userSearchingCommand;
+        public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommandAsync);
+
+        private ICommand _cameraChangedCommand;
+        public ICommand CameraChangedCommand => _cameraChangedCommand ??= new Command<CameraPosition>(OnCameraChangedCommand);
+
+        private ICommand _closeFrameCommand;
+        public ICommand CloseFrameCommand => _closeFrameCommand ??= new Command(OnCloseFrameCommand);
+
+        private ICommand _pinClickCommand;
+        public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommand);
+
+        private ICommand _mapClickCommand;
+        public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
 
         #endregion
 
@@ -149,20 +124,38 @@ namespace MapNotepad.ViewModels
         {
             SetSavedPosition();
             await SetMapPinsAsync();
-            if (parameters.ContainsKey("FocusedPin"))
+
+            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
-                MyFocusedPin = (CustomPin)parameters["FocusedPin"];
+                MyFocusedPin = pin;
             }
+            else
+            {
+                Debug.WriteLine("Parameters are missing CustomPin");
+            }
+
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void PinClicked(Pin pin)
+        private void OnMapClickCommand()
+        {
+            if(IsVisibleFrame)
+            {
+                IsVisibleFrame = false;
+            }
+            else
+            {
+                Debug.WriteLine("IsVisibleFrame was false");
+            }
+
+        }
+        private async void OnPinClickCommand(Pin pin)
         {
             var items = await _pinService.GetPinsAsync();
-            var tappedPin = items.Where(x => x.Name == pin.Label).FirstOrDefault();
+            var tappedPin = items.FirstOrDefault(x => x.Name == pin.Label);
 
             if (tappedPin != null)
             {
@@ -172,14 +165,19 @@ namespace MapNotepad.ViewModels
                 FrameLongitudeLabel = tappedPin.PositionLong.ToString();
                 IsVisibleFrame = true;
             }
+            else
+            {
+                Debug.WriteLine("Searched pin by name eas null");
+            }
+
         }
-        private void CloseFrame()
+        private void OnCloseFrameCommand()
         {
             IsVisibleFrame = false;
         }
-        private void SavePosition(CameraPosition Position)
+        private void OnCameraChangedCommand(CameraPosition position)
         {
-            _mapService.SaveMapPosition(Position);
+            _mapService.SaveMapPosition(position);
         }
         private void SetSavedPosition()
         {
@@ -188,19 +186,20 @@ namespace MapNotepad.ViewModels
         private async Task SetMapPinsAsync()
         {
             var items = await _pinService.GetPinsAsync();
-            var favouriteItems = items.Where(x => x.IsFavourite == true).ToList();
+            var favouriteItems = items.Where(x => x.IsFavourite);
 
             PinsCollection = new ObservableCollection<CustomPin>(favouriteItems);
         }
-        private async void SearchPinsAsync()
+        private async void OnUserSearchingCommandAsync()
         {
             if (!string.IsNullOrWhiteSpace(SearchBarText))
             {
-                PinsCollection = await _pinService.GetPinsByTextAsync(SearchBarText);
+                var items = await _pinService.GetPinsByTextAsync(SearchBarText);
+                PinsCollection = new ObservableCollection<CustomPin>(items);
             }
             else
             {
-                SetMapPinsAsync();
+                await SetMapPinsAsync();
             }
         }
 

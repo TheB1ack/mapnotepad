@@ -25,14 +25,16 @@ namespace MapNotepad
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            
-            if (Container.Resolve<IAuthorizationService>().IsAuthorized)
+            var isAuthorized = Container.Resolve<IAuthorizationService>().IsAuthorized;
+
+            if (isAuthorized)
             {
                 await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}");
             }
             else
             {
                 await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
+
             }
         }
 

@@ -2,17 +2,25 @@
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Prism.Navigation;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.ViewModels
 {
     public class PinsListPageViewModel : ViewModelBase
     {
         private readonly IPinService _pinService;
-      
-        public PinsListPageViewModel(INavigationService navigationService, IPinService pinService) : base(navigationService)
+
+        public PinsListPageViewModel(INavigationService navigationService,
+                                     IPinService pinService)
+                                     : base(navigationService)
         {
             _pinService = pinService;
         }
@@ -22,141 +30,138 @@ namespace MapNotepad.ViewModels
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
-            get 
-            { 
-                return _pinsCollection; 
-            }
-            set
-            {
-                SetProperty(ref _pinsCollection, value);
-            }
+            get => _pinsCollection;
+
+            set => SetProperty(ref _pinsCollection, value);
         }
 
         private bool _isVisibleText;
         public bool IsVisibleText
         {
-            get
-            {
-                return _isVisibleText;
-            }
-            set
-            {
-                SetProperty(ref _isVisibleText, value);
-            }
+            get => _isVisibleText;
+
+            set => SetProperty(ref _isVisibleText, value);
         }
 
         private CustomPin _itemSelected;
         public CustomPin ItemSelected
         {
-            get
-            {
-                return _itemSelected;
-            }
-            set
-            {
-                _itemSelected = value;
-                NavigateToMapPageAsync();
-            }
+            get => _itemSelected;
+
+            set => _itemSelected = value;
         }
 
         private string _searchBarText;
         public string SearchBarText
         {
-            get 
-            { 
-                return _searchBarText; 
-            }
-            set
-            {
-                SetProperty(ref _searchBarText, value);
-            }
+            get => _searchBarText;
+
+            set => SetProperty(ref _searchBarText, value);
         }
 
         private bool _isCheckBoxChecked;
         public bool IsCheckBoxChecked
         {
-            get 
-            { 
-                return _isCheckBoxChecked; 
-            }
-            set
-            {
-                SetProperty(ref _isCheckBoxChecked, value);
-            }
+            get => _isCheckBoxChecked;
+
+            set => SetProperty(ref _isCheckBoxChecked, value);
         }
 
-        public ICommand EditTap => new Command(GoToAddEditPinPageAsync);
-        public ICommand DeleteTap => new Command(TryToDeleteItemAsync);
-        public ICommand AddButtonClicked => new Command(GoToAddEditPinPageAsync);
-        public ICommand UserSearching => new Command(SearchPinsAsync);
-        public ICommand ImageTapCommand => new Command(SwitchFavouriteAsync);
+        private ICommand _editTapCommand;
+        public ICommand EditTapCommand => _editTapCommand ??= new Command<CustomPin>(OnEditTapCommand);
+
+        private ICommand _deleteTapCommand;
+        public ICommand DeleteTapCommand => _deleteTapCommand ??= new Command<CustomPin>(OnDeleteTapCommand);
+
+        private ICommand _addButtonClickCommand;
+        public ICommand AddButtonClickCommand => _addButtonClickCommand ??= new Command(OnAddButtonClickCommand);
+
+        private ICommand _userSearchingCommand;
+        public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommand);
+
+        private ICommand _imageTapCommand;
+        public ICommand ImageTapCommand => _imageTapCommand ??= new Command<CustomPin>(OnImageTapCommand);
+
+        private ICommand _itemTappedCommand;
+        public ICommand ItemTappedCommand => _itemTappedCommand ??= new Command(OnItemTappedCommand);
 
         #endregion
 
         #region -- IterfaceName implementation --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
-            CollectionResizeAsync();
+            await CollectionResizeAsync();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void SwitchFavouriteAsync(object item)
+        private async void OnImageTapCommand(CustomPin pin)
         {
-            var pin = item as CustomPin;
-            if(pin.IsFavourite)
+            if (pin.IsFavourite)
             {
                 pin.FavouriteImageSource = "empty_heart.png";
-                pin.IsFavourite = !pin.IsFavourite;                
             }
             else
             {
                 pin.FavouriteImageSource = "full_heart.png";
-                pin.IsFavourite = !pin.IsFavourite;               
             }
 
-            await _pinService.UpdatePinAsync(pin);
-            PinsCollection = await _pinService.GetPinsAsync();
-        }
-        private async void GoToAddEditPinPageAsync(object item)
-        {
-            var pin = item as CustomPin;
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add("pin", pin);
+            pin.IsFavourite = !pin.IsFavourite;
 
-            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);    
+            await _pinService.UpdatePinAsync(pin);
+            var items = await _pinService.GetPinsAsync();
+
+            PinsCollection = new ObservableCollection<CustomPin>(items);
         }
-        private async void TryToDeleteItemAsync(object item)
-        { 
-            var pin = item as CustomPin;
+        private async void OnAddButtonClickCommand()
+        {
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}");
+        }
+        private async void OnEditTapCommand(CustomPin pin)
+        {
+            NavigationParameters parameters = new NavigationParameters
+            {
+                { nameof(CustomPin), pin }
+            };
+
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
+        }
+        private async void OnDeleteTapCommand(CustomPin pin)
+        {
             await _pinService.RemovePinAsync(pin);
 
-            CollectionResizeAsync();
+            await CollectionResizeAsync();
         }
-        private async void SearchPinsAsync()
+        private async void OnUserSearchingCommand()
         {
+            IEnumerable<CustomPin> items;
+
             if (!string.IsNullOrWhiteSpace(SearchBarText))
             {
-                PinsCollection = await _pinService.GetPinsByTextAsync(SearchBarText);
+                items = await _pinService.GetPinsByTextAsync(SearchBarText);
+
                 CheckCollectionSize();
             }
             else
             {
-                PinsCollection = await _pinService.GetPinsAsync();
+                items = await _pinService.GetPinsAsync();
             }
+
+            PinsCollection = new ObservableCollection<CustomPin>(items);
         }
-        private async void CollectionResizeAsync()
+        private async Task CollectionResizeAsync()
         {
-            PinsCollection = await _pinService.GetPinsAsync();
+            var items = await _pinService.GetPinsAsync();
+            PinsCollection = new ObservableCollection<CustomPin>(items);
 
             CheckCollectionSize();
         }
         private void CheckCollectionSize()
         {
-            if (PinsCollection.Count == 0)
+            if (!PinsCollection.Any())
             {
                 IsVisibleText = true;
             }
@@ -165,15 +170,22 @@ namespace MapNotepad.ViewModels
                 IsVisibleText = false;
             }
         }
-        private async void NavigateToMapPageAsync()
+        private async void OnItemTappedCommand()
         {
-            if(ItemSelected != null)
+            if (ItemSelected != null)
             {
-                NavigationParameters parameters = new NavigationParameters();
                 ItemSelected.IsAnimated = true;
-                parameters.Add("FocusedPin", ItemSelected);
 
-                await _navigationService.NavigateAsync($"../{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                NavigationParameters parameters = new NavigationParameters
+                {
+                    {nameof(CustomPin), ItemSelected }
+                };             
+
+                await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+            }
+            else
+            {
+                Debug.WriteLine("ItemSelected was null");
             }
         }
 

@@ -13,111 +13,84 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <SearchBar Placeholder="Pin name or..."
+        <SearchBar Grid.Row="0"
+                   Placeholder="Pin name or..."
                    BackgroundColor="GhostWhite"
                    Margin="0,0,0,0"
                    TextColor="Black"
-                   Text="{Binding SearchBarText}"
-                   Grid.Row="0">
+                   Text="{Binding SearchBarText}">
             <SearchBar.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged" 
-                                              Command="{Binding UserSearching}"/>
+                                              Command="{Binding UserSearchingCommand}"/>
 
             </SearchBar.Behaviors>
         </SearchBar>
 
-        <controls:CustomMap Margin="0,0,0,0" 
+        <controls:CustomMap Grid.Row="1"
+                            Margin="0,0,0,0" 
                             PinsSource="{Binding PinsCollection}" 
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
                             BackgroundColor="GhostWhite"
-                            Grid.Row="1">
+                            MyLocationEnabled="false">
             <controls:CustomMap.Behaviors>
                 <prism:EventToCommandBehavior EventName="CameraChanged"
-                                              Command="{Binding OnCameraChangedBinding}"
+                                              Command="{Binding CameraChangedCommand}"
                                               EventArgsParameterPath="Position"/>
 
                 <prism:EventToCommandBehavior EventName="PinClicked"
-                                              Command="{Binding OnPinClickedBinding}"
+                                              Command="{Binding PinClickCommand}"
                                               EventArgsParameterPath="Pin"/>
+
+                <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding MapClickCommand}"/>
 
             </controls:CustomMap.Behaviors>
         </controls:CustomMap>
 
-        <Frame VerticalOptions="End"
+        <Frame Grid.Row="1"
+               VerticalOptions="End"
                IsVisible="{Binding IsVisibleFrame}"
-               Grid.Row="1"
-               BackgroundColor="Transparent"
-               CornerRadius="25"
-               BorderColor="Black"
+               BackgroundColor="WhiteSmoke"
                HorizontalOptions="Center"
-               Padding="0"
-               Margin="0,0,0,5">
-            <Frame BorderColor="Black"                  
-                   BackgroundColor="GhostWhite"
-                   Padding="8"
-                   CornerRadius="25">
-                <StackLayout HorizontalOptions="Center"
-                             BackgroundColor="GhostWhite"
-                             Padding="10"
-                             Orientation="Horizontal">
-                    <StackLayout Orientation="Horizontal">
-                        <Image Source="exit_image.png"
-                               WidthRequest="20"
-                               HeightRequest="20"
-                               HorizontalOptions="Start"
-                               Margin="5,5,0,0"
-                               VerticalOptions="Start">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding CloseFrameCommand}"/>
+               BorderColor="Black"
+               Padding="8"
+               CornerRadius="25"
+               Margin="0,0,0,10"
+               WidthRequest="230">
+            <StackLayout HorizontalOptions="Center"
+                             Orientation="Vertical">
+                <Label Text="{Binding FrameNameLable}"
+                           Margin="0,0,0,0"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
 
-                            </Image.GestureRecognizers>
-                        </Image>
+                <Label Text="{Binding FrameDescriptionLabel}"
+                               HorizontalOptions="Center"
+                               Margin="0,3,0,0"/>
 
-                    </StackLayout>
-
-                    <StackLayout Orientation="Vertical">
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center">
-                            <Label Text="{Binding FrameNameLable}"
-                                   Margin="0,3,0,0"
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Center">
+                    <Label Text="Latitude: "
                                    FontAttributes="Bold"
-                                   HorizontalOptions="Center"/>
-
-                        </StackLayout>
-                        
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center">
-                            <Label Text="{Binding FrameDescriptionLabel}"
-                                   HorizontalOptions="Center"
                                    Margin="0,3,0,0"/>
 
-                        </StackLayout>
-
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center">
-                            <Label Text="Latitude: "
-                                   FontAttributes="Bold"
-                                   Margin="3,3,0,0"/>
-
-                            <Label Text="{Binding FrameLatitudeLabel}"
+                    <Label Text="{Binding FrameLatitudeLabel}"
                                    Margin="0,3,0,0"/>
 
-                        </StackLayout>
-
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="Center">
-                            <Label Text="Longitude: "
-                                   FontAttributes="Bold"
-                                   Margin="3,3,0,0"/>
-
-                            <Label Text="{Binding FrameLongitudeLabel}"
-                                       Margin="0,3,0,0"/>
-
-                        </StackLayout>
-                    </StackLayout>
                 </StackLayout>
-            </Frame>
+
+                <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center">
+                    <Label Text="Longitude: "
+                               FontAttributes="Bold"
+                               Margin="0,3,0,0"/>
+
+                    <Label Text="{Binding FrameLongitudeLabel}"
+                               Margin="0,3,0,0"/>
+
+                </StackLayout>
+            </StackLayout>
         </Frame>
     </Grid>
 </ContentPage>

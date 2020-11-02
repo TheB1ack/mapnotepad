@@ -10,21 +10,28 @@ namespace MapNotepad.ViewModels
     {
         private readonly IAuthorizationService _authorizationService;       
 
-        public MainPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService, 
+                                 IAuthorizationService authorizationService) 
+                                 : base(navigationService)
         {
             _authorizationService = authorizationService;
         }
 
         #region -- Public properties --
-        public ICommand LogOutClick => new Command(LogOutAsync);
+
+        private ICommand _logOutClickCommand;
+        public ICommand LogOutClickCommand => _logOutClickCommand ??= new Command(OnLogOutClickCommand);
+
         #endregion
 
         #region -- Private helpers --
-        private async void LogOutAsync()
+
+        private async void OnLogOutClickCommand()
         {
             _authorizationService.LogOut();
-            await _navigationService.NavigateAsync($"../{nameof(SingInPage)}");
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SingInPage)}");
         }
+
         #endregion
     }
 }

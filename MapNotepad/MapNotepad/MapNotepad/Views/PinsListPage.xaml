@@ -21,7 +21,7 @@
                    BackgroundColor="GhostWhite">
             <SearchBar.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged" 
-                                              Command="{Binding UserSearching}"/>
+                                              Command="{Binding UserSearchingCommand}"/>
                 
             </SearchBar.Behaviors>
         </SearchBar>
@@ -41,15 +41,20 @@
                   BackgroundColor="GhostWhite"
                   SeparatorVisibility="Default"
                   SeparatorColor="Gray">
+            <ListView.Behaviors>
+                <prism:EventToCommandBehavior EventName="ItemTapped" 
+                                              Command="{Binding ItemTappedCommand}"/>
+                
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell Height="120">
                         <ViewCell.ContextActions >
                             <MenuItem Text="Edit"
-                                      Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
+                                      Command="{Binding BindingContext.EditTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
                             <MenuItem Text="Delete"
-                                      Command="{Binding BindingContext.DeleteTap, Source={x:Reference _this}}"
+                                      Command="{Binding BindingContext.DeleteTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"/>
                             
@@ -127,7 +132,7 @@
                      VerticalOptions="End"
                      BackgroundColor="#29D695"
                      CornerRadius ="35"
-                     Command="{Binding AddButtonClicked}"           
+                     Command="{Binding AddButtonClickCommand}"           
                      Padding="19"/>
         
     </Grid>

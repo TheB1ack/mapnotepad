@@ -2,6 +2,8 @@
 using MapNotepad.Services.Authorization;
 using MapNotepad.Views;
 using Prism.Navigation;
+using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,7 +14,10 @@ namespace MapNotepad.ViewModels
         private readonly IAuthorizationService _authorizationService;
         private readonly IUserDialogs _userDialogs;
 
-        public SingInPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IUserDialogs userDialogs) : base(navigationService)
+        public SingInPageViewModel(INavigationService navigationService, 
+                                   IAuthorizationService authorizationService, 
+                                   IUserDialogs userDialogs) 
+                                   : base(navigationService)
         {
             _userDialogs = userDialogs;
             _authorizationService = authorizationService;
@@ -23,44 +28,33 @@ namespace MapNotepad.ViewModels
         private string _emailEntry;
         public string EmailEntry
         {
-            get
-            {
-                return _emailEntry;
-            }
-            set
-            {
-                SetProperty(ref _emailEntry, value);
-                IsButtonEnable = TryActivateButton();
-            }
+            get => _emailEntry;
+
+            set => SetProperty(ref _emailEntry, value);
         }
         private string _passwordEntry;
         public string PasswordEntry
         {
-            get
-            {
-                return _passwordEntry;
-            }
-            set
-            {
-                SetProperty(ref _passwordEntry, value);
-                IsButtonEnable = TryActivateButton();
-            }
+            get => _passwordEntry;
+
+            set => SetProperty(ref _passwordEntry, value);
         }
         private bool _isButtonEnable;
         public bool IsButtonEnable
         {
-            get
-            {
-                return _isButtonEnable;
-            }
-            set
-            {
-                SetProperty(ref _isButtonEnable, value);
-            }
+            get => _isButtonEnable;
+
+            set => SetProperty(ref _isButtonEnable, value);
         }
 
-        public ICommand SingInBClick => new Command(TryToSignInAsync);
-        public ICommand CreateAccountBClick => new Command(NavigateToSignUpPageAsync);
+        private ICommand _signInButtonClickCommand;
+        public ICommand SignInButtonClickCommand => _signInButtonClickCommand ??= new Command(OnSignInButtonClickCommandAsync);
+
+        private ICommand _createAccountButtonClickCommand;
+        public ICommand CreateAccountButtonClickCommand => _createAccountButtonClickCommand ??= new Command(OnCreateAccountButtonClickCommandAsync);
+
+        private ICommand _textChangedCommand;
+        public ICommand TextChangedCommand => _textChangedCommand ??= new Command(OnTextChangedCommand);
 
         #endregion
 
@@ -68,20 +62,33 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            EmailEntry = (string)parameters["email"];
+            if(parameters.TryGetValue(nameof(String),out string email))
+            {
+                EmailEntry = email;
+            }
+            else
+            {
+                Debug.WriteLine("Parameters are missing String");
+            }
         }
 
         #endregion
 
         #region -- Private helpers --
 
+        private void OnTextChangedCommand()
+        {
+            IsButtonEnable = TryActivateButton();
+        }
         private bool TryActivateButton()
         {
-            bool isActive = true;
+            var isActive = true;
+
             if (string.IsNullOrWhiteSpace(EmailEntry))
             {
                 isActive = false;
             }
+
             if (string.IsNullOrWhiteSpace(PasswordEntry))
             {
                 isActive = false;
@@ -89,20 +96,21 @@ namespace MapNotepad.ViewModels
 
             return isActive;
         }
-        private async void TryToSignInAsync()
+        private async void OnSignInButtonClickCommandAsync()
         {
-            bool isSignedIn = await _authorizationService.SignInAsync(EmailEntry, PasswordEntry);
+            var isSignedIn = await _authorizationService.SignInAsync(EmailEntry, PasswordEntry);
+            
             if (isSignedIn)
             {
-                await _navigationService.NavigateAsync($"../{nameof(MainPage)}");
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}");
             }
             else
             {
-                _userDialogs.Alert("Incorrect password or email!", "", "OK");
-                PasswordEntry = "";
+                await _userDialogs.AlertAsync("Incorrect password or email!", "", "OK"); 
+                PasswordEntry = string.Empty;
             }
         }
-        private async void NavigateToSignUpPageAsync()
+        private async void OnCreateAccountButtonClickCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(SingUpPage)}");
         }

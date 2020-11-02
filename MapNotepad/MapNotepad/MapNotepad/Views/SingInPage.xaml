@@ -9,15 +9,27 @@
                               Placeholder = "Email address"
                               HeightRequest="45"
                               Margin="50, 200, 50, 0" 
-                              Keyboard="Email"/>
-        
+                              Keyboard="Email">
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+                
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
         <renderer:CustomEntry Text="{Binding PasswordEntry}"
                               Placeholder = "Password" 
                               IsPassword ="True" 
                               HeightRequest="45"
-                              Margin="50, 10, 50, 0"/>
-        
-        <Button Command ="{Binding SingInBClick}" 
+                              Margin="50, 10, 50, 0">
+            <renderer:CustomEntry.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding TextChangedCommand}"/>
+                
+            </renderer:CustomEntry.Behaviors>
+        </renderer:CustomEntry>
+
+        <Button Command ="{Binding SignInButtonClickCommand}" 
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text="Login" 
                 BackgroundColor="#29D695"
@@ -28,13 +40,13 @@
         <Label Text="Don't have an account?"
                TextColor="Black"
                HorizontalOptions="Center"/>
-        
-        <Button Command ="{Binding CreateAccountBClick}" 
+
+        <Button Command ="{Binding CreateAccountButtonClickCommand}" 
                 Text="Create account"
                 BackgroundColor="#29D695"
                 TextColor="Black"
                 CornerRadius ="10"
                 Margin="50, 0, 50, 0"/>
-        
+
     </StackLayout>
 </ContentPage>

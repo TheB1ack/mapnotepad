@@ -2,13 +2,16 @@
 using Prism.Common;
 using Prism.Navigation;
 using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
 {
-    class TabbedPageNavigationBehavior : BehaviorBase<TabbedPage>
+    public class TabbedPageNavigationBehavior : BehaviorBase<TabbedPage>
     {
         private Page CurrentPage;
+
+        #region -- IterfaceName implementation --
 
         protected override void OnAttachedTo(TabbedPage bindable)
         {
@@ -22,6 +25,10 @@ namespace MapNotepad.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private void OnCurrentPageChanged(object sender, EventArgs e)
         {
             var newPage = AssociatedObject.CurrentPage;
@@ -31,9 +38,16 @@ namespace MapNotepad.Behaviors
             {               
                 PageUtilities.OnNavigatedFrom(CurrentPage, parameters);             
             }
+            else
+            {
+                Debug.WriteLine("CurrentPage was null");
+            }
+
             PageUtilities.OnNavigatedTo(newPage, parameters);
 
             CurrentPage = newPage;
         }
+
+        #endregion
     }
 }

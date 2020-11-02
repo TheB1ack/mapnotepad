@@ -8,7 +8,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.AddEditPinPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding SaveClick}"
+        <ToolbarItem Command="{Binding SaveClickCommand}"
                      Text="Save"/>
         
     </ContentPage.ToolbarItems>
@@ -32,7 +32,7 @@
                       HorizontalOptions="Center">
                 <CheckBox.Behaviors>
                     <prism:EventToCommandBehavior EventName="CheckedChanged" 
-                                                  Command="{Binding CheckBoxSet}"/>
+                                                  Command="{Binding CheckBoxSetCommand}"/>
 
                 </CheckBox.Behaviors>
             </CheckBox>
@@ -46,22 +46,34 @@
         <StackLayout IsVisible="{Binding IsEntryVisible}">
             <Label Text="Latitude"
                    HorizontalOptions="Center"/>
-            
+
             <Entry Text="{Binding LatitudeEntry}" 
                    Placeholder = "Pin latitude"
                    HeightRequest="50"
                    Margin="50, 0, 50, 0"
-                   Keyboard="Numeric"/>
-            
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <prism:EventToCommandBehavior EventName="TextChanged"
+                                                  Command="{Binding LatitudeEntryCommand}"/>
+
+                </Entry.Behaviors>
+            </Entry>
+
             <Label Text="Longitude"
                    HorizontalOptions="Center"/>
-            
+
             <Entry Text="{Binding LongitudeEntry}" 
                    Placeholder = "Pin longitu"
                    HeightRequest="50"
                    Margin="50, 0, 50, 0"
-                   Keyboard="Numeric"/>
-            
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <prism:EventToCommandBehavior EventName="TextChanged"
+                                                  Command="{Binding LongitudeEntryCommand}"/>
+                    
+                </Entry.Behaviors>
+            </Entry>
+
         </StackLayout>
 
         <control:CustomMap PinsSource="{Binding PinsCollection}"
@@ -70,7 +82,7 @@
                            IsVisible="{Binding IsMapVisible}">
             <map:Map.Behaviors>
                 <prism:EventToCommandBehavior EventName="MapClicked" 
-                                              Command="{Binding MapTapped}"
+                                              Command="{Binding MapTappedCommad}"
                                               EventArgsParameterPath="Point"/>
                 
             </map:Map.Behaviors>

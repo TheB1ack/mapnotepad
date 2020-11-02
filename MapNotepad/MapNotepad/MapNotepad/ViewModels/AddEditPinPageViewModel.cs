@@ -3,7 +3,9 @@ using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -15,7 +17,10 @@ namespace MapNotepad.ViewModels
         private readonly IPinService _pinService;
         private readonly IUserDialogs _userDialogs;
 
-        public AddEditPinPageViewModel(INavigationService navigationService, IPinService pinService, IUserDialogs userDialogs) : base(navigationService)
+        public AddEditPinPageViewModel(INavigationService navigationService, 
+                                       IPinService pinService, 
+                                       IUserDialogs userDialogs) 
+                                       : base(navigationService)
         {
             _userDialogs = userDialogs;
             _pinService = pinService;
@@ -27,138 +32,91 @@ namespace MapNotepad.ViewModels
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
-            get
-            {
-                return _pinsCollection;
-            }
-            set
-            {
-                SetProperty(ref _pinsCollection, value);
-            }
+            get => _pinsCollection;
+
+            set => SetProperty(ref _pinsCollection, value);
+        }
+
+        private string _oldName;
+        public string OldName
+        {
+            get => _oldName;
+
+            set => SetProperty(ref _oldName, value);
         }
 
         private string _nameEntry;
         public string NameEntry
         {
-            get
-            {
-                return _nameEntry;
-            }
-            set
-            {
-                SetProperty(ref _nameEntry, value);
-            }
+            get => _nameEntry;
+
+            set => SetProperty(ref _nameEntry, value);
         }
 
         private string _descriptionEditor;
-        public string DescriptionEditor
+        public string DescriptionEditor 
         {
-            get
-            {
-                return _descriptionEditor;
-            }
-            set
-            {
-                SetProperty(ref _descriptionEditor, value);
-            }
+            get => _descriptionEditor;
+
+            set => SetProperty(ref _descriptionEditor, value);
         }
 
         private double _latitudeEntry;
         public double LatitudeEntry
         {
-            get
-            {
-                return _latitudeEntry;
-            }
-            set
-            {
-                if (value > 90 || value < -90)
-                {
-                    _userDialogs.Alert("Unvalid latitude!", "", "OK");
-                }
-                else
-                {
-                    SetProperty(ref _latitudeEntry, value);
-                }
-            }
+            get => _latitudeEntry;
+
+            set => SetProperty(ref _latitudeEntry, value);
         }
 
         private double _longitudeEntry;
         public double LongitudeEntry
         {
-            get
-            {
-                return _longitudeEntry;
-            }
-            set
-            {
-                if (value > 180 || value < 0)
-                {
-                    _userDialogs.Alert("Unvalid latitude!", "", "OK");
-                }
-                else
-                {
-                    SetProperty(ref _longitudeEntry, value);
+            get => _longitudeEntry;
 
-                }
-            }
+            set => SetProperty(ref _longitudeEntry, value);
         }
 
         private CustomPin _myFocusedPin;
         public CustomPin MyFocusedPin
         {
-            get
-            {
-                return _myFocusedPin;
-            }
-            set
-            {
-                SetProperty(ref _myFocusedPin, value);
-            }
+            get => _myFocusedPin;
+
+            set => SetProperty(ref _myFocusedPin, value);
         }
 
         private bool _isCheckBoxChecked;
         public bool IsCheckBoxChecked
         {
-            get
-            {
-                return _isCheckBoxChecked;
-            }
-            set
-            {
-                SetProperty(ref _isCheckBoxChecked, value);
-            }
+            get => _isCheckBoxChecked;
+
+            set => SetProperty(ref _isCheckBoxChecked, value);
         }
 
         private bool _isMapVisible;
         public bool IsMapVisible
         {
-            get
-            {
-                return _isMapVisible;
-            }
-            set
-            {
-                SetProperty(ref _isMapVisible, value);
-            }
+            get => _isMapVisible;
+
+            set => SetProperty(ref _isMapVisible, value);
         }
 
         private bool _isEntryVisible;
         public bool IsEntryVisible
         {
-            get
-            {
-                return _isEntryVisible;
-            }
-            set
-            {
-                SetProperty(ref _isEntryVisible, value);
-            }
+            get => _isEntryVisible;
+
+            set => SetProperty(ref _isEntryVisible, value);
         }
 
-        public ICommand MapTapped => new Command<Position>(OnMapClicked);
-        public ICommand SaveClick => new Command(SavePinAsync);
-        public ICommand CheckBoxSet => new Command(ShowMap);
+        private ICommand _mapTappedCommad;
+        public ICommand MapTappedCommad => _mapTappedCommad ??= new Command<Position>(OnMapTappedCommand);
+
+        private ICommand _saveClickCommand;
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
+
+        private ICommand _checkBoxSetCommand;
+        public ICommand CheckBoxSetCommand => _checkBoxSetCommand ??= new Command(OnCheckBoxSetCommand);
 
         #endregion
 
@@ -168,18 +126,22 @@ namespace MapNotepad.ViewModels
         {
             IsCheckBoxChecked = true;
 
-            var pin = (CustomPin)parameters["pin"];
-            if (pin != null)
+            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 FillData(pin);
             }
+            else
+            {
+                Debug.WriteLine("Parameters are missing CustomPin");
+            }
+
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private void ShowMap()
+        private void OnCheckBoxSetCommand()
         {
             if (IsCheckBoxChecked)
             {
@@ -196,22 +158,22 @@ namespace MapNotepad.ViewModels
         }
         private void ChangePinPlace()
         {
-            if (PinsCollection.Count() != 0)
+            if (PinsCollection.Any()) 
             {
                 PinsCollection.First().PositionLat = LatitudeEntry;
                 PinsCollection.First().PositionLong = LongitudeEntry;
             }
             else
             {
-                OnMapClicked(new Position(LatitudeEntry, LongitudeEntry));
+                OnMapTappedCommand(new Position(LatitudeEntry, LongitudeEntry));
             }
 
         }
-        private void OnMapClicked(Position clickPosition)
+        private void OnMapTappedCommand(Position clickPosition)
         {
-            CustomPin pin = new CustomPin()
+            CustomPin pin = new CustomPin
             {
-                Name = NameEntry ?? " ",
+                Name = NameEntry ?? string.Empty, 
                 PositionLat = clickPosition.Latitude,
                 PositionLong = clickPosition.Longitude
             };
@@ -219,20 +181,32 @@ namespace MapNotepad.ViewModels
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
 
-            PinsCollection = new ObservableCollection<CustomPin>() { pin };
+            PinsCollection = new ObservableCollection<CustomPin> 
+            { 
+                pin 
+            };
         }
-        private async void SavePinAsync()
+        private async void OnSaveClickCommand()
         {
-            if (EntryCheck())
+            var isValidEntry = await EntryCheckAsync();
+            if (isValidEntry)
             {
-                bool isValid = await _pinService.CheckPinName(NameEntry);
+                var isValidName = await _pinService.CheckPinName(NameEntry);
 
-                if (isValid)
+                if (isValidName || OldName == NameEntry)
                 {
                     if (MyFocusedPin == null)
                     {
-                        await _pinService.AddPinAsync(NameEntry, DescriptionEditor, PinsCollection.First());
-                        await _navigationService.GoBackAsync();
+                        CustomPin customPin = new CustomPin
+                        {
+                            Name = NameEntry,
+                            Description = DescriptionEditor ?? string.Empty,
+                            PositionLat = PinsCollection.First().PositionLat,
+                            PositionLong = PinsCollection.First().PositionLong,
+                            FavouriteImageSource = "empty_heart.png"
+                        };
+
+                        await _pinService.AddPinAsync(customPin);
                     }
                     else
                     {
@@ -243,9 +217,9 @@ namespace MapNotepad.ViewModels
                         MyFocusedPin.IsFavourite = false;
 
                         await _pinService.UpdatePinAsync(MyFocusedPin);
-                        await _navigationService.GoBackAsync();
                     }
 
+                    await _navigationService.GoBackAsync();
                 }
                 else
                 {
@@ -253,22 +227,54 @@ namespace MapNotepad.ViewModels
                 }
 
             }
+            else
+            {
+                Debug.WriteLine("Entry text is unvalid!");
+            }
 
         }
-        private bool EntryCheck()
+        private async Task<bool> EntryCheckAsync()
         {
-            bool isValid = true;
+            var isValid = true;
+
             if (string.IsNullOrWhiteSpace(NameEntry))
             {
                 isValid = false;
-                _userDialogs.Alert("Field Pin name musn't be empty!", "", "OK");
+                await _userDialogs.AlertAsync("Field Pin name musn't be empty!", "", "OK");
             }
-            else if (IsCheckBoxChecked)
+            else
             {
-                if (PinsCollection.Count == 0)
+                Debug.WriteLine("NameEntry is ok");
+            }
+
+            if (IsCheckBoxChecked)
+            {
+                if (!PinsCollection.Any())
                 {
                     isValid = false;
-                    _userDialogs.Alert("Please, select your marker on map!", "", "OK");
+                    await _userDialogs.AlertAsync("Please, select your marker on map!", "", "OK");
+                }
+                else
+                {
+                    Debug.WriteLine("Collection contains pin");
+                }
+
+            }
+            else
+            {
+                if (LongitudeEntry > 180 || LongitudeEntry < 0)
+                {
+                    await _userDialogs.AlertAsync("Unvalid longitude!", "", "OK");
+                    isValid = false;
+                }
+                else if(LatitudeEntry > 90 || LatitudeEntry < -90)
+                {
+                    await _userDialogs.AlertAsync("Unvalid latitude!", "", "OK");
+                    isValid = false;
+                }
+                else
+                {
+                    Debug.WriteLine("Longitude and latitude is ok");
                 }
 
             }
@@ -278,16 +284,18 @@ namespace MapNotepad.ViewModels
 
         private void FillData(CustomPin pin)
         {
+            OldName = pin.Name;
             NameEntry = pin.Name;
             DescriptionEditor = pin.Description;
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
 
-            pin.IsAnimated = true;
-
             MyFocusedPin = pin;
 
-            PinsCollection = new ObservableCollection<CustomPin>() { pin };
+            PinsCollection = new ObservableCollection<CustomPin> 
+            { 
+                pin 
+            };
         }
 
         #endregion

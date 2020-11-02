@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Foundation;
-using MapNotepad.iOS.Renderers;
+﻿using MapNotepad.iOS.Renderers;
 using MapNotepad.Renderer;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Xamarin.Forms.PlatformConfiguration;
 
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
 namespace MapNotepad.iOS.Renderers
@@ -21,8 +16,11 @@ namespace MapNotepad.iOS.Renderers
 
             if (Control != null)
             {
-                //Control.BorderStyle = new border
+                Control.BackgroundColor = UIColor.White;
+                Control.BorderStyle = UITextBorderStyle.RoundedRect;
+                Control.Layer.BorderColor = UIColor.Black.CGColor;
             }
+
         }
     }
 }
