@@ -1,5 +1,4 @@
 ﻿using Prism;
-using System;
 using Prism.Ioc;
 using Prism.Unity;
 using Xamarin.Forms;
@@ -8,9 +7,11 @@ using MapNotepad.ViewModels;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Authorization;
 using Plugin.Settings;
-using MapNotepad.Services.PinsService;
+using MapNotepad.Services.Pins;
 using MapNotepad.Services.Settings;
 using Acr.UserDialogs;
+using MapNotepad.Services.Map;
+using MapNotepad.Services.MapService;
 
 namespace MapNotepad
 {
@@ -55,7 +56,9 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<ISettingsService>(Container.Resolve<SettingsService>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
-           
+            containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
+
+
         }
     }
 }

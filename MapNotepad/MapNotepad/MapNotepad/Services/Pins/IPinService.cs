@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace MapNotepad.Services.PinsService
+namespace MapNotepad.Services.Pins
 {
     public interface IPinService
     {

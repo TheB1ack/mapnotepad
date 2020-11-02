@@ -25,7 +25,14 @@
         <controls:CustomMap Margin="0,0,0,0" 
                             PinsSource="{Binding PinsCollection}" 
                             FocusedPin="{Binding MyFocusedPin}"
-                            BackgroundColor="GhostWhite"/>
+                            CameraPositionOnMap="{Binding CameraPositionBinding}"
+                            BackgroundColor="GhostWhite">
+            <controls:CustomMap.Behaviors>
+                <prism:EventToCommandBehavior EventName="CameraChanged"
+                                              Command="{Binding OnCameraChangedBinding}"
+                                              EventArgsParameterPath="Position"/>
+            </controls:CustomMap.Behaviors>
+        </controls:CustomMap>
 
     </StackLayout>
 </ContentPage>

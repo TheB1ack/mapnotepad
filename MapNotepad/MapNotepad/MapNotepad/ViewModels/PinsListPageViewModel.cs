@@ -1,5 +1,5 @@
 ﻿using MapNotepad.Models;
-using MapNotepad.Services.PinsService;
+using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System.Collections.ObjectModel;

@@ -1,6 +1,6 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
-using MapNotepad.Services.PinsService;
+using MapNotepad.Services.Pins;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Linq;
