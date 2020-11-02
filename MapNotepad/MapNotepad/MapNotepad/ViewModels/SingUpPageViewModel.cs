@@ -108,7 +108,7 @@ namespace MapNotepad.ViewModels
                 {
                     NavigationParameters parameters = new NavigationParameters
                     {
-                        {nameof(EmailEntry),  EmailEntry}
+                        {"Email",  EmailEntry}
                     };
 
                     await _navigationService.GoBackAsync(parameters);

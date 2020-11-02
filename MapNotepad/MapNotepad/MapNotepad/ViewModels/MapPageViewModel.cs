@@ -1,6 +1,10 @@
-﻿using MapNotepad.Models;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
 using MapNotepad.Services.Map;
+using MapNotepad.Services.Permissions;
 using MapNotepad.Services.Pins;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,14 +20,21 @@ namespace MapNotepad.ViewModels
     {
         private readonly IPinService _pinService;
         private readonly IMapService _mapService;
+        private readonly IPermissionsService _permissionsService;
+        private readonly IUserDialogs _userDialogs;
 
         public MapPageViewModel(INavigationService navigationService, 
                                 IPinService pinService, 
-                                IMapService mapService) 
+                                IMapService mapService,
+                                IPermissionsService permissionsService,
+                                IUserDialogs userDialogs) 
                                 : base(navigationService)
         {
             _pinService = pinService;
             _mapService = mapService;
+            _permissionsService = permissionsService;
+            _userDialogs = userDialogs;
+
             PinsCollection = new ObservableCollection<CustomPin>();
         }
 
@@ -100,6 +111,14 @@ namespace MapNotepad.ViewModels
 
             set => SetProperty(ref _frameLongitudeLabel, value);
         }
+       
+        private bool _myLocationEnabled;
+        public bool MyLocationEnabled
+        {
+            get => _myLocationEnabled;
+
+            set => SetProperty(ref _myLocationEnabled, value);
+        }
 
         private ICommand _userSearchingCommand;
         public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommandAsync);
@@ -136,10 +155,53 @@ namespace MapNotepad.ViewModels
 
         }
 
+        public override void Initialize(INavigationParameters parameters)
+        {
+            SetLocationAsync();
+        }
+
         #endregion
 
         #region -- Private helpers --
 
+        private async void SetLocationAsync()
+        {
+            var status = await _permissionsService.RequestPermissionsAsync<LocationPermission>();
+
+            if (status != PermissionStatus.Granted)
+            {
+                var result = await _permissionsService.ShowRequestPermissionRationaleAsync(Permission.Location);
+
+                if (result)
+                {
+                    await _userDialogs.AlertAsync("App needs your location to work correctly!", string.Empty, "I understand");
+                }
+                else
+                {
+                    Debug.WriteLine("result was false");
+                }
+
+                status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
+            }
+            else
+            {
+                Debug.WriteLine("status wasn't Granted");
+            }
+
+            if (status == PermissionStatus.Granted)
+            {
+                MyLocationEnabled = true;
+            }
+            else if (status != PermissionStatus.Unknown)
+            {
+                MyLocationEnabled = false;
+            }
+            else
+            {
+                Debug.WriteLine("status was Unknown");
+            }
+
+        }
         private void OnMapClickCommand()
         {
             if(IsVisibleFrame)

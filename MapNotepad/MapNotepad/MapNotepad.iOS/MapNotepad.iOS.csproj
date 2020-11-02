@@ -160,9 +160,6 @@
     <BundleResource Include="Resources\empty_heart.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\exit_image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\full_heart.png" />
   </ItemGroup>
   <ProjectExtensions>

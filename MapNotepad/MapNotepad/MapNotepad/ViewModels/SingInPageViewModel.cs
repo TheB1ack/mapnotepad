@@ -62,7 +62,7 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if(parameters.TryGetValue(nameof(String),out string email))
+            if(parameters.TryGetValue("Email", out string email))
             {
                 EmailEntry = email;
             }

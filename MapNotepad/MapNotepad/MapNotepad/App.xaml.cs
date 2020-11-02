@@ -12,6 +12,9 @@ using MapNotepad.Services.Settings;
 using Acr.UserDialogs;
 using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
+using Plugin.Permissions;
+using MapNotepad.Services.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace MapNotepad
 {
@@ -34,8 +37,8 @@ namespace MapNotepad
             else
             {
                 await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
-
             }
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -52,6 +55,7 @@ namespace MapNotepad
             //packages
             containerRegistry.RegisterInstance(CrossSettings.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
+            containerRegistry.RegisterInstance<IPermissions>(CrossPermissions.Current);
 
             //services
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());
@@ -59,7 +63,7 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
-
+            containerRegistry.RegisterInstance<IPermissionsService>(Container.Resolve<PermissionsService>());
 
         }
     }

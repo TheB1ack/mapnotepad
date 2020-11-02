@@ -32,7 +32,7 @@
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
                             BackgroundColor="GhostWhite"
-                            MyLocationEnabled="false">
+                            MyLocationEnabled="{Binding MyLocationEnabled}">
             <controls:CustomMap.Behaviors>
                 <prism:EventToCommandBehavior EventName="CameraChanged"
                                               Command="{Binding CameraChangedCommand}"

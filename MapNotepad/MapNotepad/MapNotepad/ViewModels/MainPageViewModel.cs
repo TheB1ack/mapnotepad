@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Services.Authorization;
+using MapNotepad.Services.Permissions;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System.Windows.Input;
