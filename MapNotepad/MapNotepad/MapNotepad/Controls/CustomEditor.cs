@@ -2,8 +2,7 @@
 
 namespace MapNotepad.Controls
 {
-    public class CustomEntry : Entry
+    public class CustomEditor : Editor
     {
-
     }
 }

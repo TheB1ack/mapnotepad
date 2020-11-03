@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             xmlns:control="clr-namespace:MapNotepad.Control" 
-             xmlns:renderer="clr-namespace:MapNotepad.Renderer"
+             xmlns:controls="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             xmlns:resources="clr-namespace:MapNotepad.Resources"
+             xmlns:resources="clr-namespace:MapNotepad.Resources" 
              x:Class="MapNotepad.Views.AddEditPinPage"
              Title="{Binding Title, Mode=TwoWay}">
     <ContentPage.ToolbarItems>
@@ -16,13 +15,13 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout>
-        <renderer:CustomEntry Text="{Binding NameEntry}" 
+        <controls:CustomEntry Text="{Binding NameEntry}" 
                               Placeholder = "{x:Static resources:Resource.PinNamePlaceholder}"  
                               Margin="50, 20, 50, 0" 
                               HeightRequest="45"
                               MaxLength="15"/>
-        
-        <Editor Text="{Binding DescriptionEditor}" 
+
+        <controls:CustomEditor Text="{Binding DescriptionEditor}" 
                 Placeholder="{x:Static resources:Resource.DescriptionPlaceholder}" 
                 Margin="50, 5, 50, 0" 
                 MaxLength="60"
@@ -78,7 +77,7 @@
 
         </StackLayout>
 
-        <control:CustomMap PinsSource="{Binding PinsCollection}"
+        <controls:CustomMap PinsSource="{Binding PinsCollection}"
                            OnlyOneFocusedPin="{Binding MyFocusedPin}"
                            Margin="10,10,10,10"
                            IsVisible="{Binding IsMapVisible}"
@@ -89,7 +88,7 @@
                                               EventArgsParameterPath="Point"/>
                 
             </map:Map.Behaviors>
-        </control:CustomMap>
+        </controls:CustomMap>
         
     </StackLayout>
 </ContentPage>

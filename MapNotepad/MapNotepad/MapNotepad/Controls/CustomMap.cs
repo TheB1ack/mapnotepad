@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
 
-namespace MapNotepad.Control
+namespace MapNotepad.Controls
 {
     public class CustomMap : ClusteredMap
     {

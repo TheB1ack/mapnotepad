@@ -1,15 +1,21 @@
-﻿using MapNotepad.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Foundation;
+using MapNotepad.Controls;
 using MapNotepad.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
+[assembly: ExportRenderer(typeof(CustomEditor), typeof(CustomEditorRenderer))]
 namespace MapNotepad.iOS.Renderers
 {
-    public class CustomEntryRenderer : EntryRenderer
+    class CustomEditorRenderer : EditorRenderer
     {
-        protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
         {
             base.OnElementChanged(e);
 
