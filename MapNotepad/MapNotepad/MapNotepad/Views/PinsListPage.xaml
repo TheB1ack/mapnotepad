@@ -4,8 +4,9 @@
              xmlns:prism="http://prismlibrary.com"             
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
+             xmlns:resources="clr-namespace:MapNotepad.Resources"
              x:Name="_this"
-             Title="My pins"
+             Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,8 +14,8 @@
             <RowDefinition Height="*" />
             
         </Grid.RowDefinitions>
-        
-        <SearchBar Placeholder="Pin name or..."
+
+        <SearchBar Placeholder="{x:Static resources:Resource.TextSearchBar}"
                    TextColor="Black"
                    Text="{Binding SearchBarText}"
                    Grid.Row="0"
@@ -25,8 +26,8 @@
                 
             </SearchBar.Behaviors>
         </SearchBar>
-        
-        <Label Text="Nothing here :("
+
+        <Label Text="{x:Static resources:Resource.EmptyListLabel}"
                HorizontalOptions="Center"
                VerticalOptions="Center"
                IsVisible="{Binding IsVisibleText, Mode=TwoWay}"
@@ -36,6 +37,7 @@
                   ItemsSource="{Binding PinsCollection}"
                   SelectionMode="Single"   
                   SelectedItem="{Binding ItemSelected}"
+                  IsVisible="{Binding IsVisibleList, Mode=TwoWay}"
                   Margin="0,0,0,0"
                   Grid.Row="1"
                   BackgroundColor="GhostWhite"
@@ -50,10 +52,10 @@
                 <DataTemplate>
                     <ViewCell Height="120">
                         <ViewCell.ContextActions >
-                            <MenuItem Text="Edit"
+                            <MenuItem Text="{x:Static resources:Resource.EditButton}"
                                       Command="{Binding BindingContext.EditTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
-                            <MenuItem Text="Delete"
+                            <MenuItem Text="{x:Static resources:Resource.DeleteButton}"
                                       Command="{Binding BindingContext.DeleteTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"/>
@@ -93,7 +95,7 @@
 
                                 <StackLayout Orientation="Vertical"
                                              WidthRequest="300">
-                                    <Label Text="Latitude" 
+                                    <Label Text="{x:Static resources:Resource.Latitude}" 
                                            FontAttributes="Bold"
                                            FontSize="17"
                                            HorizontalOptions="Center"
@@ -103,8 +105,8 @@
                                                FontSize="17" 
                                                FontAttributes="None"
                                                HorizontalOptions="Center"/>
-                                    
-                                    <Label Text="Longitude" 
+
+                                    <Label Text="{x:Static resources:Resource.Longitude}" 
                                            FontAttributes="Bold"
                                            FontSize="17"
                                            HorizontalOptions="Center"

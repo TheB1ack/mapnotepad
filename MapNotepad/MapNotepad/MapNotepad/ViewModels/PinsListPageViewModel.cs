@@ -43,6 +43,14 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isVisibleText, value);
         }
 
+        private bool _isVisibleList;
+        public bool IsVisibleList
+        {
+            get => _isVisibleList;
+
+            set => SetProperty(ref _isVisibleList, value);
+        }
+
         private CustomPin _itemSelected;
         public CustomPin ItemSelected
         {
@@ -118,13 +126,18 @@ namespace MapNotepad.ViewModels
         }
         private async void OnAddButtonClickCommand()
         {
-            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}");
+            NavigationParameters parameters = new NavigationParameters
+            {
+                { Constants.ACTION, "Add pin"}
+            };
+            await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
         }
         private async void OnEditTapCommand(CustomPin pin)
         {
             NavigationParameters parameters = new NavigationParameters
             {
-                { nameof(CustomPin), pin }
+                { nameof(CustomPin), pin },
+                { Constants.ACTION, "Edit pin"}
             };
 
             await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
@@ -164,16 +177,27 @@ namespace MapNotepad.ViewModels
             if (!PinsCollection.Any())
             {
                 IsVisibleText = true;
+                IsVisibleList = false;
             }
             else
             {
                 IsVisibleText = false;
+                IsVisibleList = true;
             }
         }
         private async void OnItemTappedCommand()
         {
             if (ItemSelected != null)
             {
+                if (!ItemSelected.IsFavourite)
+                {
+                    OnImageTapCommand(ItemSelected);
+                }
+                else
+                {
+                    Debug.WriteLine("pin is favourite");
+                }
+
                 ItemSelected.IsAnimated = true;
 
                 NavigationParameters parameters = new NavigationParameters
@@ -181,7 +205,7 @@ namespace MapNotepad.ViewModels
                     {nameof(CustomPin), ItemSelected }
                 };             
 
-                await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
             }
             else
             {

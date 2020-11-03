@@ -4,9 +4,10 @@
              xmlns:prism="http://prismlibrary.com"
              xmlns:controls="clr-namespace:MapNotepad.Control"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:resources="clr-namespace:MapNotepad.Resources"
              x:Class="MapNotepad.Views.MapPage"
              x:Name="_this"
-             Title="Map"
+             Title="{x:Static resources:Resource.MapTitle}"
              BackgroundColor="GhostWhite">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,7 +15,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <SearchBar Grid.Row="0"
-                   Placeholder="Pin name or..."
+                   Placeholder="{x:Static resources:Resource.TextSearchBar}"
                    BackgroundColor="GhostWhite"
                    Margin="0,0,0,0"
                    TextColor="Black"
@@ -57,7 +58,7 @@
                Padding="8"
                CornerRadius="25"
                Margin="0,0,0,10"
-               WidthRequest="230">
+               WidthRequest="260">
             <StackLayout HorizontalOptions="Center"
                              Orientation="Vertical">
                 <Label Text="{Binding FrameNameLable}"
@@ -71,7 +72,7 @@
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Center">
-                    <Label Text="Latitude: "
+                    <Label Text="{x:Static resources:Resource.Latitude}"
                                    FontAttributes="Bold"
                                    Margin="0,3,0,0"/>
 
@@ -82,7 +83,7 @@
 
                 <StackLayout Orientation="Horizontal"
                                  HorizontalOptions="Center">
-                    <Label Text="Longitude: "
+                    <Label Text="{x:Static resources:Resource.Longitude}"
                                FontAttributes="Bold"
                                Margin="0,3,0,0"/>
 

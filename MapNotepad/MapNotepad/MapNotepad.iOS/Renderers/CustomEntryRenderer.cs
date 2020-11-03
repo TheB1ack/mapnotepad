@@ -1,4 +1,5 @@
-﻿using MapNotepad.iOS.Renderers;
+﻿using CoreGraphics;
+using MapNotepad.iOS.Renderers;
 using MapNotepad.Renderer;
 using UIKit;
 using Xamarin.Forms;
@@ -17,8 +18,9 @@ namespace MapNotepad.iOS.Renderers
             if (Control != null)
             {
                 Control.BackgroundColor = UIColor.White;
-                Control.BorderStyle = UITextBorderStyle.RoundedRect;
-                Control.Layer.BorderColor = UIColor.Black.CGColor;
+                Control.Layer.CornerRadius = 3;
+                Control.Layer.BorderColor = UIColor.FromRGB(41, 214, 149).CGColor;
+                Control.Layer.BorderWidth = 3;
             }
 
         }
