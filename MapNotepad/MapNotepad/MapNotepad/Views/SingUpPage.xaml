@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com" 
              xmlns:renderer="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             xmlns:resources="clr-namespace:MapNotepad.Resources"
+             xmlns:resources="clr-namespace:MapNotepad.Resources" 
+             xmlns:effects="clr-namespace:MapNotepad.Effects"
              x:Class="MapNotepad.Views.SingUpPage"
              Title="{x:Static resources:Resource.CreateAccountTitle}">
     <StackLayout>
@@ -58,10 +59,13 @@
         <Button Command="{Binding SingUpButtonClickCommand}"
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text = "{x:Static resources:Resource.RegisterButton}" 
-                BackgroundColor="#29D695"
                 TextColor="Black"
                 CornerRadius ="10"
-                Margin="50, 40, 50, 0" />
-        
+                Margin="50, 40, 50, 0" >
+            <Button.Effects>
+                <effects:BackgroundEffect/>
+            </Button.Effects>
+        </Button>
+
     </StackLayout>
 </ContentPage>

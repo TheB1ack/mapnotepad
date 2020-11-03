@@ -25,6 +25,7 @@
                                               Command="{Binding UserSearchingCommand}"/>
 
             </SearchBar.Behaviors>
+
         </SearchBar>
 
         <controls:CustomMap Grid.Row="1"

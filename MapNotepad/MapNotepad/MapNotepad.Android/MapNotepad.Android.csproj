@@ -66,6 +66,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\BackgroundAndriodEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\CustomEditorRenderer.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />

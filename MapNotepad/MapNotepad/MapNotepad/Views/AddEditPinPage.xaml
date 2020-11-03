@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:resources="clr-namespace:MapNotepad.Resources" 
@@ -76,19 +75,25 @@
             </Entry>
 
         </StackLayout>
+        <Frame BorderColor="Black"
+               VerticalOptions="FillAndExpand"
+               Padding="0"
+               Margin="5,0,5,5">
+            <controls:CustomMap PinsSource="{Binding PinsCollection}"
+                                OnlyOneFocusedPin="{Binding MyFocusedPin}"
+                                Margin="10,10,10,10"
+                                IsVisible="{Binding IsMapVisible}"
+                                MyLocationEnabled="{Binding MyLocationEnabled}">
+                <controls:CustomMap.Behaviors>
+                    <prism:EventToCommandBehavior EventName="MapClicked" 
+                                                  Command="{Binding MapTappedCommad}"
+                                                  EventArgsParameterPath="Point"/>
 
-        <controls:CustomMap PinsSource="{Binding PinsCollection}"
-                           OnlyOneFocusedPin="{Binding MyFocusedPin}"
-                           Margin="10,10,10,10"
-                           IsVisible="{Binding IsMapVisible}"
-                           MyLocationEnabled="{Binding MyLocationEnabled}">
-            <map:Map.Behaviors>
-                <prism:EventToCommandBehavior EventName="MapClicked" 
-                                              Command="{Binding MapTappedCommad}"
-                                              EventArgsParameterPath="Point"/>
+                </controls:CustomMap.Behaviors>
                 
-            </map:Map.Behaviors>
-        </controls:CustomMap>
-        
+            </controls:CustomMap>
+            
+        </Frame>
+
     </StackLayout>
 </ContentPage>
