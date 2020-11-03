@@ -29,7 +29,8 @@ namespace MapNotepad.ViewModels
 
         private async void OnLogOutClickCommand()
         {
-            _authorizationService.LogOut();
+            await _authorizationService.LogOutAsync();
+
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SingInPage)}");
         }
 

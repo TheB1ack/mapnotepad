@@ -7,6 +7,6 @@ namespace MapNotepad.Services.Authorization
         bool IsAuthorized { get; }
         Task<bool> SignUpAsync(string userName, string userEmail, string userPassword);
         Task<bool> SignInAsync(string userEmail, string userPassword);
-        void LogOut();
+        Task LogOutAsync();
     }
 }

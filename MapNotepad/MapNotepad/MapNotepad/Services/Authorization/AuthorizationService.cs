@@ -68,14 +68,16 @@ namespace MapNotepad.Services.Authorization
             }
             else
             {
-                Debug.WriteLine("userResult war null or password doesn't match");
+                Debug.WriteLine("userResult was null or password doesn't match");
             }
 
             return isSignedIn;
         }
-        public void LogOut()
+        public Task LogOutAsync()
         {
             _settingsService.UserId = -1;
+
+            return Task.FromResult(true);
         }
 
         #endregion

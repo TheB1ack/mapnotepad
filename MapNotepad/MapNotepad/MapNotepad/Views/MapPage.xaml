@@ -34,7 +34,9 @@
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
                             BackgroundColor="GhostWhite"
-                            MyLocationEnabled="{Binding MyLocationEnabled}">
+                            MyLocationEnabled="{Binding MyLocationEnabled}"
+                            PinClicked="OnPinClicked"
+                            MapClicked="OnMapClicked">
             <controls:CustomMap.Behaviors>
                 <prism:EventToCommandBehavior EventName="CameraChanged"
                                               Command="{Binding CameraChangedCommand}"
@@ -44,22 +46,19 @@
                                               Command="{Binding PinClickCommand}"
                                               EventArgsParameterPath="Pin"/>
 
-                <prism:EventToCommandBehavior EventName="MapClicked"
-                                              Command="{Binding MapClickCommand}"/>
-
             </controls:CustomMap.Behaviors>
         </controls:CustomMap>
 
         <Frame Grid.Row="1"
                VerticalOptions="End"
-               IsVisible="{Binding IsVisibleFrame}"
                BackgroundColor="WhiteSmoke"
                HorizontalOptions="Center"
                BorderColor="Black"
                Padding="8"
                CornerRadius="25"
                Margin="0,0,0,10"
-               WidthRequest="260">
+               WidthRequest="260"
+               x:Name="frame">
             <StackLayout HorizontalOptions="Center"
                              Orientation="Vertical">
                 <Label Text="{Binding FrameNameLable}"
@@ -94,5 +93,6 @@
                 </StackLayout>
             </StackLayout>
         </Frame>
+        
     </Grid>
 </ContentPage>

@@ -74,14 +74,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _cameraPositionBinding, value);
         }
 
-        private bool _isVisibleFrame;
-        public bool IsVisibleFrame
-        {
-            get => _isVisibleFrame;
-
-            set => SetProperty(ref _isVisibleFrame, value);
-        }
-
         private string _frameNameLable;
         public string FrameNameLable
         {
@@ -128,14 +120,8 @@ namespace MapNotepad.ViewModels
         private ICommand _cameraChangedCommand;
         public ICommand CameraChangedCommand => _cameraChangedCommand ??= new Command<CameraPosition>(OnCameraChangedCommand);
 
-        private ICommand _closeFrameCommand;
-        public ICommand CloseFrameCommand => _closeFrameCommand ??= new Command(OnCloseFrameCommand);
-
         private ICommand _pinClickCommand;
         public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommandAsync);
-
-        private ICommand _mapClickCommand;
-        public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
 
         #endregion
 
@@ -151,7 +137,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                SetSavedPosition();
+               SetSavedPosition();
             }
 
         }
@@ -218,18 +204,6 @@ namespace MapNotepad.ViewModels
         {
             MyLocationEnabled = isSet;
         }
-        private void OnMapClickCommand()
-        {
-            if (IsVisibleFrame)
-            {
-                IsVisibleFrame = false;
-            }
-            else
-            {
-                Debug.WriteLine("IsVisibleFrame was false");
-            }
-
-        }
         private async void OnPinClickCommandAsync(Pin pin)
         {
             var items = await _pinService.GetPinsAsync();
@@ -241,25 +215,20 @@ namespace MapNotepad.ViewModels
                 FrameDescriptionLabel = tappedPin.Description;
                 FrameLatitudeLabel = tappedPin.PositionLat.ToString();
                 FrameLongitudeLabel = tappedPin.PositionLong.ToString();
-                IsVisibleFrame = true;
             }
             else
             {
-                Debug.WriteLine("Searched pin by name eas null");
+                Debug.WriteLine("Searched pin by name was null");
             }
 
-        }
-        private void OnCloseFrameCommand()
-        {
-            IsVisibleFrame = false;
         }
         private void OnCameraChangedCommand(CameraPosition position)
         {
             _mapService.SaveMapPosition(position);
         }
-        private void SetSavedPosition()
+        private async void SetSavedPosition()
         {
-            CameraPositionBinding = _mapService.GetSavedMapPosition();
+            CameraPositionBinding = await _mapService.GetSavedMapPosition();
         }
         private async Task SetMapPinsAsync()
         {

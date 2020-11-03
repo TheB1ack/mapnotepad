@@ -1,10 +1,11 @@
-﻿using Xamarin.Forms.GoogleMaps;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.Services.Map
 {
     public interface IMapService
     {
-        void SaveMapPosition(CameraPosition position);
-        CameraPosition GetSavedMapPosition();
+        Task SaveMapPosition(CameraPosition position);
+        Task<CameraPosition> GetSavedMapPosition();
     }
 }
