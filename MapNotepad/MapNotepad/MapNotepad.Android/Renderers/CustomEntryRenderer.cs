@@ -7,8 +7,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.Graphics.Drawables.Shapes;
 using MapNotepad.Controls;
-using System.Diagnostics;
-using Android.OS;
 
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
 namespace MapNotepad.Droid.Renderers
@@ -36,8 +34,6 @@ namespace MapNotepad.Droid.Renderers
                     5, 5,
                     5, 5
                 };
-
-                Control.Background = new ColorDrawable(Android.Graphics.Color.White);
 
                 if (Control is EditText nativeEditText)
                 { 

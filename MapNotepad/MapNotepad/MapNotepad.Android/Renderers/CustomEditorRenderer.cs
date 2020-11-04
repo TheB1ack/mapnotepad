@@ -38,8 +38,6 @@ namespace MapNotepad.Droid.Renderers
                     5, 5
                 };
 
-                Control.Background = new ColorDrawable(Android.Graphics.Color.White);
-
                 if (Control is EditText nativeEditText)
                 {
                     var shape = new ShapeDrawable(new RoundRectShape(cornersOut, new RectF(15, 15, 15, 15), cornersIn));

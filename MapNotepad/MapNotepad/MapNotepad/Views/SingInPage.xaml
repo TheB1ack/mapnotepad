@@ -5,7 +5,6 @@
              xmlns:renderer="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:resources="clr-namespace:MapNotepad.Resources" 
-             xmlns:effects="clr-namespace:MapNotepad.Effects"
              x:Class="MapNotepad.Views.SingInPage"
              Title="{x:Static resources:Resource.LoginTitle}">
     <StackLayout>
@@ -38,12 +37,9 @@
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text="{x:Static resources:Resource.LoginButton}" 
                 TextColor="Black"
+                BackgroundColor="#29D695"
                 CornerRadius ="10"
-                Margin="50, 50, 50, 0">
-            <Button.Effects>
-                <effects:BackgroundEffect/>
-            </Button.Effects>
-        </Button>
+                Margin="50, 50, 50, 0"/>
 
         <Label Text="{x:Static resources:Resource.DontHaveAccLabel}"
                TextColor="Black"
@@ -52,12 +48,9 @@
         <Button Command ="{Binding CreateAccountButtonClickCommand}" 
                 Text="{x:Static resources:Resource.CreateAccountButton}"
                 TextColor="Black"
+                BackgroundColor="#29D695"
                 CornerRadius ="10"
-                Margin="50, 0, 50, 0">
-            <Button.Effects>
-                <effects:BackgroundEffect/>
-            </Button.Effects>
-        </Button>
+                Margin="50, 0, 50, 0"/>
 
     </StackLayout>
 </ContentPage>

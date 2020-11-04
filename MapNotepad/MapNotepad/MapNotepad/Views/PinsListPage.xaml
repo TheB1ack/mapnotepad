@@ -127,6 +127,7 @@
         </ListView>
 
         <ImageButton Source="ic_add.png"
+                     BackgroundColor="#29D695"
                      Grid.Row="1"
                      HorizontalOptions="End"
                      WidthRequest="70" 
@@ -135,11 +136,7 @@
                      VerticalOptions="End"
                      CornerRadius ="35"
                      Command="{Binding AddButtonClickCommand}"           
-                     Padding="19">
-            <ImageButton.Effects>
-                <effects:BackgroundEffect/>
-            </ImageButton.Effects>
-        </ImageButton>
+                     Padding="19"/>
 
     </Grid>
 </ContentPage>

@@ -19,7 +19,8 @@
                    BackgroundColor="GhostWhite"
                    Margin="0,0,0,0"
                    TextColor="Black"
-                   Text="{Binding SearchBarText}">
+                   Text="{Binding SearchBarText}"
+                   x:Name="searchbar">
             <SearchBar.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged" 
                                               Command="{Binding UserSearchingCommand}"/>
@@ -34,9 +35,7 @@
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
                             BackgroundColor="GhostWhite"
-                            MyLocationEnabled="{Binding MyLocationEnabled}"
-                            PinClicked="OnPinClicked"
-                            MapClicked="OnMapClicked">
+                            MyLocationEnabled="{Binding IsMyLocationEnabled}">
             <controls:CustomMap.Behaviors>
                 <prism:EventToCommandBehavior EventName="CameraChanged"
                                               Command="{Binding CameraChangedCommand}"
@@ -46,53 +45,56 @@
                                               Command="{Binding PinClickCommand}"
                                               EventArgsParameterPath="Pin"/>
 
+                <prism:EventToCommandBehavior EventName="MapClicked"
+                                              Command="{Binding MapClickCommand}"/>
+
             </controls:CustomMap.Behaviors>
         </controls:CustomMap>
 
-        <Frame Grid.Row="1"
-               VerticalOptions="End"
-               BackgroundColor="WhiteSmoke"
-               HorizontalOptions="Center"
-               BorderColor="Black"
-               Padding="8"
-               CornerRadius="25"
-               Margin="0,0,0,10"
-               WidthRequest="260"
-               x:Name="frame">
+        <controls:CustomFrame Grid.Row="1"
+                              VerticalOptions="End"
+                              BackgroundColor="WhiteSmoke"
+                              HorizontalOptions="Center"
+                              BorderColor="Black"
+                              Padding="8"
+                              CornerRadius="25"
+                              WidthRequest="260"
+                              x:Name="frame"
+                              IsMoveFrame="{Binding IsFrameShowed}">
             <StackLayout HorizontalOptions="Center"
-                             Orientation="Vertical">
+                         Orientation="Vertical">
                 <Label Text="{Binding FrameNameLable}"
-                           Margin="0,0,0,0"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"/>
+                       Margin="0,0,0,0"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
 
                 <Label Text="{Binding FrameDescriptionLabel}"
-                               HorizontalOptions="Center"
-                               Margin="0,3,0,0"/>
+                       HorizontalOptions="Center"
+                       Margin="0,3,0,0"/>
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Center">
                     <Label Text="{x:Static resources:Resource.Latitude}"
-                                   FontAttributes="Bold"
-                                   Margin="0,3,0,0"/>
+                           FontAttributes="Bold"
+                           Margin="0,3,0,0"/>
 
                     <Label Text="{Binding FrameLatitudeLabel}"
-                                   Margin="0,3,0,0"/>
+                           Margin="0,3,0,0"/>
 
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="Center">
+                             HorizontalOptions="Center">
                     <Label Text="{x:Static resources:Resource.Longitude}"
-                               FontAttributes="Bold"
-                               Margin="0,3,0,0"/>
+                           FontAttributes="Bold"
+                           Margin="0,3,0,0"/>
 
                     <Label Text="{Binding FrameLongitudeLabel}"
-                               Margin="0,3,0,0"/>
+                           Margin="0,3,0,0"/>
 
                 </StackLayout>
             </StackLayout>
-        </Frame>
-        
+        </controls:CustomFrame>
+
     </Grid>
 </ContentPage>

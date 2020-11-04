@@ -10,21 +10,7 @@ namespace MapNotepad.Views
         public MapPage()
         {
             InitializeComponent();
-            this.frame.TranslateTo(0,150);
+            frame.TranslateTo(0, 150, 0);
         }
-
-        #region -- Private helpers --
-
-        private void OnPinClicked(object sender, PinClickedEventArgs args)
-        {
-            this.frame.TranslateTo(0, 0, 600);
-        }
-        private void OnMapClicked(object sender, MapClickedEventArgs args)
-        {
-            this.frame.TranslateTo(0, 150, 600);
-        }
-
-        #endregion
-
     }
 }

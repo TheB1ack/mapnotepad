@@ -70,7 +70,6 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Effects\BackgroundiOSEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomEditorRenderer.cs" />
@@ -163,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\full_heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

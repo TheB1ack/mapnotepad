@@ -120,6 +120,21 @@
   <data name="AddPinTitle" xml:space="preserve">
     <value>Add new Pin</value>
   </data>
+  <data name="AndroidLocationAlert" xml:space="preserve">
+    <value>To work correctly app needs' your location!</value>
+  </data>
+  <data name="BadEmailAlert" xml:space="preserve">
+    <value>Email is not valid</value>
+  </data>
+  <data name="BadPasswordAlert" xml:space="preserve">
+    <value>Password must contain one capital letter, one number, mus't contain spaces and be between 4 and 20 characters long!</value>
+  </data>
+  <data name="BadPasswordEmailAlert" xml:space="preserve">
+    <value>Incorrect password or email!</value>
+  </data>
+  <data name="BadUserNameAlert" xml:space="preserve">
+    <value>Name must be between 1 and 20 characters long!</value>
+  </data>
   <data name="CPasswordPlaceholder" xml:space="preserve">
     <value>Confirm password</value>
   </data>
@@ -150,8 +165,14 @@
   <data name="EmptyListLabel" xml:space="preserve">
     <value>Nothing here :(</value>
   </data>
+  <data name="ExistEmailAlert" xml:space="preserve">
+    <value>This Email is already taken!</value>
+  </data>
   <data name="ExistNameAlert" xml:space="preserve">
     <value>Pins' name is already exist!</value>
+  </data>
+  <data name="IOSLocationAlert" xml:space="preserve">
+    <value>To work correctly app needs' your location! Please, go to settings and enable it!</value>
   </data>
   <data name="Latitude" xml:space="preserve">
     <value>Latitude</value>
@@ -194,6 +215,9 @@
   </data>
   <data name="PasswordPlaceholder" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PasswordsNotMatchAlert" xml:space="preserve">
+    <value>Passwords must match!</value>
   </data>
   <data name="PinNameAlert" xml:space="preserve">
     <value>Field Pin name musn't be empty!</value>

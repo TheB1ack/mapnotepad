@@ -2,15 +2,12 @@
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Prism.Navigation;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.ViewModels
 {
@@ -56,7 +53,7 @@ namespace MapNotepad.ViewModels
         {
             get => _itemSelected;
 
-            set => _itemSelected = value;
+            set => SetProperty(ref _itemSelected, value);
         }
 
         private string _searchBarText;
@@ -76,37 +73,37 @@ namespace MapNotepad.ViewModels
         }
 
         private ICommand _editTapCommand;
-        public ICommand EditTapCommand => _editTapCommand ??= new Command<CustomPin>(OnEditTapCommand);
+        public ICommand EditTapCommand => _editTapCommand ??= new Command<CustomPin>(OnEditTapCommandAsync);
 
         private ICommand _deleteTapCommand;
-        public ICommand DeleteTapCommand => _deleteTapCommand ??= new Command<CustomPin>(OnDeleteTapCommand);
+        public ICommand DeleteTapCommand => _deleteTapCommand ??= new Command<CustomPin>(OnDeleteTapCommandAsync);
 
         private ICommand _addButtonClickCommand;
-        public ICommand AddButtonClickCommand => _addButtonClickCommand ??= new Command(OnAddButtonClickCommand);
+        public ICommand AddButtonClickCommand => _addButtonClickCommand ??= new Command(OnAddButtonClickCommandAsync);
 
         private ICommand _userSearchingCommand;
-        public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommand);
+        public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommandAsync);
 
         private ICommand _imageTapCommand;
-        public ICommand ImageTapCommand => _imageTapCommand ??= new Command<CustomPin>(OnImageTapCommand);
+        public ICommand ImageTapCommand => _imageTapCommand ??= new Command<CustomPin>(OnImageTapCommandAsync);
 
         private ICommand _itemTappedCommand;
-        public ICommand ItemTappedCommand => _itemTappedCommand ??= new Command(OnItemTappedCommand);
+        public ICommand ItemTappedCommand => _itemTappedCommand ??= new Command(OnItemTappedCommandAsync);
 
         #endregion
 
         #region -- IterfaceName implementation --
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            await CollectionResizeAsync();
+            CollectionResizeAsync();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void OnImageTapCommand(CustomPin pin)
+        private async void OnImageTapCommandAsync(CustomPin pin)
         {
             if (pin.IsFavourite)
             {
@@ -124,7 +121,8 @@ namespace MapNotepad.ViewModels
 
             PinsCollection = new ObservableCollection<CustomPin>(items);
         }
-        private async void OnAddButtonClickCommand()
+
+        private async void OnAddButtonClickCommandAsync()
         {
             NavigationParameters parameters = new NavigationParameters
             {
@@ -132,7 +130,8 @@ namespace MapNotepad.ViewModels
             };
             await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
         }
-        private async void OnEditTapCommand(CustomPin pin)
+
+        private async void OnEditTapCommandAsync(CustomPin pin)
         {
             NavigationParameters parameters = new NavigationParameters
             {
@@ -142,13 +141,15 @@ namespace MapNotepad.ViewModels
 
             await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
         }
-        private async void OnDeleteTapCommand(CustomPin pin)
+
+        private async void OnDeleteTapCommandAsync(CustomPin pin)
         {
             await _pinService.RemovePinAsync(pin);
 
-            await CollectionResizeAsync();
+             CollectionResizeAsync();
         }
-        private async void OnUserSearchingCommand()
+
+        private async void OnUserSearchingCommandAsync()
         {
             IEnumerable<CustomPin> items;
 
@@ -165,13 +166,15 @@ namespace MapNotepad.ViewModels
 
             PinsCollection = new ObservableCollection<CustomPin>(items);
         }
-        private async Task CollectionResizeAsync()
+
+        private async void CollectionResizeAsync()
         {
             var items = await _pinService.GetPinsAsync();
             PinsCollection = new ObservableCollection<CustomPin>(items);
 
             CheckCollectionSize();
         }
+
         private void CheckCollectionSize()
         {
             if (!PinsCollection.Any())
@@ -185,13 +188,14 @@ namespace MapNotepad.ViewModels
                 IsVisibleList = true;
             }
         }
-        private async void OnItemTappedCommand()
+
+        private async void OnItemTappedCommandAsync()
         {
             if (ItemSelected != null)
             {
                 if (!ItemSelected.IsFavourite)
                 {
-                    OnImageTapCommand(ItemSelected);
+                    OnImageTapCommandAsync(ItemSelected);
                 }
                 else
                 {

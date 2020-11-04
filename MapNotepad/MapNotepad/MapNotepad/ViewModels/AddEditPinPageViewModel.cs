@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Forms.Internals;
 
 namespace MapNotepad.ViewModels
 {
@@ -125,14 +124,13 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isEntryVisible, value);
         }
 
-        private bool _myLocationEnabled;
-        public bool MyLocationEnabled
+        private bool _isMyLocationEnabled;
+        public bool IsMyLocationEnabled
         {
-            get => _myLocationEnabled;
+            get => _isMyLocationEnabled;
 
-            set => SetProperty(ref _myLocationEnabled, value);
+            set => SetProperty(ref _isMyLocationEnabled, value);
         }
-
 
         private ICommand _mapTappedCommad;
         public ICommand MapTappedCommad => _mapTappedCommad ??= new Command<Position>(OnMapTappedCommand);
@@ -157,18 +155,13 @@ namespace MapNotepad.ViewModels
             {
                 Title = action;
             }
-            else
-            {
-                Debug.WriteLine("Parameter is missing - Action");
-            }
-
-            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
+            else if(parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 FillData(pin);
             }
             else
             {
-                Debug.WriteLine("Parameter is missing - CustomPin");
+                Debug.WriteLine("Missing parameters");
             }
 
         }
@@ -192,6 +185,7 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private void ChangePinPlace()
         {
             if (PinsCollection.Any())
@@ -205,6 +199,7 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private void OnMapTappedCommand(Position clickPosition)
         {
             CustomPin pin = new CustomPin
@@ -222,6 +217,7 @@ namespace MapNotepad.ViewModels
                 pin
             };
         }
+
         private async void OnSaveClickCommand()
         {
             var isValidEntry = await EntryCheckAsync();
@@ -261,7 +257,8 @@ namespace MapNotepad.ViewModels
                 {
                     string alertText = Resources.Resource.ExistNameAlert;
                     string button = Resources.Resource.OkButton;
-                    _userDialogs.Alert(alertText, string.Empty, button);
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
 
             }
@@ -271,6 +268,7 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private async Task<bool> EntryCheckAsync()
         {
             var isValid = true;
@@ -306,6 +304,7 @@ namespace MapNotepad.ViewModels
 
             return isValid;
         }
+
         private async Task<bool> CheckLatLongAsync()
         {
             var isValid = true;
@@ -333,6 +332,7 @@ namespace MapNotepad.ViewModels
 
             return isValid;
         }
+
         private void FillData(CustomPin pin)
         {
             OldName = pin.Name;
@@ -364,7 +364,7 @@ namespace MapNotepad.ViewModels
         }
         private void SetLocationEnable(bool isSet)
         {
-            MyLocationEnabled = isSet;
+            IsMyLocationEnabled = isSet;
         }
 
         #endregion

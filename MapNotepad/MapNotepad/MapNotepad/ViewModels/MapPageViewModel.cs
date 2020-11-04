@@ -5,16 +5,13 @@ using MapNotepad.Services.Permissions;
 using MapNotepad.Services.Pins;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Prism;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace MapNotepad.ViewModels
 {
@@ -41,6 +38,14 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
+   
+        private bool _isFrameShowed;
+        public bool IsFrameShowed
+        {
+            get => _isFrameShowed;
+
+            set => SetProperty(ref _isFrameShowed, value);
+        }
 
         private CustomPin _myFocusedPin;
         public CustomPin MyFocusedPin
@@ -106,12 +111,12 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _frameLongitudeLabel, value);
         }
 
-        private bool _myLocationEnabled;
-        public bool MyLocationEnabled
+        private bool _isMyLocationEnabled;
+        public bool IsMyLocationEnabled
         {
-            get => _myLocationEnabled;
+            get => _isMyLocationEnabled;
 
-            set => SetProperty(ref _myLocationEnabled, value);
+            set => SetProperty(ref _isMyLocationEnabled, value);
         }
 
         private ICommand _userSearchingCommand;
@@ -122,14 +127,17 @@ namespace MapNotepad.ViewModels
 
         private ICommand _pinClickCommand;
         public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommandAsync);
+        
+        private ICommand _mapClickCommand;
+        public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
 
         #endregion
 
         #region -- IterfaceName implementation --
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            await SetMapPinsAsync();
+            SetMapPinsAsync();
 
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
@@ -142,22 +150,35 @@ namespace MapNotepad.ViewModels
 
         }
 
-        public async override void Initialize(INavigationParameters parameters)
+        public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            await CheckLocationPermissionsAsync();
+            IsFrameShowed = false;
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async Task CheckLocationPermissionsAsync()
+        private void OnMapClickCommand()
+        {
+            if (IsFrameShowed)
+            {
+                IsFrameShowed = false;
+            }
+            else
+            {
+                Debug.WriteLine("IsFrameShowed was false");
+            }
+
+        }
+
+        private async void CheckLocationPermissionsAsync()
         {
             var status = await _permissionsService.CheckPermissionsAsync<LocationPermission>();
 
             if (status != PermissionStatus.Granted)
             { 
-                await SetLocationPermissions();
+                SetLocationPermissionsAsync();
             }
             else
             {
@@ -165,7 +186,8 @@ namespace MapNotepad.ViewModels
             }
 
         }
-        private async Task SetLocationPermissions()
+
+        private async void SetLocationPermissionsAsync()
         {
             var status = await _permissionsService.RequestPermissionsAsync<LocationPermission>();
 
@@ -175,14 +197,25 @@ namespace MapNotepad.ViewModels
 
                 if (device == Device.Android)
                 {
-                    await _userDialogs.AlertAsync("To work correctly app needs' your location!", string.Empty, "OK");
+                    string alertText = Resources.Resource.AndroidLocationAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+
+                    status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
                 }
                 else if (device == Device.iOS)
                 {
-                    await _userDialogs.AlertAsync("To work correctly app needs' your location! Please, go to settings and enable it!", string.Empty, "OK");
-                }
+                    string alertText = Resources.Resource.IOSLocationAlert;
+                    string button = Resources.Resource.OkButton;
 
-                status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                }
+                else
+                {
+                    Debug.WriteLine("Device wasn't android or ios");
+                }
+   
             }
 
             if (status == PermissionStatus.Granted)
@@ -200,10 +233,12 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private void SetLocationEnable(bool isSet)
         {
-            MyLocationEnabled = isSet;
+            IsMyLocationEnabled = isSet;
         }
+
         private async void OnPinClickCommandAsync(Pin pin)
         {
             var items = await _pinService.GetPinsAsync();
@@ -215,6 +250,8 @@ namespace MapNotepad.ViewModels
                 FrameDescriptionLabel = tappedPin.Description;
                 FrameLatitudeLabel = tappedPin.PositionLat.ToString();
                 FrameLongitudeLabel = tappedPin.PositionLong.ToString();
+
+                IsFrameShowed = true;
             }
             else
             {
@@ -222,21 +259,25 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private void OnCameraChangedCommand(CameraPosition position)
         {
             _mapService.SaveMapPosition(position);
         }
-        private async void SetSavedPosition()
+
+        private void SetSavedPosition()
         {
-            CameraPositionBinding = await _mapService.GetSavedMapPosition();
+            CameraPositionBinding = _mapService.GetSavedMapPosition();
         }
-        private async Task SetMapPinsAsync()
+
+        private async void SetMapPinsAsync()
         {
             var items = await _pinService.GetPinsAsync();
             var favouriteItems = items.Where(x => x.IsFavourite);
 
             PinsCollection = new ObservableCollection<CustomPin>(favouriteItems);
         }
+
         private async void OnUserSearchingCommandAsync()
         {
             if (!string.IsNullOrWhiteSpace(SearchBarText))
@@ -246,7 +287,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                await SetMapPinsAsync();
+                SetMapPinsAsync();
             }
         }
 

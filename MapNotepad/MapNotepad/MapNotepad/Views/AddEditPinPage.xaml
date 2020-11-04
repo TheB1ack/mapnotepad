@@ -75,6 +75,7 @@
             </Entry>
 
         </StackLayout>
+        
         <Frame BorderColor="Black"
                VerticalOptions="FillAndExpand"
                Padding="0"
@@ -83,16 +84,14 @@
                                 OnlyOneFocusedPin="{Binding MyFocusedPin}"
                                 Margin="10,10,10,10"
                                 IsVisible="{Binding IsMapVisible}"
-                                MyLocationEnabled="{Binding MyLocationEnabled}">
+                                MyLocationEnabled="{Binding IsMyLocationEnabled}">
                 <controls:CustomMap.Behaviors>
                     <prism:EventToCommandBehavior EventName="MapClicked" 
                                                   Command="{Binding MapTappedCommad}"
                                                   EventArgsParameterPath="Point"/>
 
                 </controls:CustomMap.Behaviors>
-                
             </controls:CustomMap>
-            
         </Frame>
 
     </StackLayout>

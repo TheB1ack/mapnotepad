@@ -12,14 +12,13 @@ namespace MapNotepad.Services.MapService
         {
             _settingsService = settingsService;
         }
-        public async Task SaveMapPosition(CameraPosition position)
+        public void SaveMapPosition(CameraPosition position)
         {
             _settingsService.MapLatitude = position.Target.Latitude;
             _settingsService.MapLongitude = position.Target.Longitude;
             _settingsService.MapZoom = position.Zoom;
-
         }
-        public async Task<CameraPosition> GetSavedMapPosition()
+        public CameraPosition GetSavedMapPosition()
         {
             CameraPosition newCameraPosition;
 

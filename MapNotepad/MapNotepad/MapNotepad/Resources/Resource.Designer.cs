@@ -70,6 +70,51 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To work correctly app needs&apos; your location!.
+        /// </summary>
+        public static string AndroidLocationAlert {
+            get {
+                return ResourceManager.GetString("AndroidLocationAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is not valid.
+        /// </summary>
+        public static string BadEmailAlert {
+            get {
+                return ResourceManager.GetString("BadEmailAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain one capital letter, one number, mus&apos;t contain spaces and be between 4 and 20 characters long!.
+        /// </summary>
+        public static string BadPasswordAlert {
+            get {
+                return ResourceManager.GetString("BadPasswordAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect password or email!.
+        /// </summary>
+        public static string BadPasswordEmailAlert {
+            get {
+                return ResourceManager.GetString("BadPasswordEmailAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name must be between 1 and 20 characters long!.
+        /// </summary>
+        public static string BadUserNameAlert {
+            get {
+                return ResourceManager.GetString("BadUserNameAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         public static string CPasswordPlaceholder {
@@ -160,11 +205,29 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This Email is already taken!.
+        /// </summary>
+        public static string ExistEmailAlert {
+            get {
+                return ResourceManager.GetString("ExistEmailAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pins&apos; name is already exist!.
         /// </summary>
         public static string ExistNameAlert {
             get {
                 return ResourceManager.GetString("ExistNameAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To work correctly app needs&apos; your location! Please, go to settings and enable it!.
+        /// </summary>
+        public static string IOSLocationAlert {
+            get {
+                return ResourceManager.GetString("IOSLocationAlert", resourceCulture);
             }
         }
         
@@ -291,6 +354,15 @@ namespace MapNotepad.Resources {
         public static string PasswordPlaceholder {
             get {
                 return ResourceManager.GetString("PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must match!.
+        /// </summary>
+        public static string PasswordsNotMatchAlert {
+            get {
+                return ResourceManager.GetString("PasswordsNotMatchAlert", resourceCulture);
             }
         }
         

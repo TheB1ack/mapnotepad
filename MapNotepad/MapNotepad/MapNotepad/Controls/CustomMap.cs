@@ -107,7 +107,6 @@ namespace MapNotepad.Controls
             }
 
         }
-
         private static void OnFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
             var map = bindable as CustomMap;
@@ -123,7 +122,6 @@ namespace MapNotepad.Controls
             }
 
         }
-
         private static void OnOnlyOneFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
 

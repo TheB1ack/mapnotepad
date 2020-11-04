@@ -73,11 +73,9 @@ namespace MapNotepad.Services.Authorization
 
             return isSignedIn;
         }
-        public Task LogOutAsync()
+        public void LogOut()
         {
             _settingsService.UserId = -1;
-
-            return Task.FromResult(true);
         }
 
         #endregion

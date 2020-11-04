@@ -9,16 +9,17 @@ namespace MapNotepad.Services.Repository
 {
     public class RepositoryService : IRepositoryService
     {
+        private readonly string _path;
 
         public RepositoryService()
-        {       
-
+        {
+            _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME);
         }
 
         #region -- Public properties --
 
         private SQLiteAsyncConnection _database;
-        public SQLiteAsyncConnection dataBase => _database ??= new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME));
+        public SQLiteAsyncConnection dataBase => _database ??= new SQLiteAsyncConnection(_path);
 
         #endregion
 

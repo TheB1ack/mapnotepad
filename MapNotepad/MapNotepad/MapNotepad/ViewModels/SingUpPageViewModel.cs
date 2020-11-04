@@ -1,9 +1,9 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Services.Authorization;
+using MapNotepad.Validators;
 using Prism.Navigation;
-using System;
 using System.Diagnostics;
-using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -21,16 +21,53 @@ namespace MapNotepad.ViewModels
         {
             _authorizationService = authorizationService;
             _userDialogs = userDialogs;
+
+            IsUsernameValid = true;
+            IsEmailValid = true;
+            IsPasswordValid = true;
+            IsSPasswordValid = true;
         }
 
         #region -- Public properties --
+
+        private bool _isUsernameValid;
+        public bool IsUsernameValid
+        {
+            get => _isUsernameValid;
+
+            set => SetProperty(ref _isUsernameValid, value);
+        }
+
+        private bool _isEmailValid;
+        public bool IsEmailValid
+        {
+            get => _isEmailValid;
+
+            set => SetProperty(ref _isEmailValid, value);
+        }
+
+        private bool _isPasswordValid;
+        public bool IsPasswordValid
+        {
+            get => _isPasswordValid;
+
+            set => SetProperty(ref _isPasswordValid, value);
+        }
+
+        private bool _isSPasswordValid;
+        public bool IsSPasswordValid
+        {
+            get => _isSPasswordValid;
+
+            set => SetProperty(ref _isSPasswordValid, value);
+        }
 
         private string _usernameEntry;
         public string UsernameEntry
         {
             get => _usernameEntry;
 
-            set => _usernameEntry = value;
+            set => SetProperty(ref _usernameEntry, value);
         }
 
         private string _emailEntry;
@@ -38,7 +75,7 @@ namespace MapNotepad.ViewModels
         {
             get => _emailEntry;
 
-            set => _emailEntry = value;
+            set => SetProperty(ref _emailEntry, value);
         }
 
         private string _passwordEntry;
@@ -77,9 +114,9 @@ namespace MapNotepad.ViewModels
 
         private void OnTextChangedCommand()
         {
-            IsButtonEnable = TryActivateButton();
+            IsButtonEnable = ActivateButton();
         }
-        private bool TryActivateButton()
+        private bool ActivateButton()
         {
             var isValid = true;
 
@@ -100,7 +137,9 @@ namespace MapNotepad.ViewModels
         }
         private async void OnSingUpButtonClickCommandAsync()
         {
-            if (CheckUserInput())
+            var isValid = await CheckUserInputAsync();
+
+            if (isValid)
             {
                 var isSignedUp = await _authorizationService.SignUpAsync(UsernameEntry, EmailEntry, PasswordEntry);
 
@@ -108,62 +147,87 @@ namespace MapNotepad.ViewModels
                 {
                     NavigationParameters parameters = new NavigationParameters
                     {
-                        {"Email",  EmailEntry}
+                        {Constants.EMAIL,  EmailEntry}
                     };
 
                     await _navigationService.GoBackAsync(parameters);
                 }
                 else
                 {
-                   await _userDialogs.AlertAsync("This Email is already taken!", "", "OK");
+                    string alertText = Resources.Resource.ExistEmailAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
+
             }
             else
             {
                 Debug.WriteLine("CheckUserInput method returned false");
             }
-        }
-        private bool CheckUserInput() //need to be reworked
-        {
-            bool isValid = true;
 
-            if (UsernameEntry.Length <= 3 || UsernameEntry.Length >= 15)
+        }
+
+        private async Task<bool> CheckUserInputAsync()
+        {
+            IsUsernameValid = true;
+            IsEmailValid = true;
+            IsPasswordValid = true;
+            IsSPasswordValid = true;
+
+            var isValid = false;
+
+            var usernameResult = Validator.UserNameValidator(UsernameEntry);
+            var emailResult = Validator.EmailValidator(EmailEntry);
+            var passwordResult = Validator.PasswordValidator(PasswordEntry);
+
+            if (!usernameResult)
             {
-                _userDialogs.Alert("Name must be between 3 and 15 characters long!", "", "OK");
                 isValid = false;
+                IsUsernameValid = false;
+
+                string alertText = Resources.Resource.BadUserNameAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
             }
-            else if (!EmailValidation(EmailEntry))
+            else if(!emailResult)
             {
-                _userDialogs.Alert("Email is not valid", "", "OK");
                 isValid = false;
+                IsEmailValid = false;
+
+                string alertText = Resources.Resource.BadEmailAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
             }
-            else if (!System.Text.RegularExpressions.Regex.IsMatch(PasswordEntry, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || PasswordEntry.Length <= 4 || PasswordEntry.Length >= 20) // regex
+            else if (!passwordResult)
             {
-                _userDialogs.Alert("Password must contain one capital letter, one number and be between 4 and 20 characters long!", "", "OK");
                 isValid = false;
+                IsPasswordValid = false;
+
+                string alertText = Resources.Resource.BadPasswordAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
             }
-            else if (PasswordEntry != SPasswordEntry)
+            else if(PasswordEntry != SPasswordEntry)
             {
-                _userDialogs.Alert("Passwords must match!", "", "OK");
                 isValid = false;
+                IsSPasswordValid = false;
+
+                string alertText = Resources.Resource.PasswordsNotMatchAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
+            }
+            else
+            {
+                isValid = true;
             }
 
             return isValid;
-        }
-        private bool EmailValidation(string email) //need to be reworked
-        {
-            bool isValid = true;
-            try
-            {
-                var mail = new MailAddress(email);
-            }
-            catch
-            {
-                isValid = false;
-            }
-
-            return isValid;
-        }
+        } 
 
         #endregion
 

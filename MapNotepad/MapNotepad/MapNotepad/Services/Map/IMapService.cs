@@ -5,7 +5,7 @@ namespace MapNotepad.Services.Map
 {
     public interface IMapService
     {
-        Task SaveMapPosition(CameraPosition position);
-        Task<CameraPosition> GetSavedMapPosition();
+        void SaveMapPosition(CameraPosition position);
+        CameraPosition GetSavedMapPosition();
     }
 }

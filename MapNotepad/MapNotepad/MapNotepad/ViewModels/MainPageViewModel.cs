@@ -1,5 +1,4 @@
 ﻿using MapNotepad.Services.Authorization;
-using MapNotepad.Services.Permissions;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System.Windows.Input;
@@ -21,15 +20,15 @@ namespace MapNotepad.ViewModels
         #region -- Public properties --
 
         private ICommand _logOutClickCommand;
-        public ICommand LogOutClickCommand => _logOutClickCommand ??= new Command(OnLogOutClickCommand);
+        public ICommand LogOutClickCommand => _logOutClickCommand ??= new Command(OnLogOutClickCommandAsync);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void OnLogOutClickCommand()
+        private async void OnLogOutClickCommandAsync()
         {
-            await _authorizationService.LogOutAsync();
+            _authorizationService.LogOut();
 
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SingInPage)}");
         }

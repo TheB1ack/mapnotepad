@@ -2,7 +2,6 @@
 using MapNotepad.Services.Authorization;
 using MapNotepad.Views;
 using Prism.Navigation;
-using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -62,7 +61,7 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if(parameters.TryGetValue("Email", out string email))
+            if(parameters.TryGetValue(Constants.EMAIL, out string email))
             {
                 EmailEntry = email;
             }
@@ -106,7 +105,10 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                await _userDialogs.AlertAsync("Incorrect password or email!", "", "OK"); 
+                string alertText = Resources.Resource.BadPasswordEmailAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);  
                 PasswordEntry = string.Empty;
             }
         }
