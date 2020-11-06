@@ -179,6 +179,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\Search_Settings.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\List.png" />
+  </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarMapNotepadiOSHideInfoBar="True" />

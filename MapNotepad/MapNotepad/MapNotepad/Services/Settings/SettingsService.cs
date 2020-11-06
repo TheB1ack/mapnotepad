@@ -43,5 +43,16 @@ namespace MapNotepad.Services.Settings
 
         #endregion
 
+        #region -- IterfaceName implementation --
+
+        public void ClearData()
+        {
+            UserId = -1;
+            MapLatitude = -1d;
+            MapLongitude = -1d;
+            MapZoom = -1d;
+        }
+
+        #endregion
     }
 }

@@ -18,8 +18,8 @@
     </TabbedPage.ToolbarItems>
 
     <TabbedPage.Children>
-        <local:MapPage/>
-        <local:PinsListPage/>
+        <local:MapPage IconImageSource="Map.png"/>
+        <local:PinsListPage IconImageSource="List.png"/>
         
     </TabbedPage.Children>
 

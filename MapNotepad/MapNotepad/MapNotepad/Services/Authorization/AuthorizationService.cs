@@ -76,10 +76,7 @@ namespace MapNotepad.Services.Authorization
 
         public void LogOut()
         {
-            _settingsService.UserId = -1;
-            _settingsService.MapLatitude = -1d;
-            _settingsService.MapLongitude = -1d;
-            _settingsService.MapZoom = -1d;
+            _settingsService.ClearData();
         }
 
         #endregion

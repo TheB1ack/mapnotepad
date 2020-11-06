@@ -16,6 +16,7 @@ namespace MapNotepad.iOS.Renderers
             if (Control != null)
             {
                 Control.BorderStyle = UITextBorderStyle.None;
+
             }
 
         }
