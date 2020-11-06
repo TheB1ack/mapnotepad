@@ -160,7 +160,6 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            OnUserSearchingCommandAsync();
 
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
@@ -171,6 +170,8 @@ namespace MapNotepad.ViewModels
                SetSavedPosition();
             }
 
+            SelectedIndex = 0;
+            ResizeCollection();
         }
 
         public override void Initialize(INavigationParameters parameters)
@@ -228,27 +229,36 @@ namespace MapNotepad.ViewModels
 
             if (status != PermissionStatus.Granted)
             {
+                var result = await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location);
                 var device = Device.RuntimePlatform;
 
-                if (device == Device.Android)
+                if (result)
                 {
-                    string alertText = Resources.Resource.AndroidLocationAlert;
-                    string button = Resources.Resource.OkButton;
+                    if (device == Device.Android)
+                    {
+                        string alertText = Resources.Resource.AndroidLocationAlert;
+                        string button = Resources.Resource.OkButton;
 
-                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        });
 
-                    status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
-                }
-                else if (device == Device.iOS)
-                {
-                    string alertText = Resources.Resource.IOSLocationAlert;
-                    string button = Resources.Resource.OkButton;
+                    }
+                    else if (device == Device.iOS)
+                    {
+                        string alertText = Resources.Resource.IOSLocationAlert;
+                        string button = Resources.Resource.OkButton;
 
-                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
-                }
-                else
-                {
-                    Debug.WriteLine("Device wasn't android or ios");
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        });
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Device wasn't android or ios");
+                    }
                 }
    
             }
@@ -259,7 +269,6 @@ namespace MapNotepad.ViewModels
             }
             else if (status != PermissionStatus.Unknown)
             {
-
                 SetLocationEnable(false);
             }
             else
@@ -318,7 +327,13 @@ namespace MapNotepad.ViewModels
         private async void OnUserSearchingCommandAsync()
         {
             var items = await _pinService.GetPinsByTextAsync(SearchBarText, (SearchCategories)SelectedIndex);
-            PinsCollection = new ObservableCollection<CustomPin>(items);
+            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x=>x.IsFavourite));
+        }
+
+        private async void ResizeCollection()
+        {
+            var items = await _pinService.GetPinsAsync();
+            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x => x.IsFavourite));
         }
 
         #endregion

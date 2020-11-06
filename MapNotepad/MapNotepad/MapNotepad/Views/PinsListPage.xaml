@@ -175,7 +175,8 @@
                      Margin="0,0,20,22" 
                      VerticalOptions="End"
                      CornerRadius ="35"
-                     Command="{Binding AddButtonClickCommand}"           
+                     Command="{Binding AddButtonClickCommand}" 
+                     IsVisible="{Binding IsVisibleButton}"
                      Padding="19"/>
 
     </Grid>

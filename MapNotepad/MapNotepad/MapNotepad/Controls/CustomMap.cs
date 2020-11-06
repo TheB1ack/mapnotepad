@@ -175,10 +175,9 @@ namespace MapNotepad.Controls
 
         private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
         {
-            bool isAnimated = newPin.IsAnimated;
             var pin = newPin.ConvertToPin();
 
-            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
+            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), true);
         }
 
         private static void MoveCameraToPosition(Map bindableMap, CameraPosition newPosition)

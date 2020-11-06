@@ -3,7 +3,6 @@ using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Prism.Navigation;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +23,14 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
+
+        private bool _isVisibleButton;
+        public bool IsVisibleButton
+        {
+            get => _isVisibleButton;
+
+            set => SetProperty(ref _isVisibleButton, value);
+        }
 
         private int _selectedIndex;
         public int SelectedIndex
@@ -119,16 +126,28 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            OnUserSearchingCommandAsync();
+            SelectedIndex = 0;
+            IsVisibleButton = true;
+
+            ResizeCollection();
         }
 
         #endregion
 
         #region -- Private helpers --
 
+        private async void ResizeCollection()
+        {
+            var items = await _pinService.GetPinsAsync();
+
+            PinsCollection = new ObservableCollection<CustomPin>(items);
+
+            CheckCollectionSize();
+        }
         private void OnSaveClickCommand()
         {
             IsSettingFrameVisible = false;
+            IsVisibleButton = true;
 
             OnUserSearchingCommandAsync();
         }
@@ -136,6 +155,7 @@ namespace MapNotepad.ViewModels
         private void OnSettingsClickCommand()
         {
             IsSettingFrameVisible = true;
+            IsVisibleButton = false;
         }
 
         private async void OnImageTapCommandAsync(CustomPin pin)
@@ -192,14 +212,6 @@ namespace MapNotepad.ViewModels
             CheckCollectionSize();
         }
 
-        //private async void CollectionResizeAsync()
-        //{
-        //    var items = await _pinService.GetPinsAsync();
-        //    PinsCollection = new ObservableCollection<CustomPin>(items);
-
-        //    CheckCollectionSize();
-        //}
-
         private void CheckCollectionSize()
         {
             if (!PinsCollection.Any())
@@ -216,30 +228,21 @@ namespace MapNotepad.ViewModels
 
         private async void OnItemTappedCommandAsync()
         {
-            if (ItemSelected != null)
+            if (!ItemSelected.IsFavourite)
             {
-                if (!ItemSelected.IsFavourite)
-                {
-                    OnImageTapCommandAsync(ItemSelected);
-                }
-                else
-                {
-                    Debug.WriteLine("pin is favourite");
-                }
-
-                ItemSelected.IsAnimated = true;
-
-                NavigationParameters parameters = new NavigationParameters
-                {
-                    {nameof(CustomPin), ItemSelected }
-                };             
-
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                OnImageTapCommandAsync(ItemSelected);
             }
             else
             {
-                Debug.WriteLine("ItemSelected was null");
+                Debug.WriteLine("pin is favourite");
             }
+
+            NavigationParameters parameters = new NavigationParameters
+            {
+                 { nameof(CustomPin), ItemSelected }
+            };
+
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
         }
 
         #endregion

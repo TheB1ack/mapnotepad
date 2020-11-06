@@ -5,6 +5,7 @@ using MapNotepad.Services.Settings;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Pins
@@ -48,7 +49,7 @@ namespace MapNotepad.Services.Pins
 
             if(category != 0)
             {
-                items = items.Where(x => x.Category == (int)category);
+                items = items.Where(x => (x.Category == (int)category));
             }
             else
             {

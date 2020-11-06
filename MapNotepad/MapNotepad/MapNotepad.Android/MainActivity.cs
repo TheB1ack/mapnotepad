@@ -6,11 +6,10 @@ using Prism;
 using Prism.Ioc;
 using Acr.UserDialogs;
 using Plugin.Permissions;
-using Android.Hardware.Camera2.Params;
 
 namespace MapNotepad.Droid
 {
-    [Activity(Label = "MapNotepad", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "Map Notepad", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
