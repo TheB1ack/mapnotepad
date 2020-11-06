@@ -36,9 +36,7 @@
         <Button Command ="{Binding SignInButtonClickCommand}" 
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text="{x:Static resources:Resource.LoginButton}" 
-                TextColor="Black"
-                BackgroundColor="#29D695"
-                CornerRadius ="10"
+                Style="{StaticResource ButtonStyle}"
                 Margin="50, 50, 50, 0"/>
 
         <Label Text="{x:Static resources:Resource.DontHaveAccLabel}"
@@ -47,9 +45,7 @@
 
         <Button Command ="{Binding CreateAccountButtonClickCommand}" 
                 Text="{x:Static resources:Resource.CreateAccountButton}"
-                TextColor="Black"
-                BackgroundColor="#29D695"
-                CornerRadius ="10"
+                Style="{StaticResource ButtonStyle}"
                 Margin="50, 0, 50, 0"/>
 
     </StackLayout>

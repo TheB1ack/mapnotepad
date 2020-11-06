@@ -9,7 +9,7 @@
              Title="{Binding Title, Mode=TwoWay}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveClickCommand}"
-                     Text="Save"/>
+                     Text="{x:Static resources:Resource.SaveButton}"/>
         
     </ContentPage.ToolbarItems>
 
@@ -30,7 +30,7 @@
                      HorizontalOptions="Center">
             <Picker WidthRequest="120"
                     SelectedIndex="{Binding PickerItem, Mode=TwoWay}"
-                    Title="Pin category">
+                    Title="{x:Static resources:Resource.PinCategoryTitle}">
                 <Picker.Items>
                     <x:String>None</x:String>
                     <x:String>Gym</x:String>

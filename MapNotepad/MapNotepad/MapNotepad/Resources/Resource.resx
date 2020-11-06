@@ -135,6 +135,9 @@
   <data name="BadUserNameAlert" xml:space="preserve">
     <value>Name must be between 1 and 20 characters long!</value>
   </data>
+  <data name="ChangeCategoriesLabel" xml:space="preserve">
+    <value>Change search categories</value>
+  </data>
   <data name="CPasswordPlaceholder" xml:space="preserve">
     <value>Confirm password</value>
   </data>
@@ -170,6 +173,12 @@
   </data>
   <data name="ExistNameAlert" xml:space="preserve">
     <value>Pins' name is already exist!</value>
+  </data>
+  <data name="GymCategory" xml:space="preserve">
+    <value>Gym</value>
+  </data>
+  <data name="HotelCategory" xml:space="preserve">
+    <value>Hotel</value>
   </data>
   <data name="IOSLocationAlert" xml:space="preserve">
     <value>To work correctly app needs' your location! Please, go to settings and enable it!</value>
@@ -210,6 +219,9 @@
   <data name="MapTitle" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="NonCategory" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="OkButton" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -218,6 +230,9 @@
   </data>
   <data name="PasswordsNotMatchAlert" xml:space="preserve">
     <value>Passwords must match!</value>
+  </data>
+  <data name="PinCategoryTitle" xml:space="preserve">
+    <value>Pin category</value>
   </data>
   <data name="PinNameAlert" xml:space="preserve">
     <value>Field Pin name musn't be empty!</value>
@@ -231,8 +246,14 @@
   <data name="RegisterButton" xml:space="preserve">
     <value>REGISTER</value>
   </data>
+  <data name="RestaurantCategory" xml:space="preserve">
+    <value>Restaurant</value>
+  </data>
   <data name="SaveButton" xml:space="preserve">
     <value>SAVE</value>
+  </data>
+  <data name="SupermarketCategory" xml:space="preserve">
+    <value>Supermarket</value>
   </data>
   <data name="TextSearchBar" xml:space="preserve">
     <value>Pin name or...</value>

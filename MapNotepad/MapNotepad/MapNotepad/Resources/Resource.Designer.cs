@@ -115,6 +115,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change search categories.
+        /// </summary>
+        public static string ChangeCategoriesLabel {
+            get {
+                return ResourceManager.GetString("ChangeCategoriesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         public static string CPasswordPlaceholder {
@@ -219,6 +228,24 @@ namespace MapNotepad.Resources {
         public static string ExistNameAlert {
             get {
                 return ResourceManager.GetString("ExistNameAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gym.
+        /// </summary>
+        public static string GymCategory {
+            get {
+                return ResourceManager.GetString("GymCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotel.
+        /// </summary>
+        public static string HotelCategory {
+            get {
+                return ResourceManager.GetString("HotelCategory", resourceCulture);
             }
         }
         
@@ -340,6 +367,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string NonCategory {
+            get {
+                return ResourceManager.GetString("NonCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OkButton {
@@ -363,6 +399,15 @@ namespace MapNotepad.Resources {
         public static string PasswordsNotMatchAlert {
             get {
                 return ResourceManager.GetString("PasswordsNotMatchAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin category.
+        /// </summary>
+        public static string PinCategoryTitle {
+            get {
+                return ResourceManager.GetString("PinCategoryTitle", resourceCulture);
             }
         }
         
@@ -403,11 +448,29 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restaurant.
+        /// </summary>
+        public static string RestaurantCategory {
+            get {
+                return ResourceManager.GetString("RestaurantCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SAVE.
         /// </summary>
         public static string SaveButton {
             get {
                 return ResourceManager.GetString("SaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supermarket.
+        /// </summary>
+        public static string SupermarketCategory {
+            get {
+                return ResourceManager.GetString("SupermarketCategory", resourceCulture);
             }
         }
         

@@ -62,9 +62,7 @@
         <Button Command="{Binding SingUpButtonClickCommand}"
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text = "{x:Static resources:Resource.RegisterButton}" 
-                TextColor="Black"
-                BackgroundColor="#29D695"
-                CornerRadius ="10"
+                Style="{StaticResource ButtonStyle}"
                 Margin="50, 40, 50, 0" />
 
 

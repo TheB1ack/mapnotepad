@@ -1,10 +1,12 @@
 ﻿using Acr.UserDialogs;
+using MapNotepad.Enums;
 using MapNotepad.Models;
 using MapNotepad.Services.Permissions;
 using MapNotepad.Services.Pins;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;

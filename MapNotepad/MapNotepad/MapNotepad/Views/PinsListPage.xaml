@@ -134,35 +134,33 @@
                HorizontalOptions="Center"
                IsVisible="{Binding IsSettingFrameVisible}">
             <StackLayout Orientation="Vertical">
-                <Label Text="Change search categories"
+                <Label Text="{x:Static resources:Resource.ChangeCategoriesLabel}"
                        TextColor="Black"
                        FontSize="17"
                        HorizontalOptions="Center"/>
 
                 <input:RadioButtonGroupView Margin="0,20,0,0"
                                             SelectedIndex="{Binding SelectedIndex}">
-                    <input:RadioButton Text="None"
+                    <input:RadioButton Text="{x:Static resources:Resource.NonCategory}"
                                        Margin="20,10,0,0"/>
 
-                    <input:RadioButton Text="Gyms"
+                    <input:RadioButton Text="{x:Static resources:Resource.GymCategory}"
                                        Margin="20,10,0,0"/>
 
-                    <input:RadioButton Text="Restaurants"
+                    <input:RadioButton Text="{x:Static resources:Resource.RestaurantCategory}"
                                        Margin="20,10,0,0"/>
 
-                    <input:RadioButton Text="Hotels"
+                    <input:RadioButton Text="{x:Static resources:Resource.HotelCategory}"
                                        Margin="20,10,0,0"/>
 
-                    <input:RadioButton Text="Supermarket"
+                    <input:RadioButton Text="{x:Static resources:Resource.SupermarketCategory}"
                                        Margin="20,10,0,0"/>
 
                 </input:RadioButtonGroupView>
 
                 <Button Command ="{Binding SaveClickCommand}" 
-                        Text="Save"
-                        TextColor="Black"
-                        BackgroundColor="#29D695"
-                        CornerRadius ="10"
+                        Text="{x:Static resources:Resource.SaveButton}"
+                        Style="{StaticResource ButtonStyle}"
                         Margin="50, 10, 50, 0"/>
 
             </StackLayout>

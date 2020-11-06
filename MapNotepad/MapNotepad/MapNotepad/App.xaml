@@ -8,7 +8,18 @@
             <Setter Property="BarBackgroundColor"
                     Value="#29D695">
             </Setter>
-
+            
         </Style>
+
+        <Style x:Key="ButtonStyle"
+               TargetType="Button">
+            <Setter Property="BackgroundColor"
+                    Value="#29D695" />
+            <Setter Property="TextColor"
+                    Value="Black" />
+            <Setter Property="CornerRadius"
+                    Value="10" />
+        </Style>
+         
     </Application.Resources>
 </prism:PrismApplication>
