@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Repository
@@ -37,11 +38,11 @@ namespace MapNotepad.Services.Repository
 
             return await dataBase.GetAsync<T>(id);
         }
-        public async Task<IEnumerable<T>> GetItemsAsync<T>() where T : IBaseModel, new()
+        public async Task<IEnumerable<T>> GetItemsAsync<T>(Expression<Func<T, bool>> predicate) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<T>();
 
-            return await dataBase.Table<T>().ToListAsync();
+            return await dataBase.Table<T>().Where(predicate).ToListAsync();
         }
         public async Task<int> SaveItemAsync<T>(T item) where T : IBaseModel, new()
         {

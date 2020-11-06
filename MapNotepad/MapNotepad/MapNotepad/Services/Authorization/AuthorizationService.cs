@@ -12,7 +12,8 @@ namespace MapNotepad.Services.Authorization
         private readonly IRepositoryService _repositoryService;
         private readonly ISettingsService _settingsService;
 
-        public AuthorizationService(IRepositoryService repositoryService, ISettingsService settingsService)
+        public AuthorizationService(IRepositoryService repositoryService, 
+                                    ISettingsService settingsService)
         {
             _repositoryService = repositoryService;
             _settingsService = settingsService;
@@ -31,9 +32,8 @@ namespace MapNotepad.Services.Authorization
 
         public async Task<bool> SignUpAsync(string userName, string userEmail, string userPassword)
         {           
-            var items = await _repositoryService.GetItemsAsync<User>();
-            User userResult = items.FirstOrDefault(x => x.Email == userEmail);
-
+            var items = await _repositoryService.GetItemsAsync<User>(x => x.Email == userEmail);
+            User userResult = items.FirstOrDefault();
             var isSignedUp = true;
 
             if (userResult != null)
@@ -54,12 +54,12 @@ namespace MapNotepad.Services.Authorization
 
             return isSignedUp;
         }
+
         public async Task<bool> SignInAsync(string userEmail, string userPassword)
         {
             var isSignedIn = false;
-
-            var items = await _repositoryService.GetItemsAsync<User>();
-            User userResult = items.FirstOrDefault(x => x.Email.ToUpper().Equals(userEmail.ToUpper()));
+            var items = await _repositoryService.GetItemsAsync<User>(x => x.Email.ToUpper().Equals(userEmail.ToUpper()));
+            User userResult = items.FirstOrDefault();
 
             if (userResult?.Password == userPassword)
             {
@@ -73,9 +73,13 @@ namespace MapNotepad.Services.Authorization
 
             return isSignedIn;
         }
+
         public void LogOut()
         {
             _settingsService.UserId = -1;
+            _settingsService.MapLatitude = -1d;
+            _settingsService.MapLongitude = -1d;
+            _settingsService.MapZoom = -1d;
         }
 
         #endregion

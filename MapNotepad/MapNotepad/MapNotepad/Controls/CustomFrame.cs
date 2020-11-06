@@ -28,7 +28,7 @@ namespace MapNotepad.Controls
 
         #region -- Private Helpers --
 
-        private static void IsMoveFramePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        private static void IsMoveFramePropertyChanged(BindableObject bindable, object oldvalue, object newValue) //регулировка структоруй 
         {
             var frame = bindable as CustomFrame;
             var isValid = (bool)newValue;
@@ -37,11 +37,11 @@ namespace MapNotepad.Controls
             {
                 if (isValid)
                 {
-                    frame.TranslateTo(0, 0, 600);
+                    frame.TranslateTo(0, -130, 400);
                 }
                 else
                 {
-                    frame.TranslateTo(0, 150, 600);
+                    frame.TranslateTo(0, 10, 500);
                 }
             }
             else

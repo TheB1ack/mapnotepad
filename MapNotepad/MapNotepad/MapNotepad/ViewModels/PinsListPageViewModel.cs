@@ -1,4 +1,5 @@
-﻿using MapNotepad.Models;
+﻿using MapNotepad.Enums;
+using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Prism.Navigation;
@@ -23,6 +24,22 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+
+            set => SetProperty(ref _selectedIndex, value);
+        }
+
+        private bool _isSettingFrameVisible;
+        public bool IsSettingFrameVisible
+        {
+            get => _isSettingFrameVisible;
+
+            set => SetProperty(ref _isSettingFrameVisible, value);
+        }
 
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
@@ -90,18 +107,36 @@ namespace MapNotepad.ViewModels
         private ICommand _itemTappedCommand;
         public ICommand ItemTappedCommand => _itemTappedCommand ??= new Command(OnItemTappedCommandAsync);
 
+        private ICommand _saveClickCommand;
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
+
+        private ICommand _settingsClickCommand;
+        public ICommand SettingsClickCommand => _settingsClickCommand ??= new Command(OnSettingsClickCommand);
+
         #endregion
 
         #region -- IterfaceName implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            CollectionResizeAsync();
+            OnUserSearchingCommandAsync();
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        private void OnSaveClickCommand()
+        {
+            IsSettingFrameVisible = false;
+
+            OnUserSearchingCommandAsync();
+        }
+
+        private void OnSettingsClickCommand()
+        {
+            IsSettingFrameVisible = true;
+        }
 
         private async void OnImageTapCommandAsync(CustomPin pin)
         {
@@ -146,34 +181,24 @@ namespace MapNotepad.ViewModels
         {
             await _pinService.RemovePinAsync(pin);
 
-             CollectionResizeAsync();
+            OnUserSearchingCommandAsync();
         }
 
         private async void OnUserSearchingCommandAsync()
         {
-            IEnumerable<CustomPin> items;
-
-            if (!string.IsNullOrWhiteSpace(SearchBarText))
-            {
-                items = await _pinService.GetPinsByTextAsync(SearchBarText);
-
-                CheckCollectionSize();
-            }
-            else
-            {
-                items = await _pinService.GetPinsAsync();
-            }
-
-            PinsCollection = new ObservableCollection<CustomPin>(items);
-        }
-
-        private async void CollectionResizeAsync()
-        {
-            var items = await _pinService.GetPinsAsync();
+            var items = await _pinService.GetPinsByTextAsync(SearchBarText, (SearchCategories)SelectedIndex);
             PinsCollection = new ObservableCollection<CustomPin>(items);
 
             CheckCollectionSize();
         }
+
+        //private async void CollectionResizeAsync()
+        //{
+        //    var items = await _pinService.GetPinsAsync();
+        //    PinsCollection = new ObservableCollection<CustomPin>(items);
+
+        //    CheckCollectionSize();
+        //}
 
         private void CheckCollectionSize()
         {

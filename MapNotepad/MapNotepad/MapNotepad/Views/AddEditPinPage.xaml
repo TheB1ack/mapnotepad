@@ -28,8 +28,21 @@
 
         <StackLayout Orientation="Horizontal" 
                      HorizontalOptions="Center">
+            <Picker WidthRequest="120"
+                    SelectedIndex="{Binding PickerItem, Mode=TwoWay}"
+                    Title="Pin category">
+                <Picker.Items>
+                    <x:String>None</x:String>
+                    <x:String>Gym</x:String>
+                    <x:String>Restaurant</x:String>
+                    <x:String>Hotel</x:String>
+                    <x:String>Supermarket</x:String>
+                </Picker.Items>
+
+            </Picker>
+            
             <CheckBox IsChecked="{Binding IsCheckBoxChecked}"
-                      HorizontalOptions="Center">
+                      VerticalOptions="Center">
                 <CheckBox.Behaviors>
                     <prism:EventToCommandBehavior EventName="CheckedChanged" 
                                                   Command="{Binding CheckBoxSetCommand}"/>
@@ -39,7 +52,8 @@
 
             <Label Text="{x:Static resources:Resource.UseMapCheckbox}"
                    FontSize="17"
-                   Margin="-6,3,0,0"/>
+                   Margin="-6,0,0,0"
+                   VerticalOptions="Center"/>
             
         </StackLayout>
 
@@ -79,11 +93,11 @@
         <Frame BorderColor="Black"
                VerticalOptions="FillAndExpand"
                Padding="0"
-               Margin="5,0,5,5">
+               Margin="5,0,5,5"
+               IsVisible="{Binding IsMapVisible}">
             <controls:CustomMap PinsSource="{Binding PinsCollection}"
                                 OnlyOneFocusedPin="{Binding MyFocusedPin}"
                                 Margin="10,10,10,10"
-                                IsVisible="{Binding IsMapVisible}"
                                 MyLocationEnabled="{Binding IsMyLocationEnabled}">
                 <controls:CustomMap.Behaviors>
                     <prism:EventToCommandBehavior EventName="MapClicked" 

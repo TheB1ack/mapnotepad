@@ -8,6 +8,5 @@ namespace MapNotepad.Services.Settings
         double MapLongitude { get; set; }
         double MapLatitude { get; set; }
         double MapZoom { get; set; }
-
     }
 }

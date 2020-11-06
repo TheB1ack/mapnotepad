@@ -14,8 +14,6 @@ using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
 using Plugin.Permissions;
 using MapNotepad.Services.Permissions;
-using Plugin.Permissions.Abstractions;
-
 namespace MapNotepad
 {
     public partial class App : PrismApplication
@@ -51,11 +49,14 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<PinsListPage, PinsListPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
+            //containerRegistry.RegisterForNavigation<SearchSettingsPopupView, SearchSettingsPopupViewModel>();
 
             //packages
             containerRegistry.RegisterInstance(CrossSettings.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
-            containerRegistry.RegisterInstance<IPermissions>(CrossPermissions.Current);
+            containerRegistry.RegisterInstance(CrossPermissions.Current);
+            //containerRegistry.RegisterInstance(PopupNavigation.Instance);
+            //containerRegistry.RegisterPopupNavigationService();
 
             //services
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());

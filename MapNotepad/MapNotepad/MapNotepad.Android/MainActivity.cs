@@ -6,6 +6,7 @@ using Prism;
 using Prism.Ioc;
 using Acr.UserDialogs;
 using Plugin.Permissions;
+using Android.Hardware.Camera2.Params;
 
 namespace MapNotepad.Droid
 {
@@ -14,11 +15,14 @@ namespace MapNotepad.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
 
+            Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
@@ -26,6 +30,7 @@ namespace MapNotepad.Droid
 
             LoadApplication(new App(new AndroidInitializer()));
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

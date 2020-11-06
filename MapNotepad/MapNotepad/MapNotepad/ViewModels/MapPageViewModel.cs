@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using MapNotepad.Enums;
 using MapNotepad.Models;
 using MapNotepad.Services.Map;
 using MapNotepad.Services.Permissions;
@@ -38,7 +39,23 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
-   
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+
+            set => SetProperty(ref _selectedIndex, value);
+        }
+
+        private bool _isSettingFrameVisible;
+        public bool IsSettingFrameVisible
+        {
+            get => _isSettingFrameVisible;
+
+            set => SetProperty(ref _isSettingFrameVisible, value);
+        }
+
         private bool _isFrameShowed;
         public bool IsFrameShowed
         {
@@ -119,6 +136,9 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isMyLocationEnabled, value);
         }
 
+        private ICommand _settingsClickCommand;
+        public ICommand SettingsClickCommand => _settingsClickCommand ??= new Command(OnSettingsClickCommand);
+
         private ICommand _userSearchingCommand;
         public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommandAsync);
 
@@ -131,13 +151,16 @@ namespace MapNotepad.ViewModels
         private ICommand _mapClickCommand;
         public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
 
+        private ICommand _saveClickCommand;
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
+
         #endregion
 
         #region -- IterfaceName implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            SetMapPinsAsync();
+            OnUserSearchingCommandAsync();
 
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
@@ -150,14 +173,26 @@ namespace MapNotepad.ViewModels
 
         }
 
-        public override void OnNavigatedFrom(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            IsFrameShowed = false;
+            CheckLocationPermissionsAsync();
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        private void OnSaveClickCommand()
+        {
+            IsSettingFrameVisible = false;
+
+            OnUserSearchingCommandAsync();
+        }
+
+        private void OnSettingsClickCommand()
+        {
+            IsSettingFrameVisible = true;
+        }
 
         private void OnMapClickCommand()
         {
@@ -237,6 +272,8 @@ namespace MapNotepad.ViewModels
         private void SetLocationEnable(bool isSet)
         {
             IsMyLocationEnabled = isSet;
+
+            OnUserSearchingCommandAsync();
         }
 
         private async void OnPinClickCommandAsync(Pin pin)
@@ -280,15 +317,8 @@ namespace MapNotepad.ViewModels
 
         private async void OnUserSearchingCommandAsync()
         {
-            if (!string.IsNullOrWhiteSpace(SearchBarText))
-            {
-                var items = await _pinService.GetPinsByTextAsync(SearchBarText);
-                PinsCollection = new ObservableCollection<CustomPin>(items);
-            }
-            else
-            {
-                SetMapPinsAsync();
-            }
+            var items = await _pinService.GetPinsByTextAsync(SearchBarText, (SearchCategories)SelectedIndex);
+            PinsCollection = new ObservableCollection<CustomPin>(items);
         }
 
         #endregion

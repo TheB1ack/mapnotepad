@@ -132,7 +132,6 @@ namespace MapNotepad.ViewModels
                 Debug.WriteLine("Validation failed");
             }
 
-
             return isValid;
         }
         private async void OnSingUpButtonClickCommandAsync()

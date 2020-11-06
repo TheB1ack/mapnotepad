@@ -5,28 +5,28 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
              xmlns:resources="clr-namespace:MapNotepad.Resources" 
-             xmlns:effects="clr-namespace:MapNotepad.Effects"
+             xmlns:controls="clr-namespace:MapNotepad.Controls" xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Name="_this"
              Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
-    <Grid>
+    <Grid ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
             
         </Grid.RowDefinitions>
 
-        <SearchBar Placeholder="{x:Static resources:Resource.TextSearchBar}"
-                   TextColor="Black"
-                   Text="{Binding SearchBarText}"
-                   Grid.Row="0"
-                   BackgroundColor="GhostWhite">
-            <SearchBar.Behaviors>
-                <prism:EventToCommandBehavior EventName="TextChanged" 
+        <controls:SearchBarWithButtons Grid.Row="0"
+                                       Margin="2"
+                                       Placeholder="{x:Static resources:Resource.TextSearchBar}"
+                                       Text="{Binding SearchBarText}"
+                                       SettingsClick="{Binding SettingsClickCommand}">
+            <controls:SearchBarWithButtons.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding UserSearchingCommand}"/>
-                
-            </SearchBar.Behaviors>
-        </SearchBar>
+
+            </controls:SearchBarWithButtons.Behaviors>
+        </controls:SearchBarWithButtons>
 
         <Label Text="{x:Static resources:Resource.EmptyListLabel}"
                HorizontalOptions="Center"
@@ -70,7 +70,7 @@
                                     <ImageButton Source="{Binding FavouriteImageSource}"
                                                  WidthRequest="50"
                                                  HeightRequest="50"
-                                                 BackgroundColor="GhostWhite">
+                                                 BackgroundColor="Transparent">
                                         <ImageButton.Behaviors>
                                             <prism:EventToCommandBehavior EventName="Clicked"
                                                                           Command="{Binding BindingContext.ImageTapCommand, Source={x:Reference _this}}"
@@ -125,7 +125,49 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <Frame Grid.Row="1"
+               BackgroundColor="GhostWhite"
+               CornerRadius="10"
+               BorderColor="Black"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               IsVisible="{Binding IsSettingFrameVisible}">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Change search categories"
+                       TextColor="Black"
+                       FontSize="17"
+                       HorizontalOptions="Center"/>
 
+                <input:RadioButtonGroupView Margin="0,20,0,0"
+                                            SelectedIndex="{Binding SelectedIndex}">
+                    <input:RadioButton Text="None"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Gyms"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Restaurants"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Hotels"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Supermarket"
+                                       Margin="20,10,0,0"/>
+
+                </input:RadioButtonGroupView>
+
+                <Button Command ="{Binding SaveClickCommand}" 
+                        Text="Save"
+                        TextColor="Black"
+                        BackgroundColor="#29D695"
+                        CornerRadius ="10"
+                        Margin="50, 10, 50, 0"/>
+
+            </StackLayout>
+        </Frame>
+        
         <ImageButton Source="ic_add.png"
                      BackgroundColor="#29D695"
                      Grid.Row="1"

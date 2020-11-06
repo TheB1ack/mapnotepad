@@ -19,18 +19,21 @@ namespace MapNotepad.Services.Settings
 
             set => _appSettings.AddOrUpdateValue(nameof(UserId), value);
         }
+
         public double MapLongitude
         {
             get => _appSettings.GetValueOrDefault(nameof(MapLongitude), -1d);
 
             set => _appSettings.AddOrUpdateValue(nameof(MapLongitude), value);
         }
+
         public double MapLatitude
         {
             get => _appSettings.GetValueOrDefault(nameof(MapLatitude), -1d);
 
             set => _appSettings.AddOrUpdateValue(nameof(MapLatitude), value);
         }
+
         public double MapZoom
         {
             get => _appSettings.GetValueOrDefault(nameof(MapZoom), -1d);

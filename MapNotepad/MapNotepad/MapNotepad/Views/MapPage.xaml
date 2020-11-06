@@ -3,34 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:resources="clr-namespace:MapNotepad.Resources"
              x:Class="MapNotepad.Views.MapPage"
              x:Name="_this"
              Title="{x:Static resources:Resource.MapTitle}"
              BackgroundColor="GhostWhite">
-    <Grid>
+    <Grid RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <SearchBar Grid.Row="0"
-                   Placeholder="{x:Static resources:Resource.TextSearchBar}"
-                   BackgroundColor="GhostWhite"
-                   Margin="0,0,0,0"
-                   TextColor="Black"
-                   Text="{Binding SearchBarText}"
-                   x:Name="searchbar">
-            <SearchBar.Behaviors>
-                <prism:EventToCommandBehavior EventName="TextChanged" 
+        
+        <controls:SearchBarWithButtons Grid.Row="0"
+                                       Margin="2"
+                                       Placeholder="{x:Static resources:Resource.TextSearchBar}"
+                                       Text="{Binding SearchBarText}"
+                                       SettingsClick="{Binding SettingsClickCommand}">
+            <controls:SearchBarWithButtons.Behaviors>
+                <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding UserSearchingCommand}"/>
-
-            </SearchBar.Behaviors>
-
-        </SearchBar>
+                
+            </controls:SearchBarWithButtons.Behaviors>
+        </controls:SearchBarWithButtons>
 
         <controls:CustomMap Grid.Row="1"
-                            Margin="0,0,0,0" 
+                            Margin="0" 
                             PinsSource="{Binding PinsCollection}" 
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
@@ -51,15 +50,58 @@
             </controls:CustomMap.Behaviors>
         </controls:CustomMap>
 
+        <Frame Grid.Row="1"
+               BackgroundColor="GhostWhite"
+               CornerRadius="10"
+               BorderColor="Black"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               IsVisible="{Binding IsSettingFrameVisible}">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Change search categories"
+                       TextColor="Black"
+                       FontSize="17"
+                       HorizontalOptions="Center"/>
+
+                <input:RadioButtonGroupView Margin="0,20,0,0"
+                                            SelectedIndex="{Binding SelectedIndex}">
+                    <input:RadioButton Text="None"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Gyms"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Restaurants"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Hotels"
+                                       Margin="20,10,0,0"/>
+
+                    <input:RadioButton Text="Supermarket"
+                                       Margin="20,10,0,0"/>
+
+                </input:RadioButtonGroupView>
+
+                <Button Command ="{Binding SaveClickCommand}" 
+                        Text="Save"
+                        TextColor="Black"
+                        BackgroundColor="#29D695"
+                        CornerRadius ="10"
+                        Margin="50, 10, 50, 0"/>
+                
+            </StackLayout>
+        </Frame>
+
+
         <controls:CustomFrame Grid.Row="1"
-                              VerticalOptions="End"
                               BackgroundColor="WhiteSmoke"
                               HorizontalOptions="Center"
+                              VerticalOptions="End"
                               BorderColor="Black"
                               Padding="8"
-                              CornerRadius="25"
-                              WidthRequest="260"
-                              x:Name="frame"
+                              CornerRadius="10"
+                              x:Name="frame"  
+                              Margin="0,0,0,-120"
                               IsMoveFrame="{Binding IsFrameShowed}">
             <StackLayout HorizontalOptions="Center"
                          Orientation="Vertical">

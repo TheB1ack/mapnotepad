@@ -36,6 +36,13 @@ namespace MapNotepad.ViewModels
 
         #region -- Public properties --
 
+        private int _pickerItem;
+        public int PickerItem
+        {
+            get => _pickerItem;
+            set => SetProperty(ref _pickerItem, value);
+        }
+
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
         {
@@ -136,7 +143,7 @@ namespace MapNotepad.ViewModels
         public ICommand MapTappedCommad => _mapTappedCommad ??= new Command<Position>(OnMapTappedCommand);
 
         private ICommand _saveClickCommand;
-        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommandAsync);
 
         private ICommand _checkBoxSetCommand;
         public ICommand CheckBoxSetCommand => _checkBoxSetCommand ??= new Command(OnCheckBoxSetCommand);
@@ -155,7 +162,12 @@ namespace MapNotepad.ViewModels
             {
                 Title = action;
             }
-            else if(parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
+            else
+            {
+                Debug.WriteLine("Missing parameters");
+            }
+
+            if(parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 FillData(pin);
             }
@@ -218,7 +230,7 @@ namespace MapNotepad.ViewModels
             };
         }
 
-        private async void OnSaveClickCommand()
+        private async void OnSaveClickCommandAsync()
         {
             var isValidEntry = await EntryCheckAsync();
             if (isValidEntry)
@@ -235,7 +247,8 @@ namespace MapNotepad.ViewModels
                             Description = DescriptionEditor ?? string.Empty,
                             PositionLat = PinsCollection.First().PositionLat,
                             PositionLong = PinsCollection.First().PositionLong,
-                            FavouriteImageSource = "empty_heart.png"
+                            FavouriteImageSource = "empty_heart.png",
+                            Category = PickerItem
                         };
 
                         await _pinService.AddPinAsync(customPin);
@@ -247,6 +260,7 @@ namespace MapNotepad.ViewModels
                         MyFocusedPin.PositionLat = LatitudeEntry;
                         MyFocusedPin.PositionLong = LongitudeEntry;
                         MyFocusedPin.IsFavourite = false;
+                        MyFocusedPin.Category = PickerItem;
 
                         await _pinService.UpdatePinAsync(MyFocusedPin);
                     }
@@ -340,6 +354,7 @@ namespace MapNotepad.ViewModels
             DescriptionEditor = pin.Description;
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
+            PickerItem = pin.Category;
 
             MyFocusedPin = pin;
 
@@ -348,6 +363,7 @@ namespace MapNotepad.ViewModels
                 pin
             };
         }
+
         private async void CheckLocationPermissionsAsync()
         {
             var status = await _permissionsService.CheckPermissionsAsync<LocationPermission>();

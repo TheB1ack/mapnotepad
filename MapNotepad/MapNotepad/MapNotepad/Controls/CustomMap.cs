@@ -107,6 +107,7 @@ namespace MapNotepad.Controls
             }
 
         }
+
         private static void OnFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
             var map = bindable as CustomMap;
@@ -122,9 +123,9 @@ namespace MapNotepad.Controls
             }
 
         }
+
         private static void OnOnlyOneFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
-
             var map = bindable as CustomMap;
             var newPin = newValue as CustomPin;
 
@@ -143,6 +144,7 @@ namespace MapNotepad.Controls
             }
 
         }
+
         private static void OnCameraPositionOnMapPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
 
@@ -159,6 +161,7 @@ namespace MapNotepad.Controls
             }
 
         }
+
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
         {
             bindableMap.Pins.Clear();
@@ -169,6 +172,7 @@ namespace MapNotepad.Controls
                 bindableMap.Pins.Add(pin);
             }
         }
+
         private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
         {
             bool isAnimated = newPin.IsAnimated;
@@ -176,6 +180,7 @@ namespace MapNotepad.Controls
 
             bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
         }
+
         private static void MoveCameraToPosition(Map bindableMap, CameraPosition newPosition)
         {
             var position = new Position(newPosition.Target.Latitude, newPosition.Target.Longitude);
