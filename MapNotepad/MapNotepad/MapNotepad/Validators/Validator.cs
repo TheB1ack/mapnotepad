@@ -62,5 +62,81 @@ namespace MapNotepad.Validators
             return isValid;
         }
 
+        public static bool LongitudeValidator(double Longitude)
+        {
+            var isValid = false;
+
+            if (Longitude > 180)
+            {
+                isValid = false;
+            }
+            else if (Longitude < 0)
+            {
+                isValid = false;
+            }
+            else
+            {
+                isValid = true;
+            }
+
+            return isValid;
+        }
+
+        public static bool LatitudeValidator(double Latitude)
+        {
+            var isValid = false;
+
+            if (Latitude > 90)
+            {
+                isValid = false;
+            }
+            else if (Latitude < -90)
+            {
+                isValid = false;
+            }
+            else
+            {
+                isValid = true;
+            }
+
+            return isValid;
+        }
+
+        public static bool PinNameValidator(string pinName)
+        {
+            var isValid = false;
+
+            if(string.IsNullOrWhiteSpace(pinName))
+            {
+                isValid = false;
+            }
+            else if (pinName.Contains("|"))
+            {
+                isValid = false;
+            }
+            else
+            {
+                isValid = true;
+            }
+
+            return isValid;
+        }
+
+        public static bool PinDescriptionValidator(string description)
+        {
+            var isValid = false;
+
+            if (description.Contains("|"))
+            {
+                isValid = false;
+            }
+            else
+            {
+                isValid = true;
+            }
+
+            return isValid;
+        }
+
     }
 }

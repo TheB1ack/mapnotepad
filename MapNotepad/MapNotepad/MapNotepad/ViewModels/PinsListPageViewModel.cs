@@ -8,6 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using ZXing;
+using ZXing.Net.Mobile.Forms;
+using ZXing.QrCode;
 
 namespace MapNotepad.ViewModels
 {
@@ -23,6 +26,22 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
+
+        private string _barcodeValue;
+        public string BarcodeValue
+        {
+            get => _barcodeValue;
+
+            set => SetProperty(ref _barcodeValue, value);
+        }
+
+        private bool _isQrFrameVisible;
+        public bool IsQrFrameVisible
+        {
+            get => _isQrFrameVisible;
+
+            set => SetProperty(ref _isQrFrameVisible, value);
+        }
 
         private bool _isVisibleButton;
         public bool IsVisibleButton
@@ -120,6 +139,12 @@ namespace MapNotepad.ViewModels
         private ICommand _settingsClickCommand;
         public ICommand SettingsClickCommand => _settingsClickCommand ??= new Command(OnSettingsClickCommand);
 
+        private ICommand _shareTapCommand;
+        public ICommand ShareTapCommand => _shareTapCommand ??= new Command<CustomPin>(OnShareTapCommand);
+
+        private ICommand _closeFrameCommand;
+        public ICommand CloseFrameCommand => _closeFrameCommand ??= new Command(OnCloseFrameCommand);
+
         #endregion
 
         #region -- IterfaceName implementation --
@@ -135,6 +160,24 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private void OnCloseFrameCommand()
+        {
+            IsQrFrameVisible = false;
+            IsVisibleButton = true;
+        }
+
+        private void OnShareTapCommand(CustomPin pin)
+        {
+            var saveString = pin.Name + "|" + pin.Description ?? " " + "|" + pin.Category.ToString() + "|" + pin.PositionLat + "|" + pin.PositionLong;
+        
+            BarcodeValue = saveString;
+
+            IsVisibleButton = false;
+            IsQrFrameVisible = true;
+        }
+
+
 
         private async void ResizeCollection()
         {

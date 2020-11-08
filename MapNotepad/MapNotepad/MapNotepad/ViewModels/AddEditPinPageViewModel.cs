@@ -2,6 +2,7 @@
 using MapNotepad.Models;
 using MapNotepad.Services.Permissions;
 using MapNotepad.Services.Pins;
+using MapNotepad.Validators;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
@@ -233,6 +234,7 @@ namespace MapNotepad.ViewModels
         private async void OnSaveClickCommandAsync()
         {
             var isValidEntry = await EntryCheckAsync();
+
             if (isValidEntry)
             {
                 var isValidName = await _pinService.CheckPinName(NameEntry);
@@ -287,10 +289,23 @@ namespace MapNotepad.ViewModels
         {
             var isValid = true;
 
-            if (string.IsNullOrWhiteSpace(NameEntry))
+            var pinNameResult = Validator.PinNameValidator(NameEntry);
+            var descriptionResult = Validator.PinDescriptionValidator(DescriptionEditor);
+            var latitudeResult = Validator.LatitudeValidator(LatitudeEntry);
+            var longitudeResult = Validator.LongitudeValidator(LongitudeEntry);
+
+            if(!pinNameResult)
             {
                 isValid = false;
                 string alertText = Resources.Resource.PinNameAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
+            }
+            else if(!descriptionResult)
+            {
+                isValid = false;
+                string alertText = Resources.Resource.DescroptionAlert;
                 string button = Resources.Resource.OkButton;
 
                 await _userDialogs.AlertAsync(alertText, string.Empty, button);
@@ -307,41 +322,33 @@ namespace MapNotepad.ViewModels
                 }
                 else
                 {
-                    Debug.WriteLine("Collection contains pin");
+                    isValid = true;
                 }
 
             }
             else
             {
-                isValid = await CheckLatLongAsync();
-            }
+                if (!latitudeResult)
+                {
+                    isValid = false;
+                    string alertText = Resources.Resource.LatitudeAlert;
+                    string button = Resources.Resource.OkButton;
 
-            return isValid;
-        }
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                }
+                else if(!longitudeResult)
+                {
+                    isValid = false;
+                    string alertText = Resources.Resource.LongitudeAlert;
+                    string button = Resources.Resource.OkButton;
 
-        private async Task<bool> CheckLatLongAsync()
-        {
-            var isValid = true;
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                }
+                else
+                {
+                    isValid = true;
+                }
 
-            if (LongitudeEntry > 180 || LongitudeEntry < 0)
-            {
-                isValid = false;
-                string alertText = Resources.Resource.LongitudeAlert;
-                string button = Resources.Resource.OkButton;
-
-                await _userDialogs.AlertAsync(alertText, string.Empty, button);
-            }
-            else if (LatitudeEntry > 90 || LatitudeEntry < -90)
-            {
-                isValid = false;
-                string alertText = Resources.Resource.LatitudeAlert;
-                string button = Resources.Resource.OkButton;
-
-                await _userDialogs.AlertAsync(alertText, string.Empty, button);
-            }
-            else
-            {
-                Debug.WriteLine("Longitude and latitude is ok");
             }
 
             return isValid;

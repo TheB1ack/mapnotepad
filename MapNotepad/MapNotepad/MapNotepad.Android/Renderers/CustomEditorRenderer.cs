@@ -40,10 +40,10 @@ namespace MapNotepad.Droid.Renderers
 
                 if (Control is EditText nativeEditText)
                 {
-                    var shape = new ShapeDrawable(new RoundRectShape(cornersOut, new RectF(15, 15, 15, 15), cornersIn));
+                    var shape = new ShapeDrawable(new RoundRectShape(cornersOut, new RectF(15,15,15,15), cornersIn));
                     shape.Paint.Color = Xamarin.Forms.Color.FromHex("#29D695").ToAndroid();
                     shape.Paint.SetStyle(Paint.Style.FillAndStroke);
-
+                    
                     nativeEditText.Background = shape;
                 }
             }

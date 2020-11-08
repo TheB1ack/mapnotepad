@@ -116,6 +116,7 @@ namespace MapNotepad.ViewModels
         {
             IsButtonEnable = ActivateButton();
         }
+
         private bool ActivateButton()
         {
             var isValid = true;
@@ -134,6 +135,7 @@ namespace MapNotepad.ViewModels
 
             return isValid;
         }
+
         private async void OnSingUpButtonClickCommandAsync()
         {
             var isValid = await CheckUserInputAsync();

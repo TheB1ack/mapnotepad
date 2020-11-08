@@ -38,5 +38,7 @@
 	<string>Can we use your location when your application is being used?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Can we use your location at all times?</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Can we use your camera to scan barcodes?</string>
 </dict>
 </plist>

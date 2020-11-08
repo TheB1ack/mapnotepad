@@ -5,7 +5,10 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.PinsListPage"
              xmlns:resources="clr-namespace:MapNotepad.Resources" 
-             xmlns:controls="clr-namespace:MapNotepad.Controls" xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:controls="clr-namespace:MapNotepad.Controls" 
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" 
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms" 
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
              x:Name="_this"
              Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
@@ -56,11 +59,16 @@
                             <MenuItem Text="{x:Static resources:Resource.EditButton}"
                                       Command="{Binding BindingContext.EditTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
+                            
                             <MenuItem Text="{x:Static resources:Resource.DeleteButton}"
                                       Command="{Binding BindingContext.DeleteTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"/>
-                            
+
+                            <MenuItem Text="{x:Static resources:Resource.ShareButton}"
+                                      Command="{Binding BindingContext.ShareTapCommand, Source={x:Reference _this}}"
+                                      CommandParameter="{Binding .}"/>
+
                         </ViewCell.ContextActions>
                         <ViewCell.View>
                             <StackLayout Orientation="Horizontal">
@@ -125,6 +133,33 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <Frame Grid.Row="1"
+               BackgroundColor="GhostWhite"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               Padding="0,0,0,10"
+               CornerRadius="10"
+               IsVisible="{Binding IsQrFrameVisible}">
+            <StackLayout Orientation="Vertical">
+                <zxing:ZXingBarcodeImageView BarcodeValue="{Binding BarcodeValue}"
+                                             WidthRequest="300"
+                                             HeightRequest="300"
+                                             BarcodeFormat="QR_CODE">
+                    <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                        <zxcm:EncodingOptions Width="300" Height="300"/>
+                        
+                    </zxing:ZXingBarcodeImageView.BarcodeOptions>
+                    
+                </zxing:ZXingBarcodeImageView>
+
+                <Button Command ="{Binding CloseFrameCommand}" 
+                        Text="{x:Static resources:Resource.CloseButton}"
+                        Style="{StaticResource ButtonStyle}"
+                        Margin="50, 10, 50, 0"/>
+                
+            </StackLayout>
+        </Frame>
         
         <Frame Grid.Row="1"
                BackgroundColor="GhostWhite"

@@ -135,8 +135,17 @@
   <data name="BadUserNameAlert" xml:space="preserve">
     <value>Name must be between 1 and 20 characters long!</value>
   </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="ChangeCategoriesLabel" xml:space="preserve">
     <value>Change search categories</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ContinueButton" xml:space="preserve">
+    <value>Continue</value>
   </data>
   <data name="CPasswordPlaceholder" xml:space="preserve">
     <value>Confirm password</value>
@@ -152,6 +161,9 @@
   </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="DescroptionAlert" xml:space="preserve">
+    <value>Pin description musn't contain | symbol !</value>
   </data>
   <data name="DontHaveAccLabel" xml:space="preserve">
     <value>Don't have an account?</value>
@@ -235,7 +247,7 @@
     <value>Pin category</value>
   </data>
   <data name="PinNameAlert" xml:space="preserve">
-    <value>Field Pin name musn't be empty!</value>
+    <value>Pin name musn't be empty and musn't contain | symbol !</value>
   </data>
   <data name="PinNamePlaceholder" xml:space="preserve">
     <value>Pin name</value>
@@ -252,6 +264,9 @@
   <data name="SaveButton" xml:space="preserve">
     <value>SAVE</value>
   </data>
+  <data name="ShareButton" xml:space="preserve">
+    <value>Share</value>
+  </data>
   <data name="SupermarketCategory" xml:space="preserve">
     <value>Supermarket</value>
   </data>
@@ -260,6 +275,9 @@
   </data>
   <data name="UseMapCheckbox" xml:space="preserve">
     <value>Use map</value>
+  </data>
+  <data name="UserLogoutAlert" xml:space="preserve">
+    <value>Are you sure you want to log out?</value>
   </data>
   <data name="UserNamePlaceholder" xml:space="preserve">
     <value>Username</value>

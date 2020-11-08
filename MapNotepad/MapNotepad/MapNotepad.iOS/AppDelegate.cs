@@ -26,6 +26,7 @@ namespace MapNotepad.iOS
         {
             Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
 
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsGoogleMaps.Init("AIzaSyAdxufr7FaU3UZJSpBbJABw30XPjer6NU4");
 
