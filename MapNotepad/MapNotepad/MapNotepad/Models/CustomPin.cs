@@ -14,6 +14,7 @@ namespace MapNotepad.Models
         public double PositionLong { get; set; }
         public bool IsFavourite { get; set; }
         public string FavouriteImageSource { get; set; }
+        public int Category { get; set; }
 
         [Ignore]
         public bool IsAnimated { get; set; }

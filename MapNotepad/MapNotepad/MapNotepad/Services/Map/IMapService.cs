@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms.GoogleMaps;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.Services.Map
 {

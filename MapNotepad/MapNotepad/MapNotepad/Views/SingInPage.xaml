@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com" xmlns:renderer="clr-namespace:MapNotepad.Renderer"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:renderer="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MapNotepad.Views.SingInPage">
+             xmlns:resources="clr-namespace:MapNotepad.Resources" 
+             x:Class="MapNotepad.Views.SingInPage"
+             Title="{x:Static resources:Resource.LoginTitle}">
     <StackLayout>
         <renderer:CustomEntry Text="{Binding EmailEntry}"
-                              Placeholder = "Email address"
+                              Placeholder = "{x:Static resources:Resource.EmailPlaceholder}"
                               HeightRequest="45"
                               Margin="50, 200, 50, 0" 
                               Keyboard="Email">
@@ -18,10 +21,11 @@
         </renderer:CustomEntry>
 
         <renderer:CustomEntry Text="{Binding PasswordEntry}"
-                              Placeholder = "Password" 
+                              Placeholder = "{x:Static resources:Resource.PasswordPlaceholder}" 
                               IsPassword ="True" 
                               HeightRequest="45"
                               Margin="50, 10, 50, 0">
+
             <renderer:CustomEntry.Behaviors>
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding TextChangedCommand}"/>
@@ -31,21 +35,17 @@
 
         <Button Command ="{Binding SignInButtonClickCommand}" 
                 IsEnabled="{Binding IsButtonEnable}" 
-                Text="Login" 
-                BackgroundColor="#29D695"
-                TextColor="Black"
-                CornerRadius ="10"
+                Text="{x:Static resources:Resource.LoginButton}" 
+                Style="{StaticResource ButtonStyle}"
                 Margin="50, 50, 50, 0"/>
-        
-        <Label Text="Don't have an account?"
+
+        <Label Text="{x:Static resources:Resource.DontHaveAccLabel}"
                TextColor="Black"
                HorizontalOptions="Center"/>
 
         <Button Command ="{Binding CreateAccountButtonClickCommand}" 
-                Text="Create account"
-                BackgroundColor="#29D695"
-                TextColor="Black"
-                CornerRadius ="10"
+                Text="{x:Static resources:Resource.CreateAccountButton}"
+                Style="{StaticResource ButtonStyle}"
                 Margin="50, 0, 50, 0"/>
 
     </StackLayout>

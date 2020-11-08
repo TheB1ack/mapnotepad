@@ -3,22 +3,24 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Repository
 {
     public class RepositoryService : IRepositoryService
     {
+        private readonly string _path;
 
         public RepositoryService()
-        {       
-
+        {
+            _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME);
         }
 
         #region -- Public properties --
 
         private SQLiteAsyncConnection _database;
-        public SQLiteAsyncConnection dataBase => _database ??= new SQLiteAsyncConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME));
+        public SQLiteAsyncConnection dataBase => _database ??= new SQLiteAsyncConnection(_path);
 
         #endregion
 
@@ -36,11 +38,11 @@ namespace MapNotepad.Services.Repository
 
             return await dataBase.GetAsync<T>(id);
         }
-        public async Task<IEnumerable<T>> GetItemsAsync<T>() where T : IBaseModel, new()
+        public async Task<IEnumerable<T>> GetItemsAsync<T>(Expression<Func<T, bool>> predicate) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<T>();
 
-            return await dataBase.Table<T>().ToListAsync();
+            return await dataBase.Table<T>().Where(predicate).ToListAsync();
         }
         public async Task<int> SaveItemAsync<T>(T item) where T : IBaseModel, new()
         {

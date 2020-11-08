@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
 
-namespace MapNotepad.Control
+namespace MapNotepad.Controls
 {
     public class CustomMap : ClusteredMap
     {
@@ -126,7 +126,6 @@ namespace MapNotepad.Control
 
         private static void OnOnlyOneFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
-
             var map = bindable as CustomMap;
             var newPin = newValue as CustomPin;
 
@@ -145,6 +144,7 @@ namespace MapNotepad.Control
             }
 
         }
+
         private static void OnCameraPositionOnMapPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
 
@@ -161,6 +161,7 @@ namespace MapNotepad.Control
             }
 
         }
+
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
         {
             bindableMap.Pins.Clear();
@@ -171,13 +172,14 @@ namespace MapNotepad.Control
                 bindableMap.Pins.Add(pin);
             }
         }
+
         private static void FocuseOnPin(Map bindableMap, CustomPin newPin)
         {
-            bool isAnimated = newPin.IsAnimated;
             var pin = newPin.ConvertToPin();
 
-            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), isAnimated);
+            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius(pin.Position, Distance.FromMeters(100)), true);
         }
+
         private static void MoveCameraToPosition(Map bindableMap, CameraPosition newPosition)
         {
             var position = new Position(newPosition.Target.Latitude, newPosition.Target.Longitude);

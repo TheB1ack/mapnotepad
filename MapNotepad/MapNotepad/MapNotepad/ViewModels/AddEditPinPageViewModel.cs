@@ -1,6 +1,10 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
+using MapNotepad.Services.Permissions;
 using MapNotepad.Services.Pins;
+using MapNotepad.Validators;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,18 +20,29 @@ namespace MapNotepad.ViewModels
     {
         private readonly IPinService _pinService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IPermissionsService _permissionsService;
 
-        public AddEditPinPageViewModel(INavigationService navigationService, 
-                                       IPinService pinService, 
-                                       IUserDialogs userDialogs) 
+        public AddEditPinPageViewModel(INavigationService navigationService,
+                                       IPinService pinService,
+                                       IUserDialogs userDialogs,
+                                       IPermissionsService permissionsService)
                                        : base(navigationService)
         {
             _userDialogs = userDialogs;
             _pinService = pinService;
+            _permissionsService = permissionsService;
+
             PinsCollection = new ObservableCollection<CustomPin>();
         }
 
         #region -- Public properties --
+
+        private int _pickerItem;
+        public int PickerItem
+        {
+            get => _pickerItem;
+            set => SetProperty(ref _pickerItem, value);
+        }
 
         private ObservableCollection<CustomPin> _pinsCollection;
         public ObservableCollection<CustomPin> PinsCollection
@@ -35,6 +50,14 @@ namespace MapNotepad.ViewModels
             get => _pinsCollection;
 
             set => SetProperty(ref _pinsCollection, value);
+        }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+
+            set => SetProperty(ref _title, value);
         }
 
         private string _oldName;
@@ -54,7 +77,7 @@ namespace MapNotepad.ViewModels
         }
 
         private string _descriptionEditor;
-        public string DescriptionEditor 
+        public string DescriptionEditor
         {
             get => _descriptionEditor;
 
@@ -109,11 +132,19 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isEntryVisible, value);
         }
 
+        private bool _isMyLocationEnabled;
+        public bool IsMyLocationEnabled
+        {
+            get => _isMyLocationEnabled;
+
+            set => SetProperty(ref _isMyLocationEnabled, value);
+        }
+
         private ICommand _mapTappedCommad;
         public ICommand MapTappedCommad => _mapTappedCommad ??= new Command<Position>(OnMapTappedCommand);
 
         private ICommand _saveClickCommand;
-        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommandAsync);
 
         private ICommand _checkBoxSetCommand;
         public ICommand CheckBoxSetCommand => _checkBoxSetCommand ??= new Command(OnCheckBoxSetCommand);
@@ -124,15 +155,26 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            CheckLocationPermissionsAsync();
+
             IsCheckBoxChecked = true;
 
-            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
+            if (parameters.TryGetValue(Constants.ACTION, out string action))
+            {
+                Title = action;
+            }
+            else
+            {
+                Debug.WriteLine("Missing parameters");
+            }
+
+            if(parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 FillData(pin);
             }
             else
             {
-                Debug.WriteLine("Parameters are missing CustomPin");
+                Debug.WriteLine("Missing parameters");
             }
 
         }
@@ -156,24 +198,26 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private void ChangePinPlace()
         {
-            if (PinsCollection.Any()) 
+            if (PinsCollection.Any())
             {
                 PinsCollection.First().PositionLat = LatitudeEntry;
                 PinsCollection.First().PositionLong = LongitudeEntry;
             }
             else
             {
-                OnMapTappedCommand(new Position(LatitudeEntry, LongitudeEntry));
+                Debug.WriteLine("Collection is empty");
             }
 
         }
+
         private void OnMapTappedCommand(Position clickPosition)
         {
             CustomPin pin = new CustomPin
             {
-                Name = NameEntry ?? string.Empty, 
+                Name = NameEntry ?? string.Empty,
                 PositionLat = clickPosition.Latitude,
                 PositionLong = clickPosition.Longitude
             };
@@ -181,14 +225,16 @@ namespace MapNotepad.ViewModels
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
 
-            PinsCollection = new ObservableCollection<CustomPin> 
-            { 
-                pin 
+            PinsCollection = new ObservableCollection<CustomPin>
+            {
+                pin
             };
         }
-        private async void OnSaveClickCommand()
+
+        private async void OnSaveClickCommandAsync()
         {
             var isValidEntry = await EntryCheckAsync();
+
             if (isValidEntry)
             {
                 var isValidName = await _pinService.CheckPinName(NameEntry);
@@ -203,7 +249,8 @@ namespace MapNotepad.ViewModels
                             Description = DescriptionEditor ?? string.Empty,
                             PositionLat = PinsCollection.First().PositionLat,
                             PositionLong = PinsCollection.First().PositionLong,
-                            FavouriteImageSource = "empty_heart.png"
+                            FavouriteImageSource = "empty_heart.png",
+                            Category = PickerItem
                         };
 
                         await _pinService.AddPinAsync(customPin);
@@ -215,6 +262,7 @@ namespace MapNotepad.ViewModels
                         MyFocusedPin.PositionLat = LatitudeEntry;
                         MyFocusedPin.PositionLong = LongitudeEntry;
                         MyFocusedPin.IsFavourite = false;
+                        MyFocusedPin.Category = PickerItem;
 
                         await _pinService.UpdatePinAsync(MyFocusedPin);
                     }
@@ -223,7 +271,10 @@ namespace MapNotepad.ViewModels
                 }
                 else
                 {
-                    _userDialogs.Alert("Pin name is already exist!", "", "OK");
+                    string alertText = Resources.Resource.ExistNameAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
 
             }
@@ -233,48 +284,69 @@ namespace MapNotepad.ViewModels
             }
 
         }
+
         private async Task<bool> EntryCheckAsync()
         {
             var isValid = true;
 
-            if (string.IsNullOrWhiteSpace(NameEntry))
+            var pinNameResult = Validator.PinNameValidator(NameEntry);
+            var descriptionResult = Validator.PinDescriptionValidator(DescriptionEditor);
+            var latitudeResult = Validator.LatitudeValidator(LatitudeEntry);
+            var longitudeResult = Validator.LongitudeValidator(LongitudeEntry);
+
+            if(!pinNameResult)
             {
                 isValid = false;
-                await _userDialogs.AlertAsync("Field Pin name musn't be empty!", "", "OK");
-            }
-            else
-            {
-                Debug.WriteLine("NameEntry is ok");
-            }
+                string alertText = Resources.Resource.PinNameAlert;
+                string button = Resources.Resource.OkButton;
 
-            if (IsCheckBoxChecked)
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
+            }
+            else if(!descriptionResult)
+            {
+                isValid = false;
+                string alertText = Resources.Resource.DescroptionAlert;
+                string button = Resources.Resource.OkButton;
+
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
+            }
+            else if (IsCheckBoxChecked)
             {
                 if (!PinsCollection.Any())
                 {
                     isValid = false;
-                    await _userDialogs.AlertAsync("Please, select your marker on map!", "", "OK");
+                    string alertText = Resources.Resource.MapAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
                 else
                 {
-                    Debug.WriteLine("Collection contains pin");
+                    isValid = true;
                 }
 
             }
             else
             {
-                if (LongitudeEntry > 180 || LongitudeEntry < 0)
+                if (!latitudeResult)
                 {
-                    await _userDialogs.AlertAsync("Unvalid longitude!", "", "OK");
                     isValid = false;
+                    string alertText = Resources.Resource.LatitudeAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
-                else if(LatitudeEntry > 90 || LatitudeEntry < -90)
+                else if(!longitudeResult)
                 {
-                    await _userDialogs.AlertAsync("Unvalid latitude!", "", "OK");
                     isValid = false;
+                    string alertText = Resources.Resource.LongitudeAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
                 else
                 {
-                    Debug.WriteLine("Longitude and latitude is ok");
+                    isValid = true;
                 }
 
             }
@@ -289,13 +361,33 @@ namespace MapNotepad.ViewModels
             DescriptionEditor = pin.Description;
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
+            PickerItem = pin.Category;
 
             MyFocusedPin = pin;
 
-            PinsCollection = new ObservableCollection<CustomPin> 
-            { 
-                pin 
+            PinsCollection = new ObservableCollection<CustomPin>
+            {
+                pin
             };
+        }
+
+        private async void CheckLocationPermissionsAsync()
+        {
+            var status = await _permissionsService.CheckPermissionsAsync<LocationPermission>();
+
+            if (status != PermissionStatus.Granted)
+            {
+                SetLocationEnable(false);
+            }
+            else
+            {
+                SetLocationEnable(true);
+            }
+
+        }
+        private void SetLocationEnable(bool isSet)
+        {
+            IsMyLocationEnabled = isSet;
         }
 
         #endregion

@@ -2,34 +2,47 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:map="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             xmlns:control="clr-namespace:MapNotepad.Control" 
-             xmlns:renderer="clr-namespace:MapNotepad.Renderer"
+             xmlns:controls="clr-namespace:MapNotepad.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MapNotepad.Views.AddEditPinPage">
+             xmlns:resources="clr-namespace:MapNotepad.Resources" 
+             x:Class="MapNotepad.Views.AddEditPinPage"
+             Title="{Binding Title, Mode=TwoWay}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveClickCommand}"
-                     Text="Save"/>
+                     Text="{x:Static resources:Resource.SaveButton}"/>
         
     </ContentPage.ToolbarItems>
 
     <StackLayout>
-        <renderer:CustomEntry Text="{Binding NameEntry}" 
-                              Placeholder = "Pin name"  
+        <controls:CustomEntry Text="{Binding NameEntry}" 
+                              Placeholder = "{x:Static resources:Resource.PinNamePlaceholder}"  
                               Margin="50, 20, 50, 0" 
                               HeightRequest="45"
                               MaxLength="15"/>
-        
-        <Editor Text="{Binding DescriptionEditor}" 
-                Placeholder="Description" 
+
+        <controls:CustomEditor Text="{Binding DescriptionEditor}" 
+                Placeholder="{x:Static resources:Resource.DescriptionPlaceholder}" 
                 Margin="50, 5, 50, 0" 
                 MaxLength="60"
                 HeightRequest="100"/>
 
         <StackLayout Orientation="Horizontal" 
                      HorizontalOptions="Center">
+            <Picker WidthRequest="120"
+                    SelectedIndex="{Binding PickerItem, Mode=TwoWay}"
+                    Title="{x:Static resources:Resource.PinCategoryTitle}">
+                <Picker.Items>
+                    <x:String>None</x:String>
+                    <x:String>Gym</x:String>
+                    <x:String>Restaurant</x:String>
+                    <x:String>Hotel</x:String>
+                    <x:String>Supermarket</x:String>
+                </Picker.Items>
+
+            </Picker>
+            
             <CheckBox IsChecked="{Binding IsCheckBoxChecked}"
-                      HorizontalOptions="Center">
+                      VerticalOptions="Center">
                 <CheckBox.Behaviors>
                     <prism:EventToCommandBehavior EventName="CheckedChanged" 
                                                   Command="{Binding CheckBoxSetCommand}"/>
@@ -37,18 +50,19 @@
                 </CheckBox.Behaviors>
             </CheckBox>
 
-            <Label Text="Use map"
+            <Label Text="{x:Static resources:Resource.UseMapCheckbox}"
                    FontSize="17"
-                   Margin="-6,3,0,0"/>
+                   Margin="-6,0,0,0"
+                   VerticalOptions="Center"/>
             
         </StackLayout>
 
         <StackLayout IsVisible="{Binding IsEntryVisible}">
-            <Label Text="Latitude"
+            <Label Text="{x:Static resources:Resource.Latitude}"
                    HorizontalOptions="Center"/>
 
             <Entry Text="{Binding LatitudeEntry}" 
-                   Placeholder = "Pin latitude"
+                   Placeholder = "{x:Static resources:Resource.LatitudePlaceholder}"
                    HeightRequest="50"
                    Margin="50, 0, 50, 0"
                    Keyboard="Numeric">
@@ -63,7 +77,7 @@
                    HorizontalOptions="Center"/>
 
             <Entry Text="{Binding LongitudeEntry}" 
-                   Placeholder = "Pin longitu"
+                   Placeholder = "{x:Static resources:Resource.LongitudePlaceholder}"
                    HeightRequest="50"
                    Margin="50, 0, 50, 0"
                    Keyboard="Numeric">
@@ -75,18 +89,24 @@
             </Entry>
 
         </StackLayout>
-
-        <control:CustomMap PinsSource="{Binding PinsCollection}"
-                           OnlyOneFocusedPin="{Binding MyFocusedPin}"
-                           Margin="10,10,10,10"
-                           IsVisible="{Binding IsMapVisible}">
-            <map:Map.Behaviors>
-                <prism:EventToCommandBehavior EventName="MapClicked" 
-                                              Command="{Binding MapTappedCommad}"
-                                              EventArgsParameterPath="Point"/>
-                
-            </map:Map.Behaviors>
-        </control:CustomMap>
         
+        <Frame BorderColor="Black"
+               VerticalOptions="FillAndExpand"
+               Padding="0"
+               Margin="5,0,5,5"
+               IsVisible="{Binding IsMapVisible}">
+            <controls:CustomMap PinsSource="{Binding PinsCollection}"
+                                OnlyOneFocusedPin="{Binding MyFocusedPin}"
+                                Margin="10,10,10,10"
+                                MyLocationEnabled="{Binding IsMyLocationEnabled}">
+                <controls:CustomMap.Behaviors>
+                    <prism:EventToCommandBehavior EventName="MapClicked" 
+                                                  Command="{Binding MapTappedCommad}"
+                                                  EventArgsParameterPath="Point"/>
+
+                </controls:CustomMap.Behaviors>
+            </controls:CustomMap>
+        </Frame>
+
     </StackLayout>
 </ContentPage>

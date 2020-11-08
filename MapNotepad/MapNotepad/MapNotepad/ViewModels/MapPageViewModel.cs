@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using MapNotepad.Enums;
 using MapNotepad.Models;
 using MapNotepad.Services.Map;
 using MapNotepad.Services.Permissions;
@@ -9,7 +10,6 @@ using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -23,11 +23,11 @@ namespace MapNotepad.ViewModels
         private readonly IPermissionsService _permissionsService;
         private readonly IUserDialogs _userDialogs;
 
-        public MapPageViewModel(INavigationService navigationService, 
-                                IPinService pinService, 
+        public MapPageViewModel(INavigationService navigationService,
+                                IPinService pinService,
                                 IMapService mapService,
                                 IPermissionsService permissionsService,
-                                IUserDialogs userDialogs) 
+                                IUserDialogs userDialogs)
                                 : base(navigationService)
         {
             _pinService = pinService;
@@ -39,6 +39,30 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public properties --
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+
+            set => SetProperty(ref _selectedIndex, value);
+        }
+
+        private bool _isSettingFrameVisible;
+        public bool IsSettingFrameVisible
+        {
+            get => _isSettingFrameVisible;
+
+            set => SetProperty(ref _isSettingFrameVisible, value);
+        }
+
+        private bool _isFrameShowed;
+        public bool IsFrameShowed
+        {
+            get => _isFrameShowed;
+
+            set => SetProperty(ref _isFrameShowed, value);
+        }
 
         private CustomPin _myFocusedPin;
         public CustomPin MyFocusedPin
@@ -72,14 +96,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _cameraPositionBinding, value);
         }
 
-        private bool _isVisibleFrame;
-        public bool IsVisibleFrame
-        {
-            get => _isVisibleFrame;
-
-            set => SetProperty(ref _isVisibleFrame, value);
-        }
-
         private string _frameNameLable;
         public string FrameNameLable
         {
@@ -111,14 +127,17 @@ namespace MapNotepad.ViewModels
 
             set => SetProperty(ref _frameLongitudeLabel, value);
         }
-       
-        private bool _myLocationEnabled;
-        public bool MyLocationEnabled
-        {
-            get => _myLocationEnabled;
 
-            set => SetProperty(ref _myLocationEnabled, value);
+        private bool _isMyLocationEnabled;
+        public bool IsMyLocationEnabled
+        {
+            get => _isMyLocationEnabled;
+
+            set => SetProperty(ref _isMyLocationEnabled, value);
         }
+
+        private ICommand _settingsClickCommand;
+        public ICommand SettingsClickCommand => _settingsClickCommand ??= new Command(OnSettingsClickCommand);
 
         private ICommand _userSearchingCommand;
         public ICommand UserSearchingCommand => _userSearchingCommand ??= new Command(OnUserSearchingCommandAsync);
@@ -126,23 +145,21 @@ namespace MapNotepad.ViewModels
         private ICommand _cameraChangedCommand;
         public ICommand CameraChangedCommand => _cameraChangedCommand ??= new Command<CameraPosition>(OnCameraChangedCommand);
 
-        private ICommand _closeFrameCommand;
-        public ICommand CloseFrameCommand => _closeFrameCommand ??= new Command(OnCloseFrameCommand);
-
         private ICommand _pinClickCommand;
-        public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommand);
-
+        public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommandAsync);
+        
         private ICommand _mapClickCommand;
         public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
+
+        private ICommand _saveClickCommand;
+        public ICommand SaveClickCommand => _saveClickCommand ??= new Command(OnSaveClickCommand);
 
         #endregion
 
         #region -- IterfaceName implementation --
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            SetSavedPosition();
-            await SetMapPinsAsync();
 
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
@@ -150,51 +167,109 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                Debug.WriteLine("Parameters are missing CustomPin");
+               SetSavedPosition();
             }
 
+            SelectedIndex = 0;
+            ResizeCollection();
         }
 
         public override void Initialize(INavigationParameters parameters)
         {
-            SetLocationAsync();
+            CheckLocationPermissionsAsync();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private async void SetLocationAsync()
+        private void OnSaveClickCommand()
+        {
+            IsSettingFrameVisible = false;
+
+            OnUserSearchingCommandAsync();
+        }
+
+        private void OnSettingsClickCommand()
+        {
+            IsSettingFrameVisible = true;
+        }
+
+        private void OnMapClickCommand()
+        {
+            if (IsFrameShowed)
+            {
+                IsFrameShowed = false;
+            }
+            else
+            {
+                Debug.WriteLine("IsFrameShowed was false");
+            }
+
+        }
+
+        private async void CheckLocationPermissionsAsync()
+        {
+            var status = await _permissionsService.CheckPermissionsAsync<LocationPermission>();
+
+            if (status != PermissionStatus.Granted)
+            { 
+                SetLocationPermissionsAsync();
+            }
+            else
+            {
+                SetLocationEnable(true);
+            }
+
+        }
+
+        private async void SetLocationPermissionsAsync()
         {
             var status = await _permissionsService.RequestPermissionsAsync<LocationPermission>();
 
             if (status != PermissionStatus.Granted)
             {
-                var result = await _permissionsService.ShowRequestPermissionRationaleAsync(Permission.Location);
+                var result = await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location);
+                var device = Device.RuntimePlatform;
 
                 if (result)
                 {
-                    await _userDialogs.AlertAsync("App needs your location to work correctly!", string.Empty, "I understand");
-                }
-                else
-                {
-                    Debug.WriteLine("result was false");
-                }
+                    if (device == Device.Android)
+                    {
+                        string alertText = Resources.Resource.AndroidLocationAlert;
+                        string button = Resources.Resource.OkButton;
 
-                status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
-            }
-            else
-            {
-                Debug.WriteLine("status wasn't Granted");
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        });
+
+                    }
+                    else if (device == Device.iOS)
+                    {
+                        string alertText = Resources.Resource.IOSLocationAlert;
+                        string button = Resources.Resource.OkButton;
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        });
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Device wasn't android or ios");
+                    }
+                }
+   
             }
 
             if (status == PermissionStatus.Granted)
             {
-                MyLocationEnabled = true;
+                SetLocationEnable(true);
             }
             else if (status != PermissionStatus.Unknown)
             {
-                MyLocationEnabled = false;
+                SetLocationEnable(false);
             }
             else
             {
@@ -202,19 +277,15 @@ namespace MapNotepad.ViewModels
             }
 
         }
-        private void OnMapClickCommand()
-        {
-            if(IsVisibleFrame)
-            {
-                IsVisibleFrame = false;
-            }
-            else
-            {
-                Debug.WriteLine("IsVisibleFrame was false");
-            }
 
+        private void SetLocationEnable(bool isSet)
+        {
+            IsMyLocationEnabled = isSet;
+
+            OnUserSearchingCommandAsync();
         }
-        private async void OnPinClickCommand(Pin pin)
+
+        private async void OnPinClickCommandAsync(Pin pin)
         {
             var items = await _pinService.GetPinsAsync();
             var tappedPin = items.FirstOrDefault(x => x.Name == pin.Label);
@@ -225,44 +296,44 @@ namespace MapNotepad.ViewModels
                 FrameDescriptionLabel = tappedPin.Description;
                 FrameLatitudeLabel = tappedPin.PositionLat.ToString();
                 FrameLongitudeLabel = tappedPin.PositionLong.ToString();
-                IsVisibleFrame = true;
+
+                IsFrameShowed = true;
             }
             else
             {
-                Debug.WriteLine("Searched pin by name eas null");
+                Debug.WriteLine("Searched pin by name was null");
             }
 
         }
-        private void OnCloseFrameCommand()
-        {
-            IsVisibleFrame = false;
-        }
+
         private void OnCameraChangedCommand(CameraPosition position)
         {
             _mapService.SaveMapPosition(position);
         }
+
         private void SetSavedPosition()
         {
             CameraPositionBinding = _mapService.GetSavedMapPosition();
         }
-        private async Task SetMapPinsAsync()
+
+        private async void SetMapPinsAsync()
         {
             var items = await _pinService.GetPinsAsync();
             var favouriteItems = items.Where(x => x.IsFavourite);
 
             PinsCollection = new ObservableCollection<CustomPin>(favouriteItems);
         }
+
         private async void OnUserSearchingCommandAsync()
         {
-            if (!string.IsNullOrWhiteSpace(SearchBarText))
-            {
-                var items = await _pinService.GetPinsByTextAsync(SearchBarText);
-                PinsCollection = new ObservableCollection<CustomPin>(items);
-            }
-            else
-            {
-                await SetMapPinsAsync();
-            }
+            var items = await _pinService.GetPinsByTextAsync(SearchBarText, (SearchCategories)SelectedIndex);
+            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x=>x.IsFavourite));
+        }
+
+        private async void ResizeCollection()
+        {
+            var items = await _pinService.GetPinsAsync();
+            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x => x.IsFavourite));
         }
 
         #endregion

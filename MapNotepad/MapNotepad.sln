@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapNotepad.Android", "MapNo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapNotepad.iOS", "MapNotepad\MapNotepad.iOS\MapNotepad.iOS.csproj", "{A1D4488E-014E-4B1D-968E-3D9647995E17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapNotepad", "MapNotepad\MapNotepad\MapNotepad.csproj", "{C03896FD-2AD2-4343-B68C-8B5263AD0DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapNotepad", "MapNotepad\MapNotepad\MapNotepad.csproj", "{C03896FD-2AD2-4343-B68C-8B5263AD0DD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

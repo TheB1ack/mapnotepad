@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:controls="clr-namespace:MapNotepad.Controls"
+             x:Class="MapNotepad.Controls.SearchBarWithButtons"
+             x:Name="SearchBarWithB">
+    
+    <Frame Padding="0"
+           Margin="0"
+           BorderColor="Black"
+           CornerRadius="10"
+           BackgroundColor="Transparent"
+           HeightRequest="40">
+        <Grid ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0"
+                   Source="Search.png"
+                   BackgroundColor="Transparent"
+                   BindingContext="{x:Reference Name=SearchBarWithB}"/>
+
+            <controls:BorderlessEntry Grid.Column="1"
+                                      TextColor="Black"
+                                      x:Name="searchbarEntry"
+                                      BackgroundColor="Transparent"
+                                      FontSize="15"
+                                      HorizontalOptions="FillAndExpand"
+                                      VerticalOptions="FillAndExpand"
+                                      BindingContext="{x:Reference Name=SearchBarWithB}"
+                                      Placeholder="{Binding Placeholder}"
+                                      Text="{Binding Text}"/>
+
+            <ImageButton Grid.Column="2"
+                         Source="Search_Cancel.png"
+                         BackgroundColor="Transparent"
+                         BindingContext="{x:Reference Name=SearchBarWithB}"
+                         Clicked="CancelButton_Click"/>
+
+            <ImageButton Grid.Column="3"
+                         Source="Search_Settings.png"
+                         BackgroundColor="Transparent"
+                         BindingContext="{x:Reference Name=SearchBarWithB}">
+                <ImageButton.Behaviors>
+                    <prism:EventToCommandBehavior EventName="Clicked"
+                                                  Command="{Binding SettingsClick}"/>
+                </ImageButton.Behaviors>
+            </ImageButton>
+        </Grid>
+    </Frame>
+    
+</ContentView>
