@@ -14,6 +14,8 @@ using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
 using Plugin.Permissions;
 using MapNotepad.Services.Permissions;
+using Prism.Navigation;
+
 namespace MapNotepad
 {
     public partial class App : PrismApplication
@@ -30,11 +32,13 @@ namespace MapNotepad
 
             if (isAuthorized)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}?selectedTab={nameof(PinsListPage)}");
+                //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}");
             }
             else
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
+                
+                //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
             }
 
         }
@@ -49,14 +53,12 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<PinsListPage, PinsListPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
-            //containerRegistry.RegisterForNavigation<SearchSettingsPopupView, SearchSettingsPopupViewModel>();
+            containerRegistry.RegisterForNavigation<QrScannerPage, QrScannerPageViewModel>();
 
             //packages
             containerRegistry.RegisterInstance(CrossSettings.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
             containerRegistry.RegisterInstance(CrossPermissions.Current);
-            //containerRegistry.RegisterInstance(PopupNavigation.Instance);
-            //containerRegistry.RegisterPopupNavigationService();
 
             //services
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());

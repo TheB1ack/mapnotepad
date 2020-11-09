@@ -192,6 +192,9 @@
   <data name="HotelCategory" xml:space="preserve">
     <value>Hotel</value>
   </data>
+  <data name="InvalidQrAlert" xml:space="preserve">
+    <value>Invalid QR Code!</value>
+  </data>
   <data name="IOSLocationAlert" xml:space="preserve">
     <value>To work correctly app needs' your location! Please, go to settings and enable it!</value>
   </data>
@@ -255,6 +258,12 @@
   <data name="PinsListTitle" xml:space="preserve">
     <value>My pins</value>
   </data>
+  <data name="QrScanHint" xml:space="preserve">
+    <value>Point the camera at QR Code in another Map Notepad app</value>
+  </data>
+  <data name="QrScanTitle" xml:space="preserve">
+    <value>Scanning QR Code</value>
+  </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>REGISTER</value>
   </data>
@@ -263,6 +272,9 @@
   </data>
   <data name="SaveButton" xml:space="preserve">
     <value>SAVE</value>
+  </data>
+  <data name="ScanPinNameAlert" xml:space="preserve">
+    <value>Pin name is already exist! Change scaning pin name, or change exist pin name!</value>
   </data>
   <data name="ShareButton" xml:space="preserve">
     <value>Share</value>

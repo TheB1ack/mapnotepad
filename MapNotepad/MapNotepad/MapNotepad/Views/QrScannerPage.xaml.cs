@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using ZXing;
 
 namespace MapNotepad.Views
 {

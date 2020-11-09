@@ -2,15 +2,14 @@
 using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
+using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using ZXing;
-using ZXing.Net.Mobile.Forms;
-using ZXing.QrCode;
 
 namespace MapNotepad.ViewModels
 {
@@ -169,15 +168,11 @@ namespace MapNotepad.ViewModels
 
         private void OnShareTapCommand(CustomPin pin)
         {
-            var saveString = pin.Name + "|" + pin.Description ?? " " + "|" + pin.Category.ToString() + "|" + pin.PositionLat + "|" + pin.PositionLong;
-        
+            var saveString = JsonConvert.SerializeObject(pin);
             BarcodeValue = saveString;
 
             IsVisibleButton = false;
-            IsQrFrameVisible = true;
         }
-
-
 
         private async void ResizeCollection()
         {
@@ -280,13 +275,18 @@ namespace MapNotepad.ViewModels
                 Debug.WriteLine("pin is favourite");
             }
 
-            NavigationParameters parameters = new NavigationParameters
+            await GoToSelectedPin(ItemSelected);
+        }
+
+        private Task GoToSelectedPin(CustomPin pin)
+        {
+            var parameters = new NavigationParameters
             {
-                 { nameof(CustomPin), ItemSelected }
+                 { nameof(CustomPin), pin }
             };
 
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
-        }
+            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+        } 
 
         #endregion
 

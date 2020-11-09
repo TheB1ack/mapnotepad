@@ -1,12 +1,10 @@
-﻿using MapNotepad.Models;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
-using Prism.Commands;
-using Prism.Mvvm;
+using Newtonsoft.Json;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ZXing;
@@ -16,12 +14,15 @@ namespace MapNotepad.ViewModels
     public class QrScannerPageViewModel : ViewModelBase
     {
         private readonly IPinService _pinService;
+        private readonly IUserDialogs _userDialogs;
 
         public QrScannerPageViewModel(INavigationService navigationService,
-                                      IPinService pinService) 
+                                      IPinService pinService,
+                                      IUserDialogs userDialogs)
                                       : base(navigationService)
         {
             _pinService = pinService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public properties --
@@ -34,41 +35,73 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _scanResult, value);
         }
 
-        private ICommand _scanCommand;
-        public ICommand ScanCommand => _scanCommand ??= new Command(OnScanCommand);
+        private ICommand _scanResultCommand;
+        public ICommand ScanResultCommand => _scanResultCommand ??= new Command(OnScanResultCommand);
+
 
         #endregion
 
         #region -- Private helpers --
 
-        private  async void OnScanCommand()
+        private async void OnScanResultCommand()
         {
-            var pin = GetPin();
-            await _pinService.AddPinAsync(pin);
-
-            var parameters = new NavigationParameters
+            if (ScanResult != null)
             {
-                {nameof(pin), pin }
-            };
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                var pin = TryGetPin(ScanResult.Text);
+                if (pin != null)
+                {
+                    var isValid = await _pinService.CheckPinName(pin.Name);
+                    if (isValid)
+                    {
+                        await _pinService.AddPinAsync(pin);
+
+                        var parameters = new NavigationParameters
+                    {
+                        {nameof(CustomPin), pin }
+                    };
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                        });
+                        ScanResult = null;
+                    }
+                    else
+                    {
+                        string alertText = Resources.Resource.ScanPinNameAlert;
+                        string button = Resources.Resource.OkButton;
+
+                        await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                    }
+                }
+                else
+                {
+                    string alertText = Resources.Resource.InvalidQrAlert;
+                    string button = Resources.Resource.OkButton;
+
+                    await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("result was null");
+            }
+    
         }
 
-        private CustomPin GetPin()
+        private CustomPin TryGetPin(string text)
         {
-            var result = ScanResult.Text;
-            var items = result.Split('|');
-
-            var pin = new CustomPin
+            CustomPin pin = null;
+            try
             {
-                Name = items[0],
-                Description = items[1],
-                Category = Int32.Parse(items[3]),
-                PositionLat = Double.Parse(items[4]),
-                PositionLong = Double.Parse(items[5]),
-                IsFavourite = true,
-                FavouriteImageSource = "empty_heart.png"
-            };
-
+                pin = JsonConvert.DeserializeObject<CustomPin>(text);
+                pin.IsFavourite = true;
+                pin.FavouriteImageSource = "full_heart.png";
+            }
+            catch(JsonException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             return pin;
         }
         #endregion

@@ -4,13 +4,15 @@
              xmlns:prism="http://prismlibrary.com" 
              xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MapNotepad.Views.QrScannerPage">
+             x:Class="MapNotepad.Views.QrScannerPage"
+             xmlns:resources="clr-namespace:MapNotepad.Resources"
+             Title="{x:Static resources:Resource.QrScanTitle}">
     <Grid>
-        <zxing:ZXingScannerView VerticalOptions="Center"
-                                HorizontalOptions="Center"
-                                IsScanning="True"
-                                Result="{Binding ScanResult}"
-                                ScanResultCommand="{Binding ScanCommand}">
-        </zxing:ZXingScannerView>
+        <zxing:ZXingScannerView IsScanning="True"
+                                Result="{Binding ScanResult, Mode=TwoWay}"
+                                ScanResultCommand="{Binding ScanResultCommand}"/>
+
+        <zxing:ZXingDefaultOverlay TopText="{x:Static resources:Resource.QrScanHint}"/>
+
     </Grid>
 </ContentPage>

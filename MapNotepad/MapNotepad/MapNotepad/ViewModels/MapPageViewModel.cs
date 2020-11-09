@@ -160,7 +160,6 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 MyFocusedPin = pin;

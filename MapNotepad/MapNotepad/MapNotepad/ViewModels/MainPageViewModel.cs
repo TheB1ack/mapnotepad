@@ -37,9 +37,9 @@ namespace MapNotepad.ViewModels
 
         private async void OnqrClickCommand()
         {
-            var scanner = new MobileBarcodeScanner();
-
-            var result = await scanner.Scan();
+            //var scanner = new MobileBarcodeScanner();
+            await _navigationService.NavigateAsync($"{nameof(QrScannerPage)}");
+            //var result = await scanner.Scan();
         }
 
         private async void OnLogOutClickCommandAsync()
