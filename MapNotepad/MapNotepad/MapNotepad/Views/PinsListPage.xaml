@@ -8,15 +8,22 @@
              xmlns:controls="clr-namespace:MapNotepad.Controls" 
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit" 
              xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms" 
-             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable" 
+             xmlns:local="clr-namespace:MapNotepad.Converters"
              x:Name="_this"
              Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:CategoryToStringConverter x:Key="categoryConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
-            
+
         </Grid.RowDefinitions>
 
         <controls:SearchBarWithButtons Grid.Row="0"
@@ -36,7 +43,7 @@
                VerticalOptions="Center"
                IsVisible="{Binding IsVisibleText, Mode=TwoWay}"
                Grid.Row="1"/>
-        
+
         <ListView HasUnevenRows="True"              
                   ItemsSource="{Binding PinsCollection}"
                   SelectionMode="Single"   
@@ -50,16 +57,16 @@
             <ListView.Behaviors>
                 <prism:EventToCommandBehavior EventName="ItemTapped" 
                                               Command="{Binding ItemTappedCommand}"/>
-                
+
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell Height="120">
+                    <ViewCell Height="130">
                         <ViewCell.ContextActions >
                             <MenuItem Text="{x:Static resources:Resource.EditButton}"
                                       Command="{Binding BindingContext.EditTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
-                            
+
                             <MenuItem Text="{x:Static resources:Resource.DeleteButton}"
                                       Command="{Binding BindingContext.DeleteTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
@@ -70,14 +77,22 @@
                                       CommandParameter="{Binding .}"/>
 
                         </ViewCell.ContextActions>
+                        
                         <ViewCell.View>
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout Orientation="Vertical"
+                            <Grid ColumnSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Grid.Column="0"
+                                             Orientation="Vertical"
                                              Margin="3,0,0,0"
                                              VerticalOptions="Center">
                                     <ImageButton Source="{Binding FavouriteImageSource}"
-                                                 WidthRequest="50"
-                                                 HeightRequest="50"
+                                                 WidthRequest="60"
+                                                 HeightRequest="60"
                                                  BackgroundColor="Transparent">
                                         <ImageButton.Behaviors>
                                             <prism:EventToCommandBehavior EventName="Clicked"
@@ -85,10 +100,11 @@
                                                                           CommandParameter="{Binding .}"/>
                                         </ImageButton.Behaviors>
                                     </ImageButton>
-                                    
+
                                 </StackLayout>
-                                
-                                <StackLayout Orientation="Vertical"
+
+                                <StackLayout Grid.Column="1"
+                                             Orientation="Vertical"
                                              WidthRequest="300">
                                     <Label Text="{Binding Name}"
                                            FontSize="17" 
@@ -99,35 +115,21 @@
                                            FontAttributes="None"
                                            FontSize="17"
                                            HorizontalOptions="Center"/>
-                                    
+
                                 </StackLayout>
 
-                                <StackLayout Orientation="Vertical"
-                                             WidthRequest="300">
-                                    <Label Text="{x:Static resources:Resource.Latitude}" 
+                                <StackLayout Grid.Column="2">
+                                    <Label Text="{Binding Category, Converter={StaticResource categoryConverter}}" 
                                            FontAttributes="Bold"
+                                           Margin="0,0,-30,0"
                                            FontSize="17"
-                                           HorizontalOptions="Center"
-                                           WidthRequest="90"/>
-                                    
-                                    <Label Text="{Binding PositionLat}"
-                                               FontSize="17" 
-                                               FontAttributes="None"
-                                               HorizontalOptions="Center"/>
+                                           Rotation="-90"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
 
-                                    <Label Text="{x:Static resources:Resource.Longitude}" 
-                                           FontAttributes="Bold"
-                                           FontSize="17"
-                                           HorizontalOptions="Center"
-                                           WidthRequest="90"/>
-                                    
-                                    <Label Text="{Binding PositionLong}" 
-                                           FontAttributes="None"
-                                           FontSize="17"
-                                           HorizontalOptions="Center"/>
-                                    
                                 </StackLayout>
-                            </StackLayout>
+                                
+                            </Grid>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
@@ -135,7 +137,7 @@
         </ListView>
 
         <Entry x:Name="EntryPhoneNumber" Text="{Binding BarcodeValue}" IsVisible="False"/>
-        
+
         <Frame Grid.Row="1"
                BackgroundColor="GhostWhite"
                BorderColor="Black"
@@ -153,19 +155,19 @@
                                              Margin="10">
                     <zxing:ZXingBarcodeImageView.BarcodeOptions>
                         <zxcm:EncodingOptions Width="300" Height="300"/>
-                        
+
                     </zxing:ZXingBarcodeImageView.BarcodeOptions>
-                    
+
                 </zxing:ZXingBarcodeImageView>
 
                 <Button Command ="{Binding CloseFrameCommand}" 
                         Text="{x:Static resources:Resource.CloseButton}"
                         Style="{StaticResource ButtonStyle}"
                         Margin="50, 10, 50, 0"/>
-                
+
             </StackLayout>
         </Frame>
-        
+
         <Frame Grid.Row="1"
                BackgroundColor="GhostWhite"
                CornerRadius="10"
@@ -205,7 +207,7 @@
 
             </StackLayout>
         </Frame>
-        
+
         <ImageButton Source="ic_add.png"
                      BackgroundColor="#29D695"
                      Grid.Row="1"
