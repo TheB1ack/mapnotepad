@@ -101,7 +101,7 @@ namespace MapNotepad.ViewModels
             
             if (isSignedIn)
             {
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}");
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}");
             }
             else
             {

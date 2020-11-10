@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MapNotepad.App"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
+    
      <Application.Resources>
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor"
-                    Value="#29D695">
-            </Setter>
-            
+                    Value="#29D695"/>
+            <Setter Property="BarTextColor"
+                    Value="White"/>
         </Style>
 
         <Style x:Key="ButtonStyle"

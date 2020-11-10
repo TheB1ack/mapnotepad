@@ -196,15 +196,6 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pin description musn&apos;t contain | symbol !.
-        /// </summary>
-        public static string DescroptionAlert {
-            get {
-                return ResourceManager.GetString("DescroptionAlert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t have an account?.
         /// </summary>
         public static string DontHaveAccLabel {
@@ -259,7 +250,7 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pins&apos; name is already exist!.
+        ///   Looks up a localized string similar to Pin&apos;s name is already exist!.
         /// </summary>
         public static string ExistNameAlert {
             get {
@@ -457,7 +448,7 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pin name musn&apos;t be empty and musn&apos;t contain | symbol !.
+        ///   Looks up a localized string similar to Pin name musn&apos;t be empty !.
         /// </summary>
         public static string PinNameAlert {
             get {
@@ -588,6 +579,15 @@ namespace MapNotepad.Resources {
         public static string UserNamePlaceholder {
             get {
                 return ResourceManager.GetString("UserNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather.
+        /// </summary>
+        public static string WeatherTitle {
+            get {
+                return ResourceManager.GetString("WeatherTitle", resourceCulture);
             }
         }
     }

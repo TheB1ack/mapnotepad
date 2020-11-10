@@ -3,7 +3,9 @@ using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Newtonsoft.Json;
+using Prism.Common;
 using Prism.Navigation;
+using Prism.Navigation.TabbedPages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -171,6 +173,7 @@ namespace MapNotepad.ViewModels
             var saveString = JsonConvert.SerializeObject(pin);
             BarcodeValue = saveString;
 
+            IsQrFrameVisible = true;
             IsVisibleButton = false;
         }
 
@@ -285,8 +288,14 @@ namespace MapNotepad.ViewModels
                  { nameof(CustomPin), pin }
             };
 
-            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
-        } 
+           // var currentPage = ((IPageAware)_navigationService).Page;
+            //var parent = currentPage.Parent;
+
+            //var res = _navigationService.SelectTabAsync($"{nameof(MapPage)}", parameters);
+            //return res;
+
+            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}", parameters);
+        }
 
         #endregion
 

@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+             xmlns:resources="clr-namespace:MapNotepad.Resources"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MapNotepad.Views.WeatherPage"
+             Title="{x:Static resources:Resource.WeatherTitle}"
+             BackgroundColor="White">
+
+    <StackLayout>
+        
+        <Frame Margin="2,2,2,5"
+               Padding="0"
+               BorderColor="Black"
+               CornerRadius="10"
+               VerticalOptions="Center"
+               HorizontalOptions="FillAndExpand"
+               BackgroundColor="White">
+            
+            <Picker ItemsSource="{Binding PickerSource}"
+                    VerticalOptions="Start"
+                    FontSize="15"
+                    HorizontalOptions="FillAndExpand"
+                    SelectedItem="{Binding SelectedItem}">
+                <Picker.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                  Command="{Binding SelectedItemChangedCommand}"/>
+                </Picker.Behaviors>
+            </Picker>
+            
+        </Frame>
+
+        <!--<forms:AnimationView Animation="searching.json"
+                             RepeatMode="Restart"
+                             VerticalOptions="Center"
+                             AutoPlay="True"
+                             HorizontalOptions="Center" />-->
+
+
+        <Grid IsVisible="{Binding IsShowContent}"
+              ColumnSpacing="0"
+              RowSpacing="0"
+              Margin="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Frame Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   BackgroundColor="GhostWhite"
+                   BorderColor="White"
+                   Padding="5"
+                   Margin="2"
+                   CornerRadius="10">
+                
+                <Grid ColumnSpacing="0"
+                      RowSpacing="0">
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Day1Date}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="18"/>
+
+                    <StackLayout Grid.Row="1"
+                                 Grid.Column="0">
+
+                        <Label Text="{Binding Day1Weather}"
+                               HorizontalOptions="Center"
+                               FontSize="15"/>
+
+                        <Label Text="{Binding Day1WeatherDesc}"
+                               HorizontalOptions="Center"
+                               FontSize="13"/>
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="2"
+                                 Grid.Column="0">
+
+                        <Label Text="Cloudiness, %"
+                               HorizontalOptions="Center"
+                               FontSize="15"/>
+
+                        <Label Text="{Binding Day1Cloudiness}"
+                               HorizontalOptions="Center"
+                               FontSize="13"/>
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="1"
+                                 Grid.Column="1">
+
+                        <Label Text="Wind speed"
+                               HorizontalOptions="Center"
+                               FontSize="15"/>
+
+                        <Label Text="{Binding Day1WindSpeed}"
+                               HorizontalOptions="Center"
+                               FontSize="13"/>
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="2"
+                                 Grid.Column="1">
+
+                        <Label Text="PoP, %"
+                               HorizontalOptions="Center"
+                               FontSize="15"/>
+
+                        <Label Text="{Binding Day1PoP}"
+                               HorizontalOptions="Center"
+                               FontSize="13"/>
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Row="0"
+                                 Grid.Column="3"
+                                 Grid.RowSpan="3">
+
+                        <StackLayout>
+
+                            <Label Text="Temperature"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   FontSize="15"/>
+
+                            <Label Text="{Binding Day1Temp}"
+                                   HorizontalOptions="Center"
+                                   FontSize="13"/>
+
+                            <Label Text="{Binding Day1FillTemp}"
+                                   HorizontalOptions="Center"
+                                   FontSize="13"/>
+
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout>
+                                <Label Text="Minimum"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       FontSize="12"/>
+
+                                <Label Text="{Binding Day1MinTemp}"
+                                       HorizontalOptions="Center"
+                                       FontSize="12"/>
+                                
+                            </StackLayout>
+
+                            <StackLayout>
+                                <Label Text="Maximum"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       FontSize="12"/>
+
+                                <Label Text="{Binding Day1MaxTemp}"
+                                       HorizontalOptions="Center"
+                                       FontSize="12"/>
+                            </StackLayout>
+
+                        </StackLayout>
+
+                        <Label HorizontalOptions="Center"
+                               Text="{Binding Day1Humidity}"
+                               FontSize="13"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Row="1"
+                   Grid.Column="0"
+                   Padding="5"
+                   BackgroundColor="GhostWhite"
+                   BorderColor="White"
+                   CornerRadius="10"
+                   Margin="2">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Day2Date}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="21"/>
+
+                    <Label Text="Temperature"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day2Temp}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day2WeatherDesc}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                </StackLayout>
+
+            </Frame>
+
+            <Frame Grid.Row="1"
+                   Grid.Column="1"
+                   Padding="5"
+                   BackgroundColor="GhostWhite"
+                   BorderColor="White"
+                   CornerRadius="10"
+                   Margin="2">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Day3Date}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="21"/>
+
+                    <Label Text="Temperature"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day3Temp}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day3WeatherDesc}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="2"
+                   Grid.Column="0"
+                   Padding="5"
+                   BackgroundColor="GhostWhite"
+                   BorderColor="White"
+                   CornerRadius="10"
+                   Margin="2">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Day4Date}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="21"/>
+
+                    <Label Text="Temperature"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day4Temp}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day4WeatherDesc}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="2"
+                    Grid.Column="1"
+                    Padding="5"
+                    BackgroundColor="GhostWhite"
+                    BorderColor="White"
+                    CornerRadius="10"
+                    Margin="2">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding Day5Date}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           FontSize="21"/>
+
+                    <Label Text="Temperature"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day5Temp}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                    <Label Text="{Binding Day5WeatherDesc}"
+                           HorizontalOptions="Center"
+                           FontSize="17"/>
+
+                </StackLayout>
+            </Frame>
+        </Grid>
+        
+        
+    </StackLayout>
+</ContentPage>

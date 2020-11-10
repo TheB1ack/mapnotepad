@@ -9,12 +9,12 @@ using ZXing.Mobile;
 
 namespace MapNotepad.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class HomeTabbedPageViewModel : ViewModelBase
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IUserDialogs _userDialogs;
 
-        public MainPageViewModel(INavigationService navigationService, 
+        public HomeTabbedPageViewModel(INavigationService navigationService, 
                                  IAuthorizationService authorizationService,
                                  IUserDialogs userDialogs) 
                                  : base(navigationService)
@@ -37,9 +37,7 @@ namespace MapNotepad.ViewModels
 
         private async void OnqrClickCommand()
         {
-            //var scanner = new MobileBarcodeScanner();
             await _navigationService.NavigateAsync($"{nameof(QrScannerPage)}");
-            //var result = await scanner.Scan();
         }
 
         private async void OnLogOutClickCommandAsync()

@@ -110,26 +110,6 @@ namespace MapNotepad.Validators
             {
                 isValid = false;
             }
-            else if (pinName.Contains("|"))
-            {
-                isValid = false;
-            }
-            else
-            {
-                isValid = true;
-            }
-
-            return isValid;
-        }
-
-        public static bool PinDescriptionValidator(string description)
-        {
-            var isValid = false;
-
-            if (description.Contains("|"))
-            {
-                isValid = false;
-            }
             else
             {
                 isValid = true;

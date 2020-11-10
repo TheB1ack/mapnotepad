@@ -2,9 +2,9 @@
 
 namespace MapNotepad.Views
 {
-    public partial class MainPage : TabbedPage
+    public partial class HomeTabbedPage : TabbedPage
     {
-        public MainPage()
+        public HomeTabbedPage()
         {
             InitializeComponent();
         }

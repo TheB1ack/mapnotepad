@@ -15,7 +15,6 @@ namespace MapNotepad.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
-
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

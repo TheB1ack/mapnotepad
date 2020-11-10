@@ -10,6 +10,7 @@
              x:Name="_this"
              Title="{x:Static resources:Resource.MapTitle}"
              BackgroundColor="GhostWhite">
+    
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

@@ -15,6 +15,8 @@ using MapNotepad.Services.MapService;
 using Plugin.Permissions;
 using MapNotepad.Services.Permissions;
 using Prism.Navigation;
+using MapNotepad.Services.REST;
+using MapNotepad.Services.WeatherService;
 
 namespace MapNotepad
 {
@@ -32,13 +34,12 @@ namespace MapNotepad
 
             if (isAuthorized)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}?selectedTab={nameof(PinsListPage)}");
-                //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Views.MainPage)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}");
             }
             else
             {
                 
-                //await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
+                await NavigationService.NavigateAsync($"{nameof(SingInPage)}");
             }
 
         }
@@ -49,11 +50,12 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SingUpPage, SingUpPageViewModel>();
             containerRegistry.RegisterForNavigation<SingInPage, SingInPageViewModel>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<HomeTabbedPage, HomeTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<PinsListPage, PinsListPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditPinPage, AddEditPinPageViewModel>();
             containerRegistry.RegisterForNavigation<QrScannerPage, QrScannerPageViewModel>();
+            containerRegistry.RegisterForNavigation<WeatherPage, WeatherPageViewModel>();
 
             //packages
             containerRegistry.RegisterInstance(CrossSettings.Current);
@@ -67,6 +69,9 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
             containerRegistry.RegisterInstance<IPermissionsService>(Container.Resolve<PermissionsService>());
+            containerRegistry.RegisterInstance<IRestService>(Container.Resolve<RestService>());
+            containerRegistry.RegisterInstance<IWeatherService>(Container.Resolve<WeatherService>());
+
 
         }
     }

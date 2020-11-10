@@ -290,7 +290,6 @@ namespace MapNotepad.ViewModels
             var isValid = true;
 
             var pinNameResult = Validator.PinNameValidator(NameEntry);
-            var descriptionResult = Validator.PinDescriptionValidator(DescriptionEditor);
             var latitudeResult = Validator.LatitudeValidator(LatitudeEntry);
             var longitudeResult = Validator.LongitudeValidator(LongitudeEntry);
 
@@ -298,14 +297,6 @@ namespace MapNotepad.ViewModels
             {
                 isValid = false;
                 string alertText = Resources.Resource.PinNameAlert;
-                string button = Resources.Resource.OkButton;
-
-                await _userDialogs.AlertAsync(alertText, string.Empty, button);
-            }
-            else if(!descriptionResult)
-            {
-                isValid = false;
-                string alertText = Resources.Resource.DescroptionAlert;
                 string button = Resources.Resource.OkButton;
 
                 await _userDialogs.AlertAsync(alertText, string.Empty, button);

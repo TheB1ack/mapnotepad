@@ -56,13 +56,13 @@ namespace MapNotepad.ViewModels
                         await _pinService.AddPinAsync(pin);
 
                         var parameters = new NavigationParameters
-                    {
-                        {nameof(CustomPin), pin }
-                    };
+                        {
+                            {nameof(CustomPin), pin }
+                        };
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MainPage)}?selectedTab={nameof(MapPage)}", parameters);
+                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}", parameters);
                         });
                         ScanResult = null;
                     }
