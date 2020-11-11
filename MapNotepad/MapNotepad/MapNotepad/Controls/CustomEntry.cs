@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace MapNotepad.Controls
 {
@@ -13,6 +12,7 @@ namespace MapNotepad.Controls
 
             set => SetValue(IsTextValidProperty, value);
         }
+
         public static readonly BindableProperty IsTextValidProperty = BindableProperty.Create(
                                                          propertyName: nameof(IsTextValid),
                                                          returnType: typeof(bool),
@@ -41,10 +41,6 @@ namespace MapNotepad.Controls
                 {
                     entry.TextColor = Color.Red;
                 }
-            }
-            else
-            {
-                Debug.WriteLine("entry was null");
             }
 
         }

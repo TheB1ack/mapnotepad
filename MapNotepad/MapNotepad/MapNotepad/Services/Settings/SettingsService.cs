@@ -54,5 +54,6 @@ namespace MapNotepad.Services.Settings
         }
 
         #endregion
+
     }
 }

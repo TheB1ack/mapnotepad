@@ -11,6 +11,7 @@ namespace MapNotepad.Converters
         {
             return ((SearchCategories)(int)value).ToString();
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (int)(SearchCategories)value;

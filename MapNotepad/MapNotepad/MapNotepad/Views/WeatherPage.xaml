@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
              xmlns:resources="clr-namespace:MapNotepad.Resources"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MapNotepad.Views.WeatherPage"
@@ -10,42 +9,45 @@
              BackgroundColor="White">
 
     <StackLayout>
-        
+
         <Frame Margin="2,2,2,5"
                Padding="0"
                BorderColor="Black"
                CornerRadius="10"
                VerticalOptions="Center"
                HorizontalOptions="FillAndExpand"
-               BackgroundColor="White">
-            
+               BackgroundColor="Transparent">
+
             <Picker ItemsSource="{Binding PickerSource}"
                     VerticalOptions="Start"
                     FontSize="15"
                     HorizontalOptions="FillAndExpand"
                     SelectedItem="{Binding SelectedItem}">
+                
                 <Picker.Behaviors>
+                    
                     <prism:EventToCommandBehavior EventName="SelectedIndexChanged"
                                                   Command="{Binding SelectedItemChangedCommand}"/>
+                    
                 </Picker.Behaviors>
+                
             </Picker>
-            
+
         </Frame>
 
-        <!--<forms:AnimationView Animation="searching.json"
-                             RepeatMode="Restart"
-                             VerticalOptions="Center"
-                             AutoPlay="True"
-                             HorizontalOptions="Center" />-->
-
+        <Label Text="{Binding LabetText}"
+               IsVisible="{Binding IsShowLabel}"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center"/>
 
         <Grid IsVisible="{Binding IsShowContent}"
               ColumnSpacing="0"
               RowSpacing="0"
-              Margin="0">
+              Margin="0"
+              VerticalOptions="FillAndExpand">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="160"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -53,7 +55,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Frame Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
@@ -62,10 +64,11 @@
                    Padding="5"
                    Margin="2"
                    CornerRadius="10">
-                
+
                 <Grid ColumnSpacing="0"
-                      RowSpacing="0">
-                    
+                      RowSpacing="0"
+                      VerticalOptions="Center">
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
@@ -87,7 +90,8 @@
                            FontSize="18"/>
 
                     <StackLayout Grid.Row="1"
-                                 Grid.Column="0">
+                                 Grid.Column="0"
+                                 VerticalOptions="Center">
 
                         <Label Text="{Binding Day1Weather}"
                                HorizontalOptions="Center"
@@ -100,9 +104,10 @@
                     </StackLayout>
 
                     <StackLayout Grid.Row="2"
-                                 Grid.Column="0">
+                                 Grid.Column="0"
+                                 VerticalOptions="Center">
 
-                        <Label Text="Cloudiness, %"
+                        <Label Text="{x:Static resources:Resource.CloudinessLabel}"
                                HorizontalOptions="Center"
                                FontSize="15"/>
 
@@ -113,9 +118,10 @@
                     </StackLayout>
 
                     <StackLayout Grid.Row="1"
-                                 Grid.Column="1">
+                                 Grid.Column="1"
+                                 VerticalOptions="Center">
 
-                        <Label Text="Wind speed"
+                        <Label Text="{x:Static resources:Resource.WindSpeedLabel}"
                                HorizontalOptions="Center"
                                FontSize="15"/>
 
@@ -126,9 +132,10 @@
                     </StackLayout>
 
                     <StackLayout Grid.Row="2"
-                                 Grid.Column="1">
+                                 Grid.Column="1"
+                                 VerticalOptions="Center">
 
-                        <Label Text="PoP, %"
+                        <Label Text="{x:Static resources:Resource.PoPLabel}"
                                HorizontalOptions="Center"
                                FontSize="15"/>
 
@@ -140,11 +147,12 @@
 
                     <StackLayout Grid.Row="0"
                                  Grid.Column="3"
-                                 Grid.RowSpan="3">
+                                 Grid.RowSpan="3"
+                                 VerticalOptions="Center">
 
                         <StackLayout>
 
-                            <Label Text="Temperature"
+                            <Label Text="{x:Static resources:Resource.TemperatureLabel}"
                                    FontAttributes="Bold"
                                    HorizontalOptions="Center"
                                    FontSize="15"/>
@@ -160,8 +168,10 @@
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
+
                             <StackLayout>
-                                <Label Text="Minimum"
+
+                                <Label Text="{x:Static resources:Resource.MinimumLabel}"
                                        FontAttributes="Bold"
                                        HorizontalOptions="Center"
                                        FontSize="12"/>
@@ -169,11 +179,12 @@
                                 <Label Text="{Binding Day1MinTemp}"
                                        HorizontalOptions="Center"
                                        FontSize="12"/>
-                                
+
                             </StackLayout>
 
                             <StackLayout>
-                                <Label Text="Maximum"
+
+                                <Label Text="{x:Static resources:Resource.MaximumLabel}"
                                        FontAttributes="Bold"
                                        HorizontalOptions="Center"
                                        FontSize="12"/>
@@ -181,15 +192,15 @@
                                 <Label Text="{Binding Day1MaxTemp}"
                                        HorizontalOptions="Center"
                                        FontSize="12"/>
+
                             </StackLayout>
 
                         </StackLayout>
 
-                        <Label HorizontalOptions="Center"
-                               Text="{Binding Day1Humidity}"
-                               FontSize="13"/>
                     </StackLayout>
+
                 </Grid>
+
             </Frame>
 
             <Frame Grid.Row="1"
@@ -199,7 +210,9 @@
                    BorderColor="White"
                    CornerRadius="10"
                    Margin="2">
-                <StackLayout>
+
+                <StackLayout VerticalOptions="StartAndExpand">
+
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
@@ -209,17 +222,20 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <Label Text="Temperature"
+                    <StackLayout  VerticalOptions="Center">
+
+                        <Label Text="{x:Static resources:Resource.PoPLabel}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day2Temp}"
+                        <Label Text="{Binding Day2Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day2WeatherDesc}"
+                        <Label Text="{Binding Day2WeatherDesc}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
+                    </StackLayout>
 
                 </StackLayout>
 
@@ -232,7 +248,9 @@
                    BorderColor="White"
                    CornerRadius="10"
                    Margin="2">
-                <StackLayout>
+
+                <StackLayout VerticalOptions="StartAndExpand">
+
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
@@ -242,19 +260,24 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <Label Text="Temperature"
+                    <StackLayout VerticalOptions="Center">
+
+                        <Label Text="{x:Static resources:Resource.PoPLabel}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day3Temp}"
+                        <Label Text="{Binding Day3Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day3WeatherDesc}"
+                        <Label Text="{Binding Day3WeatherDesc}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
+
+                    </StackLayout>
 
                 </StackLayout>
+
             </Frame>
 
             <Frame Grid.Row="2"
@@ -264,7 +287,9 @@
                    BorderColor="White"
                    CornerRadius="10"
                    Margin="2">
-                <StackLayout>
+
+                <StackLayout VerticalOptions="StartAndExpand">
+
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
@@ -274,19 +299,24 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <Label Text="Temperature"
+                    <StackLayout  VerticalOptions="Center">
+
+                        <Label Text="{x:Static resources:Resource.PoPLabel}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day4Temp}"
+                        <Label Text="{Binding Day4Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day4WeatherDesc}"
+                        <Label Text="{Binding Day4WeatherDesc}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
+
+                    </StackLayout>
 
                 </StackLayout>
+
             </Frame>
 
             <Frame Grid.Row="2"
@@ -296,7 +326,9 @@
                     BorderColor="White"
                     CornerRadius="10"
                     Margin="2">
-                <StackLayout>
+
+                <StackLayout VerticalOptions="StartAndExpand">
+
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
@@ -306,22 +338,28 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <Label Text="Temperature"
+                    <StackLayout  VerticalOptions="Center">
+
+                        <Label Text="{x:Static resources:Resource.PoPLabel}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day5Temp}"
+                        <Label Text="{Binding Day5Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                    <Label Text="{Binding Day5WeatherDesc}"
+                        <Label Text="{Binding Day5WeatherDesc}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
+
+                    </StackLayout>
 
                 </StackLayout>
+
             </Frame>
+
         </Grid>
-        
-        
+
     </StackLayout>
+
 </ContentPage>

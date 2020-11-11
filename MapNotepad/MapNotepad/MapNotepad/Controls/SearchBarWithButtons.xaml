@@ -12,7 +12,9 @@
            CornerRadius="10"
            BackgroundColor="Transparent"
            HeightRequest="40">
+        
         <Grid ColumnSpacing="0">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
@@ -46,12 +48,18 @@
                          Source="Search_Settings.png"
                          BackgroundColor="Transparent"
                          BindingContext="{x:Reference Name=SearchBarWithB}">
+                
                 <ImageButton.Behaviors>
+                    
                     <prism:EventToCommandBehavior EventName="Clicked"
                                                   Command="{Binding SettingsClick}"/>
+                    
                 </ImageButton.Behaviors>
+                
             </ImageButton>
+            
         </Grid>
+        
     </Frame>
     
 </ContentView>

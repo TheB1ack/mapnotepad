@@ -1,6 +1,5 @@
 ﻿using MapNotepad.Services.Map;
 using MapNotepad.Services.Settings;
-using System.Threading.Tasks;
 using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.Services.MapService
@@ -8,16 +7,21 @@ namespace MapNotepad.Services.MapService
     public class MapService : IMapService
     {
         private readonly ISettingsService _settingsService;
+
         public MapService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
         }
+
+        #region -- IterfaceName implementation --
+
         public void SaveMapPosition(CameraPosition position)
         {
             _settingsService.MapLatitude = position.Target.Latitude;
             _settingsService.MapLongitude = position.Target.Longitude;
             _settingsService.MapZoom = position.Zoom;
         }
+
         public CameraPosition GetSavedMapPosition()
         {
             CameraPosition newCameraPosition;
@@ -34,5 +38,8 @@ namespace MapNotepad.Services.MapService
 
             return newCameraPosition;
         }
+
+        #endregion
+
     }
 }

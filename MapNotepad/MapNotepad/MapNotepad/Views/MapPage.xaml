@@ -8,35 +8,41 @@
              xmlns:resources="clr-namespace:MapNotepad.Resources"
              x:Class="MapNotepad.Views.MapPage"
              x:Name="_this"
-             Title="{x:Static resources:Resource.MapTitle}"
-             BackgroundColor="GhostWhite">
+             BackgroundColor="GhostWhite"
+             Title="{x:Static resources:Resource.MapTitle}">
     
     <Grid RowSpacing="0">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
         <controls:SearchBarWithButtons Grid.Row="0"
-                                       Margin="2"
                                        Placeholder="{x:Static resources:Resource.TextSearchBar}"
                                        Text="{Binding SearchBarText}"
-                                       SettingsClick="{Binding SettingsClickCommand}">
+                                       SettingsClick="{Binding SettingsClickCommand}"
+                                       Margin="2">
+            
             <controls:SearchBarWithButtons.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding UserSearchingCommand}"/>
                 
             </controls:SearchBarWithButtons.Behaviors>
+            
         </controls:SearchBarWithButtons>
 
         <controls:CustomMap Grid.Row="1"
-                            Margin="0" 
                             PinsSource="{Binding PinsCollection}" 
                             FocusedPin="{Binding MyFocusedPin}"
                             CameraPositionOnMap="{Binding CameraPositionBinding}"
+                            MyLocationEnabled="{Binding IsMyLocationEnabled}"
                             BackgroundColor="GhostWhite"
-                            MyLocationEnabled="{Binding IsMyLocationEnabled}">
+                            Margin="0" >
+            
             <controls:CustomMap.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="CameraChanged"
                                               Command="{Binding CameraChangedCommand}"
                                               EventArgsParameterPath="Position"/>
@@ -52,20 +58,23 @@
         </controls:CustomMap>
 
         <Frame Grid.Row="1"
+               IsVisible="{Binding IsSettingFrameVisible}"
                BackgroundColor="GhostWhite"
                CornerRadius="10"
                BorderColor="Black"
                VerticalOptions="Center"
-               HorizontalOptions="Center"
-               IsVisible="{Binding IsSettingFrameVisible}">
+               HorizontalOptions="Center">
+            
             <StackLayout Orientation="Vertical">
+                
                 <Label Text="{x:Static resources:Resource.ChangeCategoriesLabel}"
                        TextColor="Black"
                        FontSize="17"
                        HorizontalOptions="Center"/>
 
-                <input:RadioButtonGroupView Margin="0,20,0,0"
-                                            SelectedIndex="{Binding SelectedIndex}">
+                <input:RadioButtonGroupView SelectedIndex="{Binding SelectedIndex}"
+                                            Margin="0,20,0,0">
+                    
                     <input:RadioButton Text="{x:Static resources:Resource.NonCategory}"
                                        Margin="20,10,0,0"/>
 
@@ -89,20 +98,23 @@
                         Margin="50, 20, 50, 0"/>
 
             </StackLayout>
+            
         </Frame>
 
 
         <controls:CustomFrame Grid.Row="1"
+                              IsMoveFrame="{Binding IsFrameShowed}"
                               BackgroundColor="WhiteSmoke"
                               HorizontalOptions="Center"
                               VerticalOptions="End"
                               BorderColor="Black"
                               Padding="8"
                               CornerRadius="10"
-                              Margin="0,0,0,-120"
-                              IsMoveFrame="{Binding IsFrameShowed}">
+                              Margin="0,0,0,-120">
+            
             <StackLayout HorizontalOptions="Center"
                          Orientation="Vertical">
+                
                 <Label Text="{Binding FrameNameLable}"
                        Margin="0,0,0,0"
                        FontAttributes="Bold"
@@ -114,6 +126,7 @@
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Center">
+                    
                     <Label Text="{x:Static resources:Resource.Latitude}"
                            FontAttributes="Bold"
                            Margin="0,3,0,0"/>
@@ -125,6 +138,7 @@
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Center">
+                    
                     <Label Text="{x:Static resources:Resource.Longitude}"
                            FontAttributes="Bold"
                            Margin="0,3,0,0"/>
@@ -133,8 +147,11 @@
                            Margin="0,3,0,0"/>
 
                 </StackLayout>
+                
             </StackLayout>
+            
         </controls:CustomFrame>
 
     </Grid>
+    
 </ContentPage>

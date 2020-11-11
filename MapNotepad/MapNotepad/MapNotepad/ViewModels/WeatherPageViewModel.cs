@@ -4,9 +4,9 @@ using MapNotepad.Services.WeatherService;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -26,14 +26,22 @@ namespace MapNotepad.ViewModels
             _pinService = pinService;
         }
 
-        #region-- Public properties --    
+        #region-- Public properties --  
 
-        private bool _isShowAnimation;
-        public bool IsShowAnimation
+        private string _labetText;
+        public string LabetText
         {
-            get => _isShowAnimation;
+            get => _labetText;
 
-            set => SetProperty(ref _isShowAnimation, value);
+            set => SetProperty(ref _labetText, value);
+        }
+
+        private bool _isShowLabel;
+        public bool IsShowLabel
+        {
+            get => _isShowLabel;
+
+            set => SetProperty(ref _isShowLabel, value);
         }
 
         private bool _isShowContent;
@@ -220,14 +228,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _day1MaxTemp, value);
         }
 
-        private string _day1Humidity;
-        public string Day1Humidity
-        {
-            get => _day1Humidity;
-
-            set => SetProperty(ref _day1Humidity, value);
-        }
-
         private List<string> _pickerSource;
         public List<string> PickerSource
         {
@@ -252,7 +252,10 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            IsShowAnimation = true;
+            string text = Resources.Resource.EmptyListLabel;
+            LabetText = text;
+
+            IsShowLabel = true;
             IsShowContent = false;
             FillPicker();
         }
@@ -278,9 +281,10 @@ namespace MapNotepad.ViewModels
             var items = await _pinService.GetPinsAsync();
             var pin = items.Where(x => x.Name == SelectedItem).FirstOrDefault();
 
-            ShowWether(pin);
+            await ShowWether(pin);
         }
-        private async void ShowWether(CustomPin pin)
+
+        private async Task ShowWether(CustomPin pin)
         {
             if (pin != null)
             {
@@ -293,24 +297,26 @@ namespace MapNotepad.ViewModels
                     SetDay1Forcast(days[0]);
                     SetAllDaysForcast(days);
 
-                    IsShowAnimation = false;
+                    IsShowLabel = false;
                     IsShowContent = true;
                 }
                 else
                 {
-                    IsShowAnimation = true;
+                    string text = Resources.Resource.InternetLabel;
+                    LabetText = text;
+
+                    IsShowLabel = true;
                     IsShowContent = false;
-                    Debug.WriteLine("No internet connection");
                 }
             }
             else
             {
-                IsShowAnimation = true;
+                IsShowLabel = true;
                 IsShowContent = false;
-                Debug.WriteLine("Pin was null");
             }
 
         }
+
         private void SetAllDaysForcast(List<List> list)
         {
             Day2Date = Convert.ToDateTime(list[1].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
@@ -337,7 +343,6 @@ namespace MapNotepad.ViewModels
             Day1FillTemp = "Fills like - " + ConvertToIntC(list.main.feels_like).ToString();
             Day1MinTemp = ConvertToIntC(list.main.temp_min).ToString();
             Day1MaxTemp = ConvertToIntC(list.main.temp_max).ToString();
-            Day1Humidity = "Humidity - " + list.main.humidity.ToString();
 
             Day1Weather = list.weather.First().main;
             Day1WeatherDesc = list.weather.First().description;
@@ -349,11 +354,12 @@ namespace MapNotepad.ViewModels
             Day1PoP = list.pop.ToString();
         }
 
-        private int ConvertToIntC(double dF)
+        private int ConvertToIntC(double K)
         {
-            var F = Convert.ToInt32(dF);
-            return (F - 32) * 5 / 9;
+            var C = K - 273.15;
+            return Convert.ToInt32(C);
         }
+
         #endregion
     }
 }

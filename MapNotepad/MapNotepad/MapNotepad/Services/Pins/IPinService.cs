@@ -1,7 +1,6 @@
 ﻿using MapNotepad.Enums;
 using MapNotepad.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Pins

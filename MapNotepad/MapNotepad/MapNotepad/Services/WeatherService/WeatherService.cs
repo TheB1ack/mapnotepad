@@ -1,9 +1,7 @@
 ﻿using MapNotepad.Models;
 using MapNotepad.Services.REST;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.WeatherService
@@ -22,6 +20,7 @@ namespace MapNotepad.Services.WeatherService
         public Task<WeatherModel> GetWeather(double latitude, double longitude)
         {
             var url = Constants.WEATHER_URL + $"{latitude}&lon={longitude}&appid={Constants.WEATHER_APIKEY}";
+
             return _restService.GetAsync<WeatherModel>(url);
         }
 
@@ -38,15 +37,13 @@ namespace MapNotepad.Services.WeatherService
             {
                 fiveDaysForcast.Add(listOfAllDays.FirstOrDefault());
             }
-            else
-            {
-                Debug.WriteLine("nDaysForcast count was > 5");
-            }
 
             fiveDaysForcast.AddRange(nDaysForcast);
 
             return fiveDaysForcast;
         }
+
         #endregion
+
     }
 }

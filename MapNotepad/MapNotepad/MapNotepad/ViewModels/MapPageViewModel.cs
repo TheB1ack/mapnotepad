@@ -8,7 +8,6 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -200,10 +199,6 @@ namespace MapNotepad.ViewModels
             {
                 IsFrameShowed = false;
             }
-            else
-            {
-                Debug.WriteLine("IsFrameShowed was false");
-            }
 
         }
 
@@ -217,9 +212,10 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                SetLocationEnable(true);
+                IsMyLocationEnabled = true;
             }
 
+            OnUserSearchingCommandAsync();
         }
 
         private async void SetLocationPermissionsAsync()
@@ -254,34 +250,20 @@ namespace MapNotepad.ViewModels
                             await _userDialogs.AlertAsync(alertText, string.Empty, button);
                         });
                     }
-                    else
-                    {
-                        Debug.WriteLine("Device wasn't android or ios");
-                    }
+
                 }
    
             }
 
             if (status == PermissionStatus.Granted)
             {
-                SetLocationEnable(true);
+                IsMyLocationEnabled = true;
             }
             else if (status != PermissionStatus.Unknown)
             {
-                SetLocationEnable(false);
-            }
-            else
-            {
-                Debug.WriteLine("status was Unknown");
+                IsMyLocationEnabled = false;
             }
 
-        }
-
-        private void SetLocationEnable(bool isSet)
-        {
-            IsMyLocationEnabled = isSet;
-
-            OnUserSearchingCommandAsync();
         }
 
         private async void OnPinClickCommandAsync(Pin pin)
@@ -298,10 +280,6 @@ namespace MapNotepad.ViewModels
 
                 IsFrameShowed = true;
             }
-            else
-            {
-                Debug.WriteLine("Searched pin by name was null");
-            }
 
         }
 
@@ -313,14 +291,6 @@ namespace MapNotepad.ViewModels
         private void SetSavedPosition()
         {
             CameraPositionBinding = _mapService.GetSavedMapPosition();
-        }
-
-        private async void SetMapPinsAsync()
-        {
-            var items = await _pinService.GetPinsAsync();
-            var favouriteItems = items.Where(x => x.IsFavourite);
-
-            PinsCollection = new ObservableCollection<CustomPin>(favouriteItems);
         }
 
         private async void OnUserSearchingCommandAsync()

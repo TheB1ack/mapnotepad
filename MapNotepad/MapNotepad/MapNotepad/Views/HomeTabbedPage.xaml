@@ -7,25 +7,34 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
              xmlns:resources="clr-namespace:MapNotepad.Resources"
-             android:TabbedPage.ToolbarPlacement="Bottom"
              x:Class="MapNotepad.Views.HomeTabbedPage"
+             android:TabbedPage.ToolbarPlacement="Bottom"
              Title="{x:Static resources:Resource.MapNotepanTitle}">
     
     <TabbedPage.ToolbarItems>
+        
         <ToolbarItem Command="{Binding qrClickCommand}"
                      IconImageSource="qrCode.png"/>
+        
         <ToolbarItem Command="{Binding LogOutClickCommand}"
                      IconImageSource="logOut.png"/>
+        
     </TabbedPage.ToolbarItems>
 
     <TabbedPage.Children>
+        
         <local:MapPage IconImageSource="Map.png"/>
+        
         <local:PinsListPage IconImageSource="List.png"/>
+        
         <local:WeatherPage IconImageSource="weather.png"/>
+        
     </TabbedPage.Children>
 
     <TabbedPage.Behaviors>
+        
         <behaviors:TabbedPageNavigationBehavior />
+        
     </TabbedPage.Behaviors>
 
 </TabbedPage>

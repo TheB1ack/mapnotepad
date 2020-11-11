@@ -31,6 +31,7 @@ namespace MapNotepad.ViewModels
 
             set => SetProperty(ref _emailEntry, value);
         }
+
         private string _passwordEntry;
         public string PasswordEntry
         {
@@ -38,6 +39,7 @@ namespace MapNotepad.ViewModels
 
             set => SetProperty(ref _passwordEntry, value);
         }
+
         private bool _isButtonEnable;
         public bool IsButtonEnable
         {
@@ -65,10 +67,7 @@ namespace MapNotepad.ViewModels
             {
                 EmailEntry = email;
             }
-            else
-            {
-                Debug.WriteLine("Parameters are missing String");
-            }
+
         }
 
         #endregion
@@ -79,6 +78,7 @@ namespace MapNotepad.ViewModels
         {
             IsButtonEnable = TryActivateButton();
         }
+
         private bool TryActivateButton()
         {
             var isActive = true;
@@ -95,6 +95,7 @@ namespace MapNotepad.ViewModels
 
             return isActive;
         }
+
         private async void OnSignInButtonClickCommandAsync()
         {
             var isSignedIn = await _authorizationService.SignInAsync(EmailEntry, PasswordEntry);
@@ -111,7 +112,9 @@ namespace MapNotepad.ViewModels
                 await _userDialogs.AlertAsync(alertText, string.Empty, button);  
                 PasswordEntry = string.Empty;
             }
+
         }
+
         private async void OnCreateAccountButtonClickCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(SingUpPage)}");

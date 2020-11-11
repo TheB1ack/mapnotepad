@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,11 +12,17 @@ namespace MapNotepad.Services.REST
             _httpClient = new HttpClient();
         }
 
+        #region -- IterfaceName implementation --
+
         public async Task<T> GetAsync<T>(string url)
         {
             var json = await _httpClient.GetStringAsync(url);
             var model = JsonConvert.DeserializeObject<T>(json);
+
             return model;
         }
+
+        #endregion
+
     }
 }

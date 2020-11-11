@@ -3,9 +3,7 @@ using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Newtonsoft.Json;
-using Prism.Common;
 using Prism.Navigation;
-using Prism.Navigation.TabbedPages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -108,14 +106,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _searchBarText, value);
         }
 
-        private bool _isCheckBoxChecked;
-        public bool IsCheckBoxChecked
-        {
-            get => _isCheckBoxChecked;
-
-            set => SetProperty(ref _isCheckBoxChecked, value);
-        }
-
         private ICommand _editTapCommand;
         public ICommand EditTapCommand => _editTapCommand ??= new Command<CustomPin>(OnEditTapCommandAsync);
 
@@ -185,6 +175,7 @@ namespace MapNotepad.ViewModels
 
             CheckCollectionSize();
         }
+
         private void OnSaveClickCommand()
         {
             IsSettingFrameVisible = false;
@@ -224,6 +215,7 @@ namespace MapNotepad.ViewModels
             {
                 { Constants.ACTION, "Add pin"}
             };
+
             await _navigationService.NavigateAsync($"{nameof(AddEditPinPage)}", parameters);
         }
 
@@ -265,17 +257,17 @@ namespace MapNotepad.ViewModels
                 IsVisibleText = false;
                 IsVisibleList = true;
             }
+
         }
 
         private async void OnItemTappedCommandAsync()
         {
             if (!ItemSelected.IsFavourite)
             {
-                OnImageTapCommandAsync(ItemSelected);
-            }
-            else
-            {
-                Debug.WriteLine("pin is favourite");
+                ItemSelected.FavouriteImageSource = "full_heart.png";
+                ItemSelected.IsFavourite = true;
+
+                await _pinService.UpdatePinAsync(ItemSelected);
             }
 
             await GoToSelectedPin(ItemSelected);
@@ -287,12 +279,6 @@ namespace MapNotepad.ViewModels
             {
                  { nameof(CustomPin), pin }
             };
-
-           // var currentPage = ((IPageAware)_navigationService).Page;
-            //var parent = currentPage.Parent;
-
-            //var res = _navigationService.SelectTabAsync($"{nameof(MapPage)}", parameters);
-            //return res;
 
             return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}", parameters);
         }

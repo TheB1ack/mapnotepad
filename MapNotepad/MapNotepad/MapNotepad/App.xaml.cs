@@ -14,7 +14,6 @@ using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
 using Plugin.Permissions;
 using MapNotepad.Services.Permissions;
-using Prism.Navigation;
 using MapNotepad.Services.REST;
 using MapNotepad.Services.WeatherService;
 
@@ -39,7 +38,7 @@ namespace MapNotepad
             else
             {
                 
-                await NavigationService.NavigateAsync($"{nameof(SingInPage)}");
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
             }
 
         }

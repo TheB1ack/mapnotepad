@@ -5,22 +5,30 @@
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
     
      <Application.Resources>
+         
         <Style TargetType="NavigationPage">
+            
             <Setter Property="BarBackgroundColor"
                     Value="#29D695"/>
+            
             <Setter Property="BarTextColor"
                     Value="White"/>
         </Style>
 
         <Style x:Key="ButtonStyle"
                TargetType="Button">
+            
             <Setter Property="BackgroundColor"
                     Value="#29D695" />
+            
             <Setter Property="TextColor"
                     Value="Black" />
+            
             <Setter Property="CornerRadius"
                     Value="10" />
+            
         </Style>
          
     </Application.Resources>
+    
 </prism:PrismApplication>

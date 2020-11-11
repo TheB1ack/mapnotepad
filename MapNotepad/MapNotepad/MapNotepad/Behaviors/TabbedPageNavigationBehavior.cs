@@ -2,7 +2,6 @@
 using Prism.Common;
 using Prism.Navigation;
 using System;
-using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
@@ -37,10 +36,6 @@ namespace MapNotepad.Behaviors
             if (CurrentPage != null)
             {               
                 PageUtilities.OnNavigatedFrom(CurrentPage, parameters);             
-            }
-            else
-            {
-                Debug.WriteLine("CurrentPage was null");
             }
 
             PageUtilities.OnNavigatedTo(newPage, parameters);

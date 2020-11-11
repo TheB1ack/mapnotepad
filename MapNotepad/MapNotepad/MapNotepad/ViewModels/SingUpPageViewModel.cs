@@ -128,10 +128,6 @@ namespace MapNotepad.ViewModels
             {
                 isValid = false;
             }
-            else
-            {
-                Debug.WriteLine("Validation failed");
-            }
 
             return isValid;
         }

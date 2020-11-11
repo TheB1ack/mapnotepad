@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MapNotepad
+﻿namespace MapNotepad
 {
     public static class Constants
     {
@@ -19,6 +15,7 @@ namespace MapNotepad
         public const string PASSWORD_REGEX = @"(?=^[^\s]{4,20}$)(?=.*\d)(?=.*[a-zA-Z])";
 
         public const string WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?lat=";
+
         public const string WEATHER_APIKEY = "8e1cef07d8affb9f4bf5bff5652eb06c";
     }
 }

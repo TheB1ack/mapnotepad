@@ -13,17 +13,22 @@
              x:Name="_this"
              Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
+    
     <ContentPage.Resources>
+        
         <ResourceDictionary>
+            
             <local:CategoryToStringConverter x:Key="categoryConverter" />
+            
         </ResourceDictionary>
+        
     </ContentPage.Resources>
 
     <Grid ColumnSpacing="0">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
-
         </Grid.RowDefinitions>
 
         <controls:SearchBarWithButtons Grid.Row="0"
@@ -31,11 +36,14 @@
                                        Placeholder="{x:Static resources:Resource.TextSearchBar}"
                                        Text="{Binding SearchBarText}"
                                        SettingsClick="{Binding SettingsClickCommand}">
+            
             <controls:SearchBarWithButtons.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding UserSearchingCommand}"/>
 
             </controls:SearchBarWithButtons.Behaviors>
+            
         </controls:SearchBarWithButtons>
 
         <Label Text="{x:Static resources:Resource.EmptyListLabel}"
@@ -54,15 +62,22 @@
                   BackgroundColor="GhostWhite"
                   SeparatorVisibility="Default"
                   SeparatorColor="Gray">
+            
             <ListView.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="ItemTapped" 
                                               Command="{Binding ItemTappedCommand}"/>
 
             </ListView.Behaviors>
+            
             <ListView.ItemTemplate>
+                
                 <DataTemplate>
+                    
                     <ViewCell Height="130">
+                        
                         <ViewCell.ContextActions >
+                            
                             <MenuItem Text="{x:Static resources:Resource.EditButton}"
                                       Command="{Binding BindingContext.EditTapCommand, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
@@ -79,7 +94,9 @@
                         </ViewCell.ContextActions>
                         
                         <ViewCell.View>
+                            
                             <Grid ColumnSpacing="0">
+                                
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="70" />
                                     <ColumnDefinition Width="*" />
@@ -90,15 +107,20 @@
                                              Orientation="Vertical"
                                              Margin="3,0,0,0"
                                              VerticalOptions="Center">
+                                    
                                     <ImageButton Source="{Binding FavouriteImageSource}"
                                                  WidthRequest="60"
                                                  HeightRequest="60"
                                                  BackgroundColor="Transparent">
+                                        
                                         <ImageButton.Behaviors>
+                                            
                                             <prism:EventToCommandBehavior EventName="Clicked"
                                                                           Command="{Binding BindingContext.ImageTapCommand, Source={x:Reference _this}}"
                                                                           CommandParameter="{Binding .}"/>
+                                            
                                         </ImageButton.Behaviors>
+                                        
                                     </ImageButton>
 
                                 </StackLayout>
@@ -106,6 +128,7 @@
                                 <StackLayout Grid.Column="1"
                                              Orientation="Vertical"
                                              WidthRequest="300">
+                                    
                                     <Label Text="{Binding Name}"
                                            FontSize="17" 
                                            FontAttributes="Bold"
@@ -119,6 +142,7 @@
                                 </StackLayout>
 
                                 <StackLayout Grid.Column="2">
+                                    
                                     <Label Text="{Binding Category, Converter={StaticResource categoryConverter}}" 
                                            FontAttributes="Bold"
                                            Margin="0,0,-30,0"
@@ -130,10 +154,15 @@
                                 </StackLayout>
                                 
                             </Grid>
+                            
                         </ViewCell.View>
+                        
                     </ViewCell>
+                    
                 </DataTemplate>
+                
             </ListView.ItemTemplate>
+            
         </ListView>
 
         <Entry x:Name="EntryPhoneNumber" Text="{Binding BarcodeValue}" IsVisible="False"/>
@@ -146,14 +175,18 @@
                Padding="0,0,0,10"
                CornerRadius="10"
                IsVisible="{Binding IsQrFrameVisible}">
+            
             <StackLayout Orientation="Vertical">
+                
                 <zxing:ZXingBarcodeImageView BindingContext="{x:Reference Name=EntryPhoneNumber}"
 	                                         BarcodeValue="{Binding Path=Text}"
                                              WidthRequest="300"
                                              HeightRequest="300"
                                              BarcodeFormat="QR_CODE"
                                              Margin="10">
+                    
                     <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                        
                         <zxcm:EncodingOptions Width="300" Height="300"/>
 
                     </zxing:ZXingBarcodeImageView.BarcodeOptions>
@@ -166,6 +199,7 @@
                         Margin="50, 10, 50, 0"/>
 
             </StackLayout>
+            
         </Frame>
 
         <Frame Grid.Row="1"
@@ -175,7 +209,9 @@
                VerticalOptions="Center"
                HorizontalOptions="Center"
                IsVisible="{Binding IsSettingFrameVisible}">
+            
             <StackLayout Orientation="Vertical">
+                
                 <Label Text="{x:Static resources:Resource.ChangeCategoriesLabel}"
                        TextColor="Black"
                        FontSize="17"
@@ -183,6 +219,7 @@
 
                 <input:RadioButtonGroupView Margin="0,20,0,0"
                                             SelectedIndex="{Binding SelectedIndex}">
+                    
                     <input:RadioButton Text="{x:Static resources:Resource.NonCategory}"
                                        Margin="20,10,0,0"/>
 
@@ -222,4 +259,5 @@
                      Padding="19"/>
 
     </Grid>
+    
 </ContentPage>

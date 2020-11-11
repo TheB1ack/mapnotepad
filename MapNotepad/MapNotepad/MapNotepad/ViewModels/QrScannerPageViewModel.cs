@@ -82,10 +82,6 @@ namespace MapNotepad.ViewModels
                     await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
             }
-            else
-            {
-                Debug.WriteLine("result was null");
-            }
     
         }
 

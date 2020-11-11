@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
@@ -14,7 +11,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(CustomEditor), typeof(CustomEditorRenderer))]
 namespace MapNotepad.Droid.Renderers
 {
-     public class CustomEditorRenderer : EditorRenderer
+    public class CustomEditorRenderer : EditorRenderer
     {
         public CustomEditorRenderer(Context context) : base(context) { }
         protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)

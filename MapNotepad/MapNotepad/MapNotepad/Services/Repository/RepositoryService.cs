@@ -32,12 +32,14 @@ namespace MapNotepad.Services.Repository
 
             await dataBase.DeleteAsync(item);
         }
+
         public async Task<T> GetItemByIdAsync<T>(int id) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<T>();
 
             return await dataBase.GetAsync<T>(id);
         }
+
         public async Task<IEnumerable<T>> GetItemsAsync<T>(Expression<Func<T, bool>> predicate) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<T>();

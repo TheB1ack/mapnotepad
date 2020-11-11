@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
+﻿using Xamarin.Forms;
 
 namespace MapNotepad.Controls
 {
@@ -15,6 +12,7 @@ namespace MapNotepad.Controls
 
             set => SetValue(IsMoveFrameProperty, value);
         }
+
         public static readonly BindableProperty IsMoveFrameProperty = BindableProperty.Create(
                                                          propertyName: nameof(IsMoveFrame),
                                                          returnType: typeof(bool),
@@ -28,7 +26,7 @@ namespace MapNotepad.Controls
 
         #region -- Private Helpers --
 
-        private static void IsMoveFramePropertyChanged(BindableObject bindable, object oldvalue, object newValue) //регулировка структоруй 
+        private static void IsMoveFramePropertyChanged(BindableObject bindable, object oldvalue, object newValue) 
         {
             var frame = bindable as CustomFrame;
             var isValid = (bool)newValue;
@@ -43,10 +41,6 @@ namespace MapNotepad.Controls
                 {
                     frame.TranslateTo(0, 10, 500);
                 }
-            }
-            else
-            {
-                Debug.WriteLine("Frame was null");
             }
 
         }

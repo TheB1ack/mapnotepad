@@ -7,17 +7,22 @@
              xmlns:resources="clr-namespace:MapNotepad.Resources" 
              x:Class="MapNotepad.Views.SingUpPage"
              Title="{x:Static resources:Resource.CreateAccountTitle}">
+    
     <StackLayout>
+        
         <renderer:CustomEntry Text="{Binding UsernameEntry}" 
                               Placeholder = "{x:Static resources:Resource.UserNamePlaceholder}" 
                               HeightRequest="45"
                               Margin="50, 140, 50, 0" 
                               IsTextValid="{Binding IsUsernameValid}">
+            
             <renderer:CustomEntry.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding TextChangedCommand}"/>
 
             </renderer:CustomEntry.Behaviors>
+            
         </renderer:CustomEntry>
 
         <renderer:CustomEntry Text="{Binding EmailEntry}" 
@@ -26,11 +31,14 @@
                               Margin="50, 10, 50, 0" 
                               Keyboard="Email"
                               IsTextValid="{Binding IsEmailValid}">
+            
             <renderer:CustomEntry.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding TextChangedCommand}"/>
 
             </renderer:CustomEntry.Behaviors>
+            
         </renderer:CustomEntry>
 
         <renderer:CustomEntry Text="{Binding PasswordEntry}"
@@ -39,11 +47,14 @@
                               IsPassword ="True" 
                               Margin="50, 10, 50, 0"
                               IsTextValid="{Binding IsPasswordValid}">
+            
             <renderer:CustomEntry.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding TextChangedCommand}"/>
 
             </renderer:CustomEntry.Behaviors>
+            
         </renderer:CustomEntry>
 
         <renderer:CustomEntry Text="{Binding SPasswordEntry}"
@@ -52,11 +63,14 @@
                               IsPassword ="True" 
                               Margin="50, 10, 50, 0" 
                               IsTextValid="{Binding IsSPasswordValid}">
+            
             <renderer:CustomEntry.Behaviors>
+                
                 <prism:EventToCommandBehavior EventName="TextChanged"
                                               Command="{Binding TextChangedCommand}"/>
 
             </renderer:CustomEntry.Behaviors>
+            
         </renderer:CustomEntry>
 
         <Button Command="{Binding SingUpButtonClickCommand}"
@@ -65,6 +79,6 @@
                 Style="{StaticResource ButtonStyle}"
                 Margin="50, 40, 50, 0" />
 
-
     </StackLayout>
+    
 </ContentPage>

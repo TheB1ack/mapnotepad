@@ -2,7 +2,6 @@
 using MapNotepad.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
@@ -18,10 +17,6 @@ namespace MapNotepad.Controls
                 UiSettings.ZoomControlsEnabled = false;
                 UiSettings.MyLocationButtonEnabled = true;
             }
-            else
-            {
-                Debug.WriteLine("UiSetting was null");
-            }
 
             PinsSource = new ObservableCollection<CustomPin>();
         }
@@ -34,6 +29,7 @@ namespace MapNotepad.Controls
 
             set => SetValue(PinsSourceProperty, value);
         }
+
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
                                                          propertyName: nameof(PinsSource),
                                                          returnType: typeof(ObservableCollection<CustomPin>),
@@ -49,6 +45,7 @@ namespace MapNotepad.Controls
 
             set => SetValue(FocusedPinProperty, value);
         }
+
         public static readonly BindableProperty FocusedPinProperty = BindableProperty.Create(
                                                  propertyName: nameof(FocusedPin),
                                                  returnType: typeof(CustomPin),
@@ -64,6 +61,7 @@ namespace MapNotepad.Controls
             
             set => SetValue(OnlyOneFocusedPinProperty, value);
         }
+
         public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(
                                                          propertyName: nameof(OnlyOneFocusedPin),
                                                          returnType: typeof(CustomPin),
@@ -79,6 +77,7 @@ namespace MapNotepad.Controls
 
             set => SetValue(CameraPositionOnMapProperty, value);
         }
+
         public static readonly BindableProperty CameraPositionOnMapProperty = BindableProperty.Create(
                                                          propertyName: nameof(CameraPositionOnMap),
                                                          returnType: typeof(CameraPosition),
@@ -101,10 +100,6 @@ namespace MapNotepad.Controls
             {
                 UpdatePinsSource(map, newPinsSource);
             }
-            else
-            {
-                Debug.WriteLine("map or newPinsSource was null ");
-            }
 
         }
 
@@ -116,10 +111,6 @@ namespace MapNotepad.Controls
             if (map != null && newPin != null)
             {
                 FocuseOnPin(map, newPin);
-            }
-            else
-            {
-                Debug.WriteLine("map or newPin was null ");
             }
 
         }
@@ -138,10 +129,6 @@ namespace MapNotepad.Controls
                 MoveCameraToPosition(map, new CameraPosition(position, 15));
                 UpdatePinsSource(map, collection);
             }
-            else
-            {
-                Debug.WriteLine("map or newPin was null ");
-            }
 
         }
 
@@ -154,10 +141,6 @@ namespace MapNotepad.Controls
             if (map != null && newPosition != null)
             {
                 MoveCameraToPosition(map, newPosition);
-            }
-            else
-            {
-                Debug.WriteLine("map or newPosition was null ");
             }
 
         }

@@ -1,7 +1,6 @@
 ﻿using MapNotepad.Models;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Settings;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -65,10 +64,6 @@ namespace MapNotepad.Services.Authorization
             {
                 _settingsService.UserId = userResult.Id;
                 isSignedIn = true;
-            }
-            else
-            {
-                Debug.WriteLine("userResult was null or password doesn't match");
             }
 
             return isSignedIn;

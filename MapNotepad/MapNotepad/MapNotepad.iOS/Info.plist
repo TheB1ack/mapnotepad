@@ -40,5 +40,20 @@
 	<string>Can we use your location at all times?</string>
   <key>NSCameraUsageDescription</key>
   <string>Can we use your camera to scan barcodes?</string>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>yourdomain.com</key>
+      <dict>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+        <false/>
+      </dict>
+    </dict>
+  </dict>
 </dict>
 </plist>

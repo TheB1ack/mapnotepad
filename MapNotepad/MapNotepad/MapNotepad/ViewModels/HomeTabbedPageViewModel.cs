@@ -5,7 +5,6 @@ using Prism.Navigation;
 using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
-using ZXing.Mobile;
 
 namespace MapNotepad.ViewModels
 {
@@ -15,9 +14,9 @@ namespace MapNotepad.ViewModels
         private readonly IUserDialogs _userDialogs;
 
         public HomeTabbedPageViewModel(INavigationService navigationService, 
-                                 IAuthorizationService authorizationService,
-                                 IUserDialogs userDialogs) 
-                                 : base(navigationService)
+                                       IAuthorizationService authorizationService,
+                                       IUserDialogs userDialogs) 
+                                       : base(navigationService)
         {
             _authorizationService = authorizationService;
             _userDialogs = userDialogs;          
@@ -51,10 +50,6 @@ namespace MapNotepad.ViewModels
             {
                 _authorizationService.LogOut();
                 await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SingInPage)}");
-            }
-            else
-            {
-                Debug.WriteLine("isConfirmed was false");
             }
 
         }

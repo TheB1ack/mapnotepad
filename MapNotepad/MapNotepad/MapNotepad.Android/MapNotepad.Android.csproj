@@ -97,9 +97,7 @@
   <ItemGroup>
     <AndroidAsset Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidAsset Include="Assets\searching.json" />
     <None Include="Properties\AndroidManifest.xml" />
-    <AndroidAsset Include="Assets\Waitting.json" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
@@ -146,9 +144,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\empty_heart.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Effects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Search.png" />
   </ItemGroup>

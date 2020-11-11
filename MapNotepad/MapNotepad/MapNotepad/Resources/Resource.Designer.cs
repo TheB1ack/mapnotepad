@@ -142,6 +142,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cloudiness, %.
+        /// </summary>
+        public static string CloudinessLabel {
+            get {
+                return ResourceManager.GetString("CloudinessLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
         public static string ContinueButton {
@@ -259,6 +268,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Fe {
+            get {
+                return ResourceManager.GetString("Fe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gym.
         /// </summary>
         public static string GymCategory {
@@ -273,6 +291,15 @@ namespace MapNotepad.Resources {
         public static string HotelCategory {
             get {
                 return ResourceManager.GetString("HotelCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Intertnet connection!.
+        /// </summary>
+        public static string InternetLabel {
+            get {
+                return ResourceManager.GetString("InternetLabel", resourceCulture);
             }
         }
         
@@ -403,6 +430,24 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum.
+        /// </summary>
+        public static string MaximumLabel {
+            get {
+                return ResourceManager.GetString("MaximumLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum.
+        /// </summary>
+        public static string MinimumLabel {
+            get {
+                return ResourceManager.GetString("MinimumLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string NonCategory {
@@ -471,6 +516,15 @@ namespace MapNotepad.Resources {
         public static string PinsListTitle {
             get {
                 return ResourceManager.GetString("PinsListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PoP, %&quot;.
+        /// </summary>
+        public static string PoPLabel {
+            get {
+                return ResourceManager.GetString("PoPLabel", resourceCulture);
             }
         }
         
@@ -547,6 +601,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Temperature.
+        /// </summary>
+        public static string TemperatureLabel {
+            get {
+                return ResourceManager.GetString("TemperatureLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pin name or....
         /// </summary>
         public static string TextSearchBar {
@@ -588,6 +651,15 @@ namespace MapNotepad.Resources {
         public static string WeatherTitle {
             get {
                 return ResourceManager.GetString("WeatherTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wind speed.
+        /// </summary>
+        public static string WindSpeedLabel {
+            get {
+                return ResourceManager.GetString("WindSpeedLabel", resourceCulture);
             }
         }
     }

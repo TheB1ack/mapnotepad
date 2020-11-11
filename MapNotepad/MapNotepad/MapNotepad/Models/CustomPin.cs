@@ -16,7 +16,5 @@ namespace MapNotepad.Models
         public string FavouriteImageSource { get; set; }
         public int Category { get; set; }
 
-        [Ignore]
-        public bool IsAnimated { get; set; }
     }
 }

@@ -3,9 +3,7 @@ using MapNotepad.Models;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Settings;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services.Pins
@@ -30,6 +28,7 @@ namespace MapNotepad.Services.Pins
 
             return _repositoryService.SaveItemAsync(pin);
         }
+
         public async Task<IEnumerable<CustomPin>> GetPinsByTextAsync(string searchText, SearchCategories category)
         {
 
@@ -42,35 +41,31 @@ namespace MapNotepad.Services.Pins
                                          (x.Description.ToString().ToUpper().Contains(searchText.ToUpper())) ||
                                          (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper())));
             }  
-            else
-            {
-                Debug.WriteLine("string was empty");
-            }
 
             if(category != 0)
             {
                 items = items.Where(x => (x.Category == (int)category));
             }
-            else
-            {
-                Debug.WriteLine("category is 0");
-            }
 
             return items;
         }
+
         public Task UpdatePinAsync(CustomPin pin)
         {
             return _repositoryService.UpdateItemAsync<CustomPin>(pin);
         }
+
         public Task RemovePinAsync(CustomPin pin)
         {
             return _repositoryService.DeleteItemAsync(pin);
         }
+
         public Task<IEnumerable<CustomPin>> GetPinsAsync()
         {
             int userId = _settingsService.UserId;
             return  _repositoryService.GetItemsAsync<CustomPin>(x => x.UserId == userId);
         }
+
         public async Task<bool> CheckPinName(string name)
         {
             bool isValid = true;
@@ -81,10 +76,6 @@ namespace MapNotepad.Services.Pins
             if (searchedPin != null)
             {
                 isValid = false;
-            }
-            else
-            {
-                Debug.WriteLine("SearchedPin was null");
             }
 
             return isValid;

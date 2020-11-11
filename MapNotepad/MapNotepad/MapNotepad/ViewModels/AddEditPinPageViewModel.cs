@@ -163,18 +163,10 @@ namespace MapNotepad.ViewModels
             {
                 Title = action;
             }
-            else
-            {
-                Debug.WriteLine("Missing parameters");
-            }
 
             if(parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 FillData(pin);
-            }
-            else
-            {
-                Debug.WriteLine("Missing parameters");
             }
 
         }
@@ -278,10 +270,6 @@ namespace MapNotepad.ViewModels
                 }
 
             }
-            else
-            {
-                Debug.WriteLine("Entry text is unvalid!");
-            }
 
         }
 
@@ -368,17 +356,13 @@ namespace MapNotepad.ViewModels
 
             if (status != PermissionStatus.Granted)
             {
-                SetLocationEnable(false);
+                IsMyLocationEnabled = false;
             }
             else
             {
-                SetLocationEnable(true);
+                IsMyLocationEnabled = true;
             }
 
-        }
-        private void SetLocationEnable(bool isSet)
-        {
-            IsMyLocationEnabled = isSet;
         }
 
         #endregion
