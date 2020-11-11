@@ -11,7 +11,6 @@
              xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable" 
              xmlns:local="clr-namespace:MapNotepad.Converters"
              x:Name="_this"
-             Title="{x:Static resources:Resource.PinsListTitle}"
              BackgroundColor="GhostWhite">
     
     <ContentPage.Resources>

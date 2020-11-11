@@ -6,7 +6,12 @@ namespace MapNotepad.Views
     {
         public HomeTabbedPage()
         {
-            InitializeComponent();
+            InitializeComponent();    
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            //this.Parent = new NavigationPage();
         }
     }
 }

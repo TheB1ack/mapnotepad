@@ -33,7 +33,7 @@ namespace MapNotepad
 
             if (isAuthorized)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}");
+                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}");
             }
             else
             {

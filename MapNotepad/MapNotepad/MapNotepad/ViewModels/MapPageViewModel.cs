@@ -168,6 +168,8 @@ namespace MapNotepad.ViewModels
                SetSavedPosition();
             }
 
+            IsFrameShowed = false;
+            IsSettingFrameVisible = false;
             SelectedIndex = 0;
             ResizeCollection();
         }

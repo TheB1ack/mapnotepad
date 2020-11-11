@@ -12,10 +12,10 @@
              Title="{x:Static resources:Resource.MapNotepanTitle}">
     
     <TabbedPage.ToolbarItems>
-        
+
         <ToolbarItem Command="{Binding qrClickCommand}"
                      IconImageSource="qrCode.png"/>
-        
+
         <ToolbarItem Command="{Binding LogOutClickCommand}"
                      IconImageSource="logOut.png"/>
         
@@ -23,11 +23,14 @@
 
     <TabbedPage.Children>
         
-        <local:MapPage IconImageSource="Map.png"/>
+        <local:MapPage IconImageSource="Map.png"
+                       Title="{x:Static resources:Resource.MapTitle}"/>
         
-        <local:PinsListPage IconImageSource="List.png"/>
+        <local:PinsListPage IconImageSource="List.png"
+                            Title="{x:Static resources:Resource.PinsListTitle}"/>
         
-        <local:WeatherPage IconImageSource="weather.png"/>
+        <local:WeatherPage IconImageSource="weather.png"
+                           Title="{x:Static resources:Resource.WeatherTitle}"/>
         
     </TabbedPage.Children>
 

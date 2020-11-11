@@ -2,7 +2,6 @@
 using MapNotepad.Services.Authorization;
 using MapNotepad.Views;
 using Prism.Navigation;
-using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 

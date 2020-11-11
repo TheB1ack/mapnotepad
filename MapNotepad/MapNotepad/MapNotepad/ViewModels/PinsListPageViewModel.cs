@@ -1,11 +1,11 @@
 ﻿using MapNotepad.Enums;
+using MapNotepad.Extentions;
 using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Views;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -142,7 +142,14 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
+            {
+                GoToSelectedPin(pin);
+            }
+
             SelectedIndex = 0;
+            IsQrFrameVisible = false;
+            IsSettingFrameVisible = false;
             IsVisibleButton = true;
 
             ResizeCollection();
@@ -280,7 +287,7 @@ namespace MapNotepad.ViewModels
                  { nameof(CustomPin), pin }
             };
 
-            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}", parameters);
+            return _navigationService.FixedSelectTabAsync($"{nameof(MapPage)}", this, parameters);
         }
 
         #endregion

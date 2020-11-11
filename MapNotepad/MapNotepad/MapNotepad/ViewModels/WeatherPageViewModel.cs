@@ -1,6 +1,8 @@
-﻿using MapNotepad.Models;
+﻿using MapNotepad.Extentions;
+using MapNotepad.Models;
 using MapNotepad.Services.Pins;
 using MapNotepad.Services.WeatherService;
+using MapNotepad.Views;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -252,6 +254,11 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
+            {
+                GoToSelectedPin(pin);
+            }
+
             string text = Resources.Resource.EmptyListLabel;
             LabetText = text;
 
@@ -358,6 +365,16 @@ namespace MapNotepad.ViewModels
         {
             var C = K - 273.15;
             return Convert.ToInt32(C);
+        }
+
+        private Task GoToSelectedPin(CustomPin pin)
+        {
+            var parameters = new NavigationParameters
+            {
+                 { nameof(CustomPin), pin }
+            };
+
+            return _navigationService.FixedSelectTabAsync($"{nameof(MapPage)}", this, parameters);
         }
 
         #endregion

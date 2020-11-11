@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
 using MapNotepad.Services.Pins;
-using MapNotepad.Views;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Diagnostics;
@@ -62,7 +61,7 @@ namespace MapNotepad.ViewModels
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(HomeTabbedPage)}?selectedTab={nameof(MapPage)}", parameters);
+                            await _navigationService.GoBackAsync(parameters);
                         });
                         ScanResult = null;
                     }
