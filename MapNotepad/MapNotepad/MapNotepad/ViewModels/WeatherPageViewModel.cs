@@ -54,6 +54,14 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isShowContent, value);
         }
 
+        private string _day5Icon;
+        public string Day5Icon
+        {
+            get => _day5Icon;
+
+            set => SetProperty(ref _day5Icon, value);
+        }
+
         private string _day5Date;
         public string Day5Date
         {
@@ -68,14 +76,6 @@ namespace MapNotepad.ViewModels
             get => _day5Temp;
 
             set => SetProperty(ref _day5Temp, value);
-        }
-
-        private string _day5WeatherDesc;
-        public string Day5WeatherDesc
-        {
-            get => _day5WeatherDesc;
-
-            set => SetProperty(ref _day5WeatherDesc, value);
         }
 
         private string _day4Date;
@@ -94,12 +94,12 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _day4Temp, value);
         }
 
-        private string _day4WeatherDesc;
-        public string Day4WeatherDesc
+        private string _day4Icon;
+        public string Day4Icon
         {
-            get => _day4WeatherDesc;
+            get => _day4Icon;
 
-            set => SetProperty(ref _day4WeatherDesc, value);
+            set => SetProperty(ref _day4Icon, value);
         }
 
         private string _day3Date;
@@ -118,12 +118,12 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _day3Temp, value);
         }
 
-        private string _day3WeatherDesc;
-        public string Day3WeatherDesc
+        private string _day3Icon;
+        public string Day3Icon
         {
-            get => _day3WeatherDesc;
+            get => _day3Icon;
 
-            set => SetProperty(ref _day3WeatherDesc, value);
+            set => SetProperty(ref _day3Icon, value);
         }
 
         private string _day2Date;
@@ -142,12 +142,12 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _day2Temp, value);
         }
 
-        private string _day2WeatherDesc;
-        public string Day2WeatherDesc
+        private string _day2Icon;
+        public string Day2Icon
         {
-            get => _day2WeatherDesc;
+            get => _day2Icon;
 
-            set => SetProperty(ref _day2WeatherDesc, value);
+            set => SetProperty(ref _day2Icon, value);
         }
 
         private string _day1PoP;
@@ -331,25 +331,25 @@ namespace MapNotepad.ViewModels
             Day4Date = Convert.ToDateTime(list[3].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
             Day5Date = Convert.ToDateTime(list[4].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
 
-            Day2Temp = ConvertToIntC(list[1].main.temp).ToString();
-            Day3Temp = ConvertToIntC(list[2].main.temp).ToString();
-            Day4Temp = ConvertToIntC(list[3].main.temp).ToString();
-            Day5Temp = ConvertToIntC(list[4].main.temp).ToString();
+            Day2Temp = ConvertToIntC(list[1].main.temp).ToString() + "°C";
+            Day3Temp = ConvertToIntC(list[2].main.temp).ToString() + "°C";
+            Day4Temp = ConvertToIntC(list[3].main.temp).ToString() + "°C";
+            Day5Temp = ConvertToIntC(list[4].main.temp).ToString() + "°C";
 
-            Day2WeatherDesc = list[1].weather.First().description;
-            Day3WeatherDesc = list[2].weather.First().description;
-            Day4WeatherDesc = list[3].weather.First().description;
-            Day5WeatherDesc = list[4].weather.First().description;
+            Day2Icon = SetIconURL(list[1].weather.First().icon);
+            Day3Icon = SetIconURL(list[2].weather.First().icon);
+            Day4Icon = SetIconURL(list[3].weather.First().icon);
+            Day5Icon = SetIconURL(list[4].weather.First().icon);
         }
 
         private void SetDay1Forcast(List list)
         {
             Day1Date = Convert.ToDateTime(list.dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
 
-            Day1Temp = ConvertToIntC(list.main.temp).ToString();
-            Day1FillTemp = "Fills like - " + ConvertToIntC(list.main.feels_like).ToString();
-            Day1MinTemp = ConvertToIntC(list.main.temp_min).ToString();
-            Day1MaxTemp = ConvertToIntC(list.main.temp_max).ToString();
+            Day1Temp = ConvertToIntC(list.main.temp).ToString() + "°C";
+            Day1FillTemp = "Fills like - " + ConvertToIntC(list.main.feels_like).ToString() + "°C";
+            Day1MinTemp = ConvertToIntC(list.main.temp_min).ToString() + "°C";
+            Day1MaxTemp = ConvertToIntC(list.main.temp_max).ToString() + "°C";
 
             Day1Weather = list.weather.First().main;
             Day1WeatherDesc = list.weather.First().description;
@@ -375,6 +375,11 @@ namespace MapNotepad.ViewModels
             };
 
             return _navigationService.FixedSelectTabAsync($"{nameof(MapPage)}", this, parameters);
+        }
+
+        private string SetIconURL(string icon)
+        {
+            return Constants.WEATHER_ICONS + icon + ".png";   
         }
 
         #endregion

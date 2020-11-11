@@ -22,14 +22,14 @@
                     FontSize="15"
                     HorizontalOptions="FillAndExpand"
                     SelectedItem="{Binding SelectedItem}">
-                
+
                 <Picker.Behaviors>
-                    
+
                     <prism:EventToCommandBehavior EventName="SelectedIndexChanged"
                                                   Command="{Binding SelectedItemChangedCommand}"/>
-                    
+
                 </Picker.Behaviors>
-                
+
             </Picker>
 
         </Frame>
@@ -210,7 +210,7 @@
                    CornerRadius="10"
                    Margin="2">
 
-                <StackLayout VerticalOptions="StartAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand">
 
                     <Label Grid.Row="0"
                            Grid.Column="0"
@@ -221,20 +221,12 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <StackLayout  VerticalOptions="Center">
-
-                        <Label Text="{x:Static resources:Resource.PoPLabel}"
+                    <Label Text="{Binding Day2Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                        <Label Text="{Binding Day2Temp}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-
-                        <Label Text="{Binding Day2WeatherDesc}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-                    </StackLayout>
+                    <Image Source="{Binding Day2Icon}"
+                           HeightRequest="70"/>
 
                 </StackLayout>
 
@@ -248,7 +240,7 @@
                    CornerRadius="10"
                    Margin="2">
 
-                <StackLayout VerticalOptions="StartAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand">
 
                     <Label Grid.Row="0"
                            Grid.Column="0"
@@ -259,21 +251,12 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <StackLayout VerticalOptions="Center">
-
-                        <Label Text="{x:Static resources:Resource.PoPLabel}"
+                    <Label Text="{Binding Day3Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                        <Label Text="{Binding Day3Temp}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-
-                        <Label Text="{Binding Day3WeatherDesc}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-
-                    </StackLayout>
+                    <Image Source="{Binding Day3Icon}"
+                           HeightRequest="70"/>
 
                 </StackLayout>
 
@@ -287,7 +270,7 @@
                    CornerRadius="10"
                    Margin="2">
 
-                <StackLayout VerticalOptions="StartAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand">
 
                     <Label Grid.Row="0"
                            Grid.Column="0"
@@ -298,21 +281,13 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <StackLayout  VerticalOptions="Center">
-
-                        <Label Text="{x:Static resources:Resource.PoPLabel}"
+                    <Label Text="{Binding Day4Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                        <Label Text="{Binding Day4Temp}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
+                    <Image Source="{Binding Day4Icon}"
+                           HeightRequest="70"/>
 
-                        <Label Text="{Binding Day4WeatherDesc}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-
-                    </StackLayout>
 
                 </StackLayout>
 
@@ -326,7 +301,7 @@
                     CornerRadius="10"
                     Margin="2">
 
-                <StackLayout VerticalOptions="StartAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand">
 
                     <Label Grid.Row="0"
                            Grid.Column="0"
@@ -337,21 +312,13 @@
                            FontAttributes="Bold"
                            FontSize="21"/>
 
-                    <StackLayout  VerticalOptions="Center">
-
-                        <Label Text="{x:Static resources:Resource.PoPLabel}"
+                    <Label Text="{Binding Day5Temp}"
                            HorizontalOptions="Center"
                            FontSize="17"/>
 
-                        <Label Text="{Binding Day5Temp}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
+                    <Image Source="{Binding Day5Icon}"
+                           HeightRequest="70"/>
 
-                        <Label Text="{Binding Day5WeatherDesc}"
-                           HorizontalOptions="Center"
-                           FontSize="17"/>
-
-                    </StackLayout>
 
                 </StackLayout>
 
