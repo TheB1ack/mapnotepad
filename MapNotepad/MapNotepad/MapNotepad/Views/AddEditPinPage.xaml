@@ -16,17 +16,17 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout>
-        
+
         <controls:CustomEntry Text="{Binding NameEntry}" 
                               Placeholder = "{x:Static resources:Resource.PinNamePlaceholder}"  
                               Margin="50, 20, 50, 0" 
                               HeightRequest="45"
-                              MaxLength="15"/>
+                              MaxLength="35"/>
 
         <controls:CustomEditor Text="{Binding DescriptionEditor}" 
                                Placeholder="{x:Static resources:Resource.DescriptionPlaceholder}" 
                                Margin="50, 5, 50, 0" 
-                               MaxLength="60"
+                               MaxLength="80"
                                HeightRequest="100"/>
 
         <StackLayout Orientation="Horizontal" 
@@ -65,7 +65,8 @@
             
         </StackLayout>
 
-        <StackLayout IsVisible="{Binding IsEntryVisible}">
+        <StackLayout IsVisible="{Binding IsEntryVisible}"
+                     VerticalOptions="CenterAndExpand">
             
             <Label Text="{x:Static resources:Resource.Latitude}"
                    HorizontalOptions="Center"/>
@@ -105,16 +106,17 @@
 
         </StackLayout>
         
-        <Frame BorderColor="Black"
-               VerticalOptions="FillAndExpand"
+        <Frame VerticalOptions="FillAndExpand"
                Padding="0"
                Margin="5,0,5,5"
-               IsVisible="{Binding IsMapVisible}">
+               HasShadow="False"
+               IsVisible="{Binding IsMapVisible}"
+               CornerRadius="10"
+               BackgroundColor="Transparent">
             
             <controls:CustomMap PinsSource="{Binding PinsCollection}"
-                                OnlyOneFocusedPin="{Binding MyFocusedPin}"
-                                Margin="10,10,10,10"
-                                MyLocationEnabled="{Binding IsMyLocationEnabled}">
+                                CameraPositionOnMap="{Binding CameraPositionBinding}"
+                                Margin="10,10,10,10" >
                 
                 <controls:CustomMap.Behaviors>
                     

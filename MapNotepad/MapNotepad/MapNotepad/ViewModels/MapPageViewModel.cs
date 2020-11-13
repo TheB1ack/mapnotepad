@@ -2,14 +2,15 @@
 using MapNotepad.Enums;
 using MapNotepad.Models;
 using MapNotepad.Services.Map;
-using MapNotepad.Services.Permissions;
+using MapNotepad.Services.Permission;
 using MapNotepad.Services.Pins;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -146,7 +147,7 @@ namespace MapNotepad.ViewModels
 
         private ICommand _pinClickCommand;
         public ICommand PinClickCommand => _pinClickCommand ??= new Command<Pin>(OnPinClickCommandAsync);
-        
+
         private ICommand _mapClickCommand;
         public ICommand MapClickCommand => _mapClickCommand ??= new Command(OnMapClickCommand);
 
@@ -155,7 +156,7 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- ViewModelBase implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -165,7 +166,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-               SetSavedPosition();
+                SetSavedPosition();
             }
 
             IsFrameShowed = false;
@@ -174,9 +175,17 @@ namespace MapNotepad.ViewModels
             ResizeCollection();
         }
 
-        public override void Initialize(INavigationParameters parameters)
+        public async override void Initialize(INavigationParameters parameters)
         {
-            CheckLocationPermissionsAsync();
+            var current = Connectivity.NetworkAccess;
+            if (current == NetworkAccess.Internet)
+            {
+                await CheckLocationPermissionsAsync();
+            }
+            else
+            {
+                IsMyLocationEnabled = false;
+            }
         }
 
         #endregion
@@ -201,16 +210,20 @@ namespace MapNotepad.ViewModels
             {
                 IsFrameShowed = false;
             }
+            else
+            {
+                Debug.WriteLine("IsFrameShowed is false");
+            }
 
         }
 
-        private async void CheckLocationPermissionsAsync()
+        private async Task CheckLocationPermissionsAsync()
         {
-            var status = await _permissionsService.CheckPermissionsAsync<LocationPermission>();
+            var status = await _permissionsService.CheckPermissionsAsync<Permissions.LocationWhenInUse>();
 
             if (status != PermissionStatus.Granted)
-            { 
-                SetLocationPermissionsAsync();
+            {
+                await SetLocationPermissionsAsync();
             }
             else
             {
@@ -220,41 +233,20 @@ namespace MapNotepad.ViewModels
             OnUserSearchingCommandAsync();
         }
 
-        private async void SetLocationPermissionsAsync()
+        private async Task SetLocationPermissionsAsync()
         {
-            var status = await _permissionsService.RequestPermissionsAsync<LocationPermission>();
+            var status = await _permissionsService.RequestPermissionsAsync<Permissions.LocationWhenInUse>();
 
             if (status != PermissionStatus.Granted)
             {
-                var result = await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location);
-                var device = Device.RuntimePlatform;
+                string alertText = Resources.Resource.LocationAlert;
+                string button = Resources.Resource.OkButton;
 
-                if (result)
-                {
-                    if (device == Device.Android)
-                    {
-                        string alertText = Resources.Resource.AndroidLocationAlert;
-                        string button = Resources.Resource.OkButton;
-
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
-                        });
-
-                    }
-                    else if (device == Device.iOS)
-                    {
-                        string alertText = Resources.Resource.IOSLocationAlert;
-                        string button = Resources.Resource.OkButton;
-
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await _userDialogs.AlertAsync(alertText, string.Empty, button);
-                        });
-                    }
-
-                }
-   
+                await _userDialogs.AlertAsync(alertText, string.Empty, button);
+            }
+            else
+            {
+                Debug.WriteLine("status isn't granded");
             }
 
             if (status == PermissionStatus.Granted)
@@ -264,6 +256,10 @@ namespace MapNotepad.ViewModels
             else if (status != PermissionStatus.Unknown)
             {
                 IsMyLocationEnabled = false;
+            }
+            else
+            {
+                Debug.WriteLine("status is unknown");
             }
 
         }
@@ -282,6 +278,10 @@ namespace MapNotepad.ViewModels
 
                 IsFrameShowed = true;
             }
+            else
+            {
+                Debug.WriteLine("tappedPin is null");
+            }
 
         }
 
@@ -298,7 +298,7 @@ namespace MapNotepad.ViewModels
         private async void OnUserSearchingCommandAsync()
         {
             var items = await _pinService.GetPinsByTextAsync(SearchBarText, (SearchCategories)SelectedIndex);
-            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x=>x.IsFavourite));
+            PinsCollection = new ObservableCollection<CustomPin>(items.Where(x => x.IsFavourite));
         }
 
         private async void ResizeCollection()

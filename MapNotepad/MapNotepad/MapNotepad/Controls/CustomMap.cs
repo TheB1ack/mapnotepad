@@ -2,6 +2,7 @@
 using MapNotepad.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Clustering;
@@ -16,6 +17,10 @@ namespace MapNotepad.Controls
             {
                 UiSettings.ZoomControlsEnabled = false;
                 UiSettings.MyLocationButtonEnabled = true;
+            }
+            else
+            {
+                Debug.WriteLine("UiSettings is null");
             }
 
             PinsSource = new ObservableCollection<CustomPin>();
@@ -55,22 +60,6 @@ namespace MapNotepad.Controls
                                                  validateValue: null,
                                                  propertyChanged: OnFocusedPinPropertyChanged);
 
-        public CustomPin OnlyOneFocusedPin
-        {
-            get => (CustomPin)GetValue(OnlyOneFocusedPinProperty);
-            
-            set => SetValue(OnlyOneFocusedPinProperty, value);
-        }
-
-        public static readonly BindableProperty OnlyOneFocusedPinProperty = BindableProperty.Create(
-                                                         propertyName: nameof(OnlyOneFocusedPin),
-                                                         returnType: typeof(CustomPin),
-                                                         declaringType: typeof(CustomMap),
-                                                         defaultValue: null,
-                                                         defaultBindingMode: BindingMode.TwoWay,
-                                                         validateValue: null,
-                                                         propertyChanged: OnOnlyOneFocusedPinPropertyChanged);
-
         public CameraPosition CameraPositionOnMap
         {
             get => (CameraPosition)GetValue(CameraPositionOnMapProperty);
@@ -100,6 +89,10 @@ namespace MapNotepad.Controls
             {
                 UpdatePinsSource(map, newPinsSource);
             }
+            else
+            {
+                Debug.WriteLine("map or newSource is null");
+            }
 
         }
 
@@ -112,22 +105,9 @@ namespace MapNotepad.Controls
             {
                 FocuseOnPin(map, newPin);
             }
-
-        }
-
-        private static void OnOnlyOneFocusedPinPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
-        {
-            var map = bindable as CustomMap;
-            var newPin = newValue as CustomPin;
-
-            var collection = new ObservableCollection<CustomPin>() { newPin };
-
-            if (map != null && newPin != null)
+            else
             {
-                var position = new Position(newPin.PositionLat, newPin.PositionLong);
-
-                MoveCameraToPosition(map, new CameraPosition(position, 15));
-                UpdatePinsSource(map, collection);
+                Debug.WriteLine("map or newPin is null");
             }
 
         }
@@ -142,7 +122,10 @@ namespace MapNotepad.Controls
             {
                 MoveCameraToPosition(map, newPosition);
             }
-
+            else
+            {
+                Debug.WriteLine("map or newPosition is null");
+            }
         }
 
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)

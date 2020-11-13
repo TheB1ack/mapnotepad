@@ -11,7 +11,6 @@ namespace MapNotepad.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //this.Parent = new NavigationPage();
         }
     }
 }

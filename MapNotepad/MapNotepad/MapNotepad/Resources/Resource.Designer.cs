@@ -70,15 +70,6 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To work correctly app needs&apos; your location!.
-        /// </summary>
-        public static string AndroidLocationAlert {
-            get {
-                return ResourceManager.GetString("AndroidLocationAlert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Email is not valid.
         /// </summary>
         public static string BadEmailAlert {
@@ -111,6 +102,15 @@ namespace MapNotepad.Resources {
         public static string BadUserNameAlert {
             get {
                 return ResourceManager.GetString("BadUserNameAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To work correctly app needs your camera permission!.
+        /// </summary>
+        public static string CameraAlert {
+            get {
+                return ResourceManager.GetString("CameraAlert", resourceCulture);
             }
         }
         
@@ -313,15 +313,6 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To work correctly app needs&apos; your location! Please, go to settings and enable it!.
-        /// </summary>
-        public static string IOSLocationAlert {
-            get {
-                return ResourceManager.GetString("IOSLocationAlert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Latitude.
         /// </summary>
         public static string Latitude {
@@ -345,6 +336,15 @@ namespace MapNotepad.Resources {
         public static string LatitudePlaceholder {
             get {
                 return ResourceManager.GetString("LatitudePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To work correctly app needs your location!.
+        /// </summary>
+        public static string LocationAlert {
+            get {
+                return ResourceManager.GetString("LocationAlert", resourceCulture);
             }
         }
         
@@ -376,6 +376,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to logOut.png.
+        /// </summary>
+        public static string logOutImage {
+            get {
+                return ResourceManager.GetString("logOutImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {
@@ -399,15 +408,6 @@ namespace MapNotepad.Resources {
         public static string LongitudePlaceholder {
             get {
                 return ResourceManager.GetString("LongitudePlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select pin on map!.
-        /// </summary>
-        public static string MapAlert {
-            get {
-                return ResourceManager.GetString("MapAlert", resourceCulture);
             }
         }
         
@@ -529,6 +529,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to qrCode.png.
+        /// </summary>
+        public static string qrCodeImage {
+            get {
+                return ResourceManager.GetString("qrCodeImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Point the camera at QR Code in another Map Notepad app.
         /// </summary>
         public static string QrScanHint {
@@ -579,6 +588,33 @@ namespace MapNotepad.Resources {
         public static string ScanPinNameAlert {
             get {
                 return ResourceManager.GetString("ScanPinNameAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search_Cancel.png.
+        /// </summary>
+        public static string Search_CancelImage {
+            get {
+                return ResourceManager.GetString("Search_CancelImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search_Settings.png.
+        /// </summary>
+        public static string Search_SettingsImage {
+            get {
+                return ResourceManager.GetString("Search_SettingsImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.png.
+        /// </summary>
+        public static string SearchImage {
+            get {
+                return ResourceManager.GetString("SearchImage", resourceCulture);
             }
         }
         

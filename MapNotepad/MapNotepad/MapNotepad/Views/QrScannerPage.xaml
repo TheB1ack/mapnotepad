@@ -9,7 +9,7 @@
              Title="{x:Static resources:Resource.QrScanTitle}">
     
     <Grid>
-        
+
         <zxing:ZXingScannerView IsScanning="True"
                                 Result="{Binding ScanResult, Mode=TwoWay}"
                                 ScanResultCommand="{Binding ScanResultCommand}"/>

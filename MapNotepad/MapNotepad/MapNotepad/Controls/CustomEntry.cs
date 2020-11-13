@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace MapNotepad.Controls
 {
@@ -41,6 +42,11 @@ namespace MapNotepad.Controls
                 {
                     entry.TextColor = Color.Red;
                 }
+
+            }
+            else
+            {
+                Debug.WriteLine("entry is null");
             }
 
         }

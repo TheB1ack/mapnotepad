@@ -13,7 +13,7 @@ namespace MapNotepad.Services.MapService
             _settingsService = settingsService;
         }
 
-        #region -- IterfaceName implementation --
+        #region -- IMapService implementation --
 
         public void SaveMapPosition(CameraPosition position)
         {

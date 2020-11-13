@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace MapNotepad.Controls
 {
@@ -39,8 +40,12 @@ namespace MapNotepad.Controls
                 }
                 else
                 {
-                    frame.TranslateTo(0, 10, 500);
+                    frame.TranslateTo(0, 40, 500);
                 }
+            }
+            else
+            {
+                Debug.WriteLine("frame is null");
             }
 
         }

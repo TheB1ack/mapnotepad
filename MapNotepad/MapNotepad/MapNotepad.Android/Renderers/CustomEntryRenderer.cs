@@ -22,25 +22,18 @@ namespace MapNotepad.Droid.Renderers
             {
                 var cornersOut = new float[]
                 {
-                    25, 25,
-                    25, 25,
-                    25, 25,
-                    25, 25
-                };
-                var cornersIn = new float[]
-                {
-                    5, 5,
-                    5, 5,
-                    5, 5,
-                    5, 5
+                    10, 10,
+                    10, 10,
+                    10, 10,
+                    10, 10
                 };
 
                 if (Control is EditText nativeEditText)
-                { 
-                    var shape = new ShapeDrawable(new RoundRectShape(cornersOut, new RectF(15,15,15,15), cornersIn));
+                {
+                    var shape = new ShapeDrawable(new RoundRectShape(cornersOut, new RectF(10, 10, 10, 10), null));
                     shape.Paint.Color = Xamarin.Forms.Color.FromHex("#29D695").ToAndroid();
                     shape.Paint.SetStyle(Paint.Style.FillAndStroke);
-                    
+
                     nativeEditText.Background = shape;
                 }
             }

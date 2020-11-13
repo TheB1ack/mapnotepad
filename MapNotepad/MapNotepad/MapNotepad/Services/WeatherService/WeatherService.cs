@@ -1,6 +1,7 @@
 ﻿using MapNotepad.Models;
 using MapNotepad.Services.REST;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace MapNotepad.Services.WeatherService
             _restService = restService;
         }
 
-        #region -- IterfaceName implementation --
+        #region -- IWeatherService implementation --
 
         public Task<WeatherModel> GetWeather(double latitude, double longitude)
         {
@@ -36,6 +37,10 @@ namespace MapNotepad.Services.WeatherService
             if (nDaysForcast.Count() < 5)
             {
                 fiveDaysForcast.Add(listOfAllDays.FirstOrDefault());
+            }
+            else
+            {
+                Debug.WriteLine("nDaysForcast.Count() was >= 5");
             }
 
             fiveDaysForcast.AddRange(nDaysForcast);

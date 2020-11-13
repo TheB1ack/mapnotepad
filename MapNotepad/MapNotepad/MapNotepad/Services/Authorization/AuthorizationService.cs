@@ -27,7 +27,7 @@ namespace MapNotepad.Services.Authorization
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- IAuthorizationService implementation --
 
         public async Task<bool> SignUpAsync(string userName, string userEmail, string userPassword)
         {           
@@ -64,6 +64,10 @@ namespace MapNotepad.Services.Authorization
             {
                 _settingsService.UserId = userResult.Id;
                 isSignedIn = true;
+            }
+            else
+            {
+                isSignedIn = false;
             }
 
             return isSignedIn;

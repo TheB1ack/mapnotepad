@@ -26,7 +26,7 @@
     <Grid ColumnSpacing="0">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -53,8 +53,7 @@
 
         <ListView HasUnevenRows="True"              
                   ItemsSource="{Binding PinsCollection}"
-                  SelectionMode="Single"   
-                  SelectedItem="{Binding ItemSelected}"
+                  SelectionMode="None"   
                   IsVisible="{Binding IsVisibleList, Mode=TwoWay}"
                   Margin="0,0,0,0"
                   Grid.Row="1"
@@ -65,14 +64,15 @@
             <ListView.Behaviors>
                 
                 <prism:EventToCommandBehavior EventName="ItemTapped" 
-                                              Command="{Binding ItemTappedCommand}"/>
+                                              Command="{Binding ItemTappedCommand}"
+                                              EventArgsParameterPath="Item"/>
 
             </ListView.Behaviors>
             
             <ListView.ItemTemplate>
                 
                 <DataTemplate>
-                    
+
                     <ViewCell Height="130">
                         
                         <ViewCell.ContextActions >
@@ -97,7 +97,7 @@
                             <Grid ColumnSpacing="0">
                                 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="70" />
                                 </Grid.ColumnDefinitions>
@@ -164,7 +164,10 @@
             
         </ListView>
 
-        <Entry x:Name="EntryPhoneNumber" Text="{Binding BarcodeValue}" IsVisible="False"/>
+        <!--HACK: default BarcodeValue fix-->
+        <Entry x:Name="EntryPhoneNumber" 
+               Text="{Binding BarcodeValue}" 
+               IsVisible="False"/>    
 
         <Frame Grid.Row="1"
                BackgroundColor="GhostWhite"
@@ -186,7 +189,8 @@
                     
                     <zxing:ZXingBarcodeImageView.BarcodeOptions>
                         
-                        <zxcm:EncodingOptions Width="300" Height="300"/>
+                        <zxcm:EncodingOptions Width="300" 
+                                              Height="300"/>
 
                     </zxing:ZXingBarcodeImageView.BarcodeOptions>
 

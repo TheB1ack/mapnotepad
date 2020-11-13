@@ -3,6 +3,7 @@ using MapNotepad.Models;
 using MapNotepad.Services.Repository;
 using MapNotepad.Services.Settings;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,8 +24,7 @@ namespace MapNotepad.Services.Pins
 
         public Task AddPinAsync(CustomPin pin)
         {
-            int userId = _settingsService.UserId; 
-            pin.UserId = userId;
+            pin.UserId = _settingsService.UserId;
 
             return _repositoryService.SaveItemAsync(pin);
         }
@@ -40,11 +40,19 @@ namespace MapNotepad.Services.Pins
                                          (x.PositionLong.ToString().ToUpper().Contains(searchText.ToUpper())) ||
                                          (x.Description.ToString().ToUpper().Contains(searchText.ToUpper())) ||
                                          (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper())));
-            }  
+            }
+            else
+            {
+                Debug.WriteLine("serchText is empty");
+            }
 
             if(category != 0)
             {
                 items = items.Where(x => (x.Category == (int)category));
+            }
+            else
+            {
+                Debug.WriteLine("category == 0");
             }
 
             return items;
@@ -76,6 +84,10 @@ namespace MapNotepad.Services.Pins
             if (searchedPin != null)
             {
                 isValid = false;
+            }
+            else
+            {
+                Debug.WriteLine("serachedPin == null");
             }
 
             return isValid;

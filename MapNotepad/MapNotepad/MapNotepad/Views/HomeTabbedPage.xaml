@@ -14,10 +14,10 @@
     <TabbedPage.ToolbarItems>
 
         <ToolbarItem Command="{Binding qrClickCommand}"
-                     IconImageSource="qrCode.png"/>
+                     IconImageSource="{x:Static resources:Resource.qrCodeImage}"/>
 
         <ToolbarItem Command="{Binding LogOutClickCommand}"
-                     IconImageSource="logOut.png"/>
+                     IconImageSource="{x:Static resources:Resource.logOutImage}"/>
         
     </TabbedPage.ToolbarItems>
 

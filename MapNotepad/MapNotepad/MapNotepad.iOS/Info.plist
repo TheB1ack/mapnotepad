@@ -31,6 +31,8 @@
 	<key>CFBundleName</key>
 	<string>MapNotepad</string>
 	<key>XSAppIconAssets</key>
+  <key>UIUserInterfaceStyle</key>
+  <string>Light</string>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Can we use your location at all times?</string>

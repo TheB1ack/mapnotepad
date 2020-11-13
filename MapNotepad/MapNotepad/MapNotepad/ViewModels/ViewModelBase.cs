@@ -12,12 +12,16 @@ namespace MapNotepad.ViewModels
 
         protected INavigationService _navigationService { get; private set; }
 
-        #region -- IterfaceName implementation --
+        #region -- IInitialize implementation --
 
         public virtual void Initialize(INavigationParameters parameters)
         {
 
         }
+
+        #endregion
+
+        #region -- INavigationAware implementation --
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -28,6 +32,10 @@ namespace MapNotepad.ViewModels
         {
 
         }
+
+        #endregion
+
+        #region -- IDestructible implementation --
 
         public virtual void Destroy()
         {

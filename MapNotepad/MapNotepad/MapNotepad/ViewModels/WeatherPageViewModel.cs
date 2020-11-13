@@ -6,6 +6,7 @@ using MapNotepad.Views;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace MapNotepad.ViewModels
     {
         private readonly IWeatherService _weatherService;
         private readonly IPinService _pinService;
+
         public WeatherPageViewModel(INavigationService navigationService,
                                     IWeatherService weatherService,
                                     IPinService pinService)
@@ -248,15 +250,20 @@ namespace MapNotepad.ViewModels
 
         private ICommand _selectedItemChangedCommand;
         public ICommand SelectedItemChangedCommand => _selectedItemChangedCommand ??= new Command(OnSelectedItemChangedCommand);
+
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- ViewModelBase implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 GoToSelectedPin(pin);
+            }
+            else
+            {
+                Debug.WriteLine("parameters are empty");
             }
 
             string text = Resources.Resource.EmptyListLabel;
@@ -367,14 +374,14 @@ namespace MapNotepad.ViewModels
             return Convert.ToInt32(C);
         }
 
-        private Task GoToSelectedPin(CustomPin pin)
+        private void GoToSelectedPin(CustomPin pin)
         {
             var parameters = new NavigationParameters
             {
                  { nameof(CustomPin), pin }
             };
 
-            return _navigationService.FixedSelectTabAsync($"{nameof(MapPage)}", this, parameters);
+            _navigationService.FixedSelectTab(typeof(MapPage), parameters);
         }
 
         private string SetIconURL(string icon)

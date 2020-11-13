@@ -6,8 +6,8 @@ using MapNotepad.Views;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -90,14 +90,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _isVisibleList, value);
         }
 
-        private CustomPin _itemSelected;
-        public CustomPin ItemSelected
-        {
-            get => _itemSelected;
-
-            set => SetProperty(ref _itemSelected, value);
-        }
-
         private string _searchBarText;
         public string SearchBarText
         {
@@ -138,13 +130,17 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- ViewModelBase implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(nameof(CustomPin), out CustomPin pin))
             {
                 GoToSelectedPin(pin);
+            }
+            else
+            {
+                Debug.WriteLine("parameters are empty");
             }
 
             SelectedIndex = 0;
@@ -267,27 +263,39 @@ namespace MapNotepad.ViewModels
 
         }
 
-        private async void OnItemTappedCommandAsync()
+        private async void OnItemTappedCommandAsync(object selectedItem)
         {
-            if (!ItemSelected.IsFavourite)
+            if (selectedItem is CustomPin pin)
             {
-                ItemSelected.FavouriteImageSource = "full_heart.png";
-                ItemSelected.IsFavourite = true;
+                if (!pin.IsFavourite)
+                {
+                    pin.FavouriteImageSource = "full_heart.png";
+                    pin.IsFavourite = true;
 
-                await _pinService.UpdatePinAsync(ItemSelected);
+                    await _pinService.UpdatePinAsync(pin);
+                }
+                else
+                {
+                    Debug.WriteLine("pin is favourite");
+                }
+
+                GoToSelectedPin(pin);
+            }
+            else
+            {
+                Debug.WriteLine("selected pin isn't CustomPin");
             }
 
-            await GoToSelectedPin(ItemSelected);
         }
 
-        private Task GoToSelectedPin(CustomPin pin)
+        private void GoToSelectedPin(CustomPin pin)
         {
             var parameters = new NavigationParameters
             {
                  { nameof(CustomPin), pin }
             };
 
-            return _navigationService.FixedSelectTabAsync($"{nameof(MapPage)}", this, parameters);
+            _navigationService.FixedSelectTab(typeof(MapPage), parameters);
         }
 
         #endregion

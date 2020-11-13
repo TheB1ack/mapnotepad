@@ -43,7 +43,7 @@ namespace MapNotepad.Services.Settings
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- ISettingsService implementation --
 
         public void ClearData()
         {

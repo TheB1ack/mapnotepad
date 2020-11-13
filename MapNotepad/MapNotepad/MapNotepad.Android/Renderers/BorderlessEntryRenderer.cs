@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Widget;
 using MapNotepad.Controls;
 using MapNotepad.Droid.Renderers;
 using Xamarin.Forms;
@@ -16,6 +17,7 @@ namespace MapNotepad.Droid.Renderers
 
             if (Control != null)
             {
+                Control.SetPadding(0, 0, 0, 0);
                 Control.Background = null;
             }
         }

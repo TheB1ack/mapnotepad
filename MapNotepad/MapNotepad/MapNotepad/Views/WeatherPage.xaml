@@ -294,12 +294,12 @@
             </Frame>
 
             <Frame Grid.Row="2"
-                    Grid.Column="1"
-                    Padding="5"
-                    BackgroundColor="GhostWhite"
-                    BorderColor="White"
-                    CornerRadius="10"
-                    Margin="2">
+                   Grid.Column="1"
+                   Padding="5"
+                   BackgroundColor="GhostWhite"
+                   BorderColor="White"
+                   CornerRadius="10"
+                   Margin="2">
 
                 <StackLayout VerticalOptions="CenterAndExpand">
 

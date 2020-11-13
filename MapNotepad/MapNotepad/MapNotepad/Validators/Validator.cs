@@ -47,7 +47,7 @@ namespace MapNotepad.Validators
             {
                 isValid = false;
             }
-            else if(userName.Length > 20)
+            else if (userName.Length > 20)
             {
                 isValid = false;
             }
@@ -67,7 +67,7 @@ namespace MapNotepad.Validators
             {
                 isValid = false;
             }
-            else if (Longitude < 0)
+            else if (Longitude < -180)
             {
                 isValid = false;
             }
@@ -103,7 +103,7 @@ namespace MapNotepad.Validators
         {
             var isValid = false;
 
-            if(string.IsNullOrWhiteSpace(pinName))
+            if (string.IsNullOrWhiteSpace(pinName))
             {
                 isValid = false;
             }

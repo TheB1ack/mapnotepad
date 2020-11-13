@@ -1,10 +1,13 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
+using MapNotepad.Services.Permission;
 using MapNotepad.Services.Pins;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing;
 
@@ -14,14 +17,17 @@ namespace MapNotepad.ViewModels
     {
         private readonly IPinService _pinService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IPermissionsService _permissionsService;
 
         public QrScannerPageViewModel(INavigationService navigationService,
                                       IPinService pinService,
-                                      IUserDialogs userDialogs)
+                                      IUserDialogs userDialogs,
+                                      IPermissionsService permissionsService)
                                       : base(navigationService)
         {
             _pinService = pinService;
             _userDialogs = userDialogs;
+            _permissionsService = permissionsService;
         }
 
         #region -- Public properties --
@@ -37,7 +43,6 @@ namespace MapNotepad.ViewModels
         private ICommand _scanResultCommand;
         public ICommand ScanResultCommand => _scanResultCommand ??= new Command(OnScanResultCommand);
 
-
         #endregion
 
         #region -- Private helpers --
@@ -47,6 +52,7 @@ namespace MapNotepad.ViewModels
             if (ScanResult != null)
             {
                 var pin = TryGetPin(ScanResult.Text);
+
                 if (pin != null)
                 {
                     var isValid = await _pinService.CheckPinName(pin.Name);
@@ -63,15 +69,17 @@ namespace MapNotepad.ViewModels
                         {
                             await _navigationService.GoBackAsync(parameters);
                         });
-                        ScanResult = null;
+
+                        ScanResult = null;                      
                     }
                     else
                     {
                         string alertText = Resources.Resource.ScanPinNameAlert;
                         string button = Resources.Resource.OkButton;
 
-                        await _userDialogs.AlertAsync(alertText, string.Empty, button);
+                        await _userDialogs.AlertAsync(alertText, string.Empty, button);                      
                     }
+
                 }
                 else
                 {
@@ -80,25 +88,34 @@ namespace MapNotepad.ViewModels
 
                     await _userDialogs.AlertAsync(alertText, string.Empty, button);
                 }
+
             }
-    
+            else
+            {
+                Debug.WriteLine("scanresult is null");
+            }
+
         }
 
         private CustomPin TryGetPin(string text)
         {
             CustomPin pin = null;
+
             try
             {
                 pin = JsonConvert.DeserializeObject<CustomPin>(text);
                 pin.IsFavourite = true;
                 pin.FavouriteImageSource = "full_heart.png";
             }
-            catch(JsonException ex)
+            catch (JsonException ex)
             {
                 Debug.WriteLine(ex.Message);
             }
+
             return pin;
         }
+
         #endregion
+
     }
 }

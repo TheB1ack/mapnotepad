@@ -12,7 +12,7 @@ namespace MapNotepad.Services.REST
             _httpClient = new HttpClient();
         }
 
-        #region -- IterfaceName implementation --
+        #region -- IRestService implementation --
 
         public async Task<T> GetAsync<T>(string url)
         {

@@ -12,10 +12,9 @@ using MapNotepad.Services.Settings;
 using Acr.UserDialogs;
 using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
-using Plugin.Permissions;
-using MapNotepad.Services.Permissions;
 using MapNotepad.Services.REST;
 using MapNotepad.Services.WeatherService;
+using MapNotepad.Services.Permission;
 
 namespace MapNotepad
 {
@@ -26,9 +25,13 @@ namespace MapNotepad
         {
 
         }
+
+        #region -- PrismApplication implementation --
+
         protected override async void OnInitialized()
         {
             InitializeComponent();
+
             var isAuthorized = Container.Resolve<IAuthorizationService>().IsAuthorized;
 
             if (isAuthorized)
@@ -37,7 +40,6 @@ namespace MapNotepad
             }
             else
             {
-                
                 await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SingInPage)}");
             }
 
@@ -59,7 +61,6 @@ namespace MapNotepad
             //packages
             containerRegistry.RegisterInstance(CrossSettings.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
-            containerRegistry.RegisterInstance(CrossPermissions.Current);
 
             //services
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());
@@ -71,7 +72,9 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<IRestService>(Container.Resolve<RestService>());
             containerRegistry.RegisterInstance<IWeatherService>(Container.Resolve<WeatherService>());
 
-
         }
+
+        #endregion
+
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
+             xmlns:resources="clr-namespace:MapNotepad.Resources" 
              x:Class="MapNotepad.Controls.SearchBarWithButtons"
              x:Name="SearchBarWithB">
     
@@ -13,17 +14,11 @@
            BackgroundColor="Transparent"
            HeightRequest="40">
         
-        <Grid ColumnSpacing="0">
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="40"/>
-            </Grid.ColumnDefinitions>
+        <Grid ColumnSpacing="0"
+              ColumnDefinitions="40,*,40,40">
 
             <Image Grid.Column="0"
-                   Source="Search.png"
+                   Source="{x:Static resources:Resource.SearchImage}"
                    BackgroundColor="Transparent"
                    BindingContext="{x:Reference Name=SearchBarWithB}"/>
 
@@ -33,19 +28,21 @@
                                       BackgroundColor="Transparent"
                                       FontSize="15"
                                       HorizontalOptions="FillAndExpand"
-                                      VerticalOptions="FillAndExpand"
+                                      VerticalOptions="CenterAndExpand"
                                       BindingContext="{x:Reference Name=SearchBarWithB}"
                                       Placeholder="{Binding Placeholder}"
                                       Text="{Binding Text}"/>
 
-            <ImageButton Grid.Column="2"
-                         Source="Search_Cancel.png"
+            <ImageButton x:Name="Cancel_Button"
+                         IsVisible="false"
+                         Grid.Column="2"
+                         Source="{x:Static resources:Resource.Search_CancelImage}"
                          BackgroundColor="Transparent"
                          BindingContext="{x:Reference Name=SearchBarWithB}"
                          Clicked="CancelButton_Click"/>
 
             <ImageButton Grid.Column="3"
-                         Source="Search_Settings.png"
+                         Source="{x:Static resources:Resource.Search_SettingsImage}"
                          BackgroundColor="Transparent"
                          BindingContext="{x:Reference Name=SearchBarWithB}">
                 

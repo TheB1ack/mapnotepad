@@ -63,7 +63,6 @@ namespace MapNotepad.Controls
                                                          validateValue: null,
                                                          propertyChanged: (bindable, oldValue, newValue) => ((SearchBarWithButtons)bindable).OnTextChanged((string)oldValue, (string)newValue));
 
-       
         #endregion
 
         #region -- Private Helpers --
@@ -75,6 +74,15 @@ namespace MapNotepad.Controls
 
         protected virtual void OnTextChanged(string oldValue, string newValue)
         {
+            if (string.IsNullOrEmpty(newValue))
+            {
+                Cancel_Button.IsVisible = false;
+            }
+            else
+            {
+                Cancel_Button.IsVisible = true;
+            }
+
             TextChanged?.Invoke(this, new TextChangedEventArgs(oldValue, newValue));
         }
 

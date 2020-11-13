@@ -120,9 +120,6 @@
   <data name="AddPinTitle" xml:space="preserve">
     <value>Add new Pin</value>
   </data>
-  <data name="AndroidLocationAlert" xml:space="preserve">
-    <value>To work correctly app needs' your location!</value>
-  </data>
   <data name="BadEmailAlert" xml:space="preserve">
     <value>Email is not valid</value>
   </data>
@@ -134,6 +131,9 @@
   </data>
   <data name="BadUserNameAlert" xml:space="preserve">
     <value>Name must be between 1 and 20 characters long!</value>
+  </data>
+  <data name="CameraAlert" xml:space="preserve">
+    <value>To work correctly app needs your camera permission!</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
     <value>Cancel</value>
@@ -201,9 +201,6 @@
   <data name="InvalidQrAlert" xml:space="preserve">
     <value>Invalid QR Code!</value>
   </data>
-  <data name="IOSLocationAlert" xml:space="preserve">
-    <value>To work correctly app needs' your location! Please, go to settings and enable it!</value>
-  </data>
   <data name="Latitude" xml:space="preserve">
     <value>Latitude</value>
   </data>
@@ -212,6 +209,9 @@
   </data>
   <data name="LatitudePlaceholder" xml:space="preserve">
     <value>Pin latitude</value>
+  </data>
+  <data name="LocationAlert" xml:space="preserve">
+    <value>To work correctly app needs your location!</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value>LOGIN</value>
@@ -222,6 +222,9 @@
   <data name="LogoutButton" xml:space="preserve">
     <value>LOG OUT</value>
   </data>
+  <data name="logOutImage" xml:space="preserve">
+    <value>logOut.png</value>
+  </data>
   <data name="Longitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
@@ -230,9 +233,6 @@
   </data>
   <data name="LongitudePlaceholder" xml:space="preserve">
     <value>Pin longitude</value>
-  </data>
-  <data name="MapAlert" xml:space="preserve">
-    <value>Select pin on map!</value>
   </data>
   <data name="MapNotepanTitle" xml:space="preserve">
     <value>MAP Notepad</value>
@@ -273,6 +273,9 @@
   <data name="PoPLabel" xml:space="preserve">
     <value>PoP, %"</value>
   </data>
+  <data name="qrCodeImage" xml:space="preserve">
+    <value>qrCode.png</value>
+  </data>
   <data name="QrScanHint" xml:space="preserve">
     <value>Point the camera at QR Code in another Map Notepad app</value>
   </data>
@@ -290,6 +293,15 @@
   </data>
   <data name="ScanPinNameAlert" xml:space="preserve">
     <value>Pin name is already exist! Change scaning pin name, or change exist pin name!</value>
+  </data>
+  <data name="SearchImage" xml:space="preserve">
+    <value>Search.png</value>
+  </data>
+  <data name="Search_CancelImage" xml:space="preserve">
+    <value>Search_Cancel.png</value>
+  </data>
+  <data name="Search_SettingsImage" xml:space="preserve">
+    <value>Search_Settings.png</value>
   </data>
   <data name="ShareButton" xml:space="preserve">
     <value>Share</value>

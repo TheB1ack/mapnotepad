@@ -24,7 +24,7 @@ namespace MapNotepad.Services.Repository
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- IRepositoryService implementation --
 
         public async Task DeleteItemAsync<T>(T item) where T : IBaseModel, new()
         {

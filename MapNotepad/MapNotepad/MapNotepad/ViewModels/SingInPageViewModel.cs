@@ -2,6 +2,7 @@
 using MapNotepad.Services.Authorization;
 using MapNotepad.Views;
 using Prism.Navigation;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -58,13 +59,17 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
-        #region -- IterfaceName implementation --
+        #region -- ViewModelBase implementation --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if(parameters.TryGetValue(Constants.EMAIL, out string email))
             {
                 EmailEntry = email;
+            }
+            else
+            {
+                Debug.WriteLine("parameters are empty");
             }
 
         }
@@ -86,10 +91,18 @@ namespace MapNotepad.ViewModels
             {
                 isActive = false;
             }
+            else
+            {
+                Debug.WriteLine("IsNullOrWhiteSpace returned false");
+            }
 
             if (string.IsNullOrWhiteSpace(PasswordEntry))
             {
                 isActive = false;
+            }
+            else
+            {
+                Debug.WriteLine("IsNullOrWhiteSpace returned false");
             }
 
             return isActive;

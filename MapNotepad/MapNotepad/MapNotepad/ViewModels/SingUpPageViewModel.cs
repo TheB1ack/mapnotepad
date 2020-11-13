@@ -128,6 +128,10 @@ namespace MapNotepad.ViewModels
             {
                 isValid = false;
             }
+            else
+            {
+                Debug.WriteLine("isNullOrWhiteSpace returned null");
+            }
 
             return isValid;
         }
@@ -160,7 +164,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                Debug.WriteLine("CheckUserInput method returned false");
+                Debug.WriteLine("isValid is false");
             }
 
         }
@@ -188,7 +192,7 @@ namespace MapNotepad.ViewModels
 
                 await _userDialogs.AlertAsync(alertText, string.Empty, button);
             }
-            else if(!emailResult)
+            else if (!emailResult)
             {
                 isValid = false;
                 IsEmailValid = false;
@@ -208,7 +212,7 @@ namespace MapNotepad.ViewModels
 
                 await _userDialogs.AlertAsync(alertText, string.Empty, button);
             }
-            else if(PasswordEntry != SPasswordEntry)
+            else if (PasswordEntry != SPasswordEntry)
             {
                 isValid = false;
                 IsSPasswordValid = false;
