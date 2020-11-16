@@ -25,14 +25,14 @@ namespace MapNotepad.Services.WeatherService
             return _restService.GetAsync<WeatherModel>(url);
         }
 
-        public async Task<IEnumerable<List>> GetFiveDaysWeater(double latitude, double longitude)
+        public async Task<IEnumerable<WeatherInfo>> GetFiveDaysWeater(double latitude, double longitude)
         {
-            List<List> fiveDaysForcast = new List<List>();
+            List<WeatherInfo> fiveDaysForcast = new List<WeatherInfo>();
 
             var result = await GetWeather(latitude, longitude);
 
-            var listOfAllDays = result.list;
-            var nDaysForcast = listOfAllDays.Where(x => x.dt_txt.Contains("15:00:00")).ToList();
+            var listOfAllDays = result.WeatherList;
+            var nDaysForcast = listOfAllDays.Where(x => x.Date.Contains("15:00:00")).ToList();
 
             if (nDaysForcast.Count() < 5)
             {
@@ -40,7 +40,7 @@ namespace MapNotepad.Services.WeatherService
             }
             else
             {
-                Debug.WriteLine("nDaysForcast.Count() was >= 5");
+                Debug.WriteLine("nDaysForcast.Count() is >= 5");
             }
 
             fiveDaysForcast.AddRange(nDaysForcast);

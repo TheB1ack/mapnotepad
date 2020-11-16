@@ -268,9 +268,9 @@ namespace MapNotepad.ViewModels
 
             string text = Resources.Resource.EmptyListLabel;
             LabetText = text;
-
             IsShowLabel = true;
             IsShowContent = false;
+
             FillPicker();
         }
 
@@ -282,6 +282,7 @@ namespace MapNotepad.ViewModels
         {
             var items = await _pinService.GetPinsAsync();
             var pickerItems = new List<string>();
+
             foreach (var item in items)
             {
                 pickerItems.Add(item.Name);
@@ -303,6 +304,7 @@ namespace MapNotepad.ViewModels
             if (pin != null)
             {
                 var current = Connectivity.NetworkAccess;
+
                 if (current == NetworkAccess.Internet)
                 {
                     var weatherResult = await _weatherService.GetFiveDaysWeater(pin.PositionLat, pin.PositionLong);
@@ -318,10 +320,10 @@ namespace MapNotepad.ViewModels
                 {
                     string text = Resources.Resource.InternetLabel;
                     LabetText = text;
-
                     IsShowLabel = true;
                     IsShowContent = false;
                 }
+
             }
             else
             {
@@ -331,46 +333,47 @@ namespace MapNotepad.ViewModels
 
         }
 
-        private void SetAllDaysForcast(List<List> list)
+        private void SetAllDaysForcast(List<WeatherInfo> list)
         {
-            Day2Date = Convert.ToDateTime(list[1].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
-            Day3Date = Convert.ToDateTime(list[2].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
-            Day4Date = Convert.ToDateTime(list[3].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
-            Day5Date = Convert.ToDateTime(list[4].dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
+            Day2Date = Convert.ToDateTime(list[1].Date).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
+            Day3Date = Convert.ToDateTime(list[2].Date).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
+            Day4Date = Convert.ToDateTime(list[3].Date).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
+            Day5Date = Convert.ToDateTime(list[4].Date).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
 
-            Day2Temp = ConvertToIntC(list[1].main.temp).ToString() + "°C";
-            Day3Temp = ConvertToIntC(list[2].main.temp).ToString() + "°C";
-            Day4Temp = ConvertToIntC(list[3].main.temp).ToString() + "°C";
-            Day5Temp = ConvertToIntC(list[4].main.temp).ToString() + "°C";
+            Day2Temp = ConvertToIntC(list[1].TemperatureInfo.Value).ToString() + "°C";
+            Day3Temp = ConvertToIntC(list[2].TemperatureInfo.Value).ToString() + "°C";
+            Day4Temp = ConvertToIntC(list[3].TemperatureInfo.Value).ToString() + "°C";
+            Day5Temp = ConvertToIntC(list[4].TemperatureInfo.Value).ToString() + "°C";
 
-            Day2Icon = SetIconURL(list[1].weather.First().icon);
-            Day3Icon = SetIconURL(list[2].weather.First().icon);
-            Day4Icon = SetIconURL(list[3].weather.First().icon);
-            Day5Icon = SetIconURL(list[4].weather.First().icon);
+            Day2Icon = SetIconURL(list[1].DaysWeather.First().Icon);
+            Day3Icon = SetIconURL(list[2].DaysWeather.First().Icon);
+            Day4Icon = SetIconURL(list[3].DaysWeather.First().Icon);
+            Day5Icon = SetIconURL(list[4].DaysWeather.First().Icon);
         }
 
-        private void SetDay1Forcast(List list)
+        private void SetDay1Forcast(WeatherInfo list)
         {
-            Day1Date = Convert.ToDateTime(list.dt_txt).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
+            Day1Date = Convert.ToDateTime(list.Date).ToString("dddd", CultureInfo.CreateSpecificCulture("en-US"));
 
-            Day1Temp = ConvertToIntC(list.main.temp).ToString() + "°C";
-            Day1FillTemp = "Fills like - " + ConvertToIntC(list.main.feels_like).ToString() + "°C";
-            Day1MinTemp = ConvertToIntC(list.main.temp_min).ToString() + "°C";
-            Day1MaxTemp = ConvertToIntC(list.main.temp_max).ToString() + "°C";
+            Day1Temp = ConvertToIntC(list.TemperatureInfo.Value).ToString() + "°C";
+            Day1FillTemp = "Fills like - " + ConvertToIntC(list.TemperatureInfo.FeelsLike).ToString() + "°C";
+            Day1MinTemp = ConvertToIntC(list.TemperatureInfo.Minimum).ToString() + "°C";
+            Day1MaxTemp = ConvertToIntC(list.TemperatureInfo.Maximum).ToString() + "°C";
 
-            Day1Weather = list.weather.First().main;
-            Day1WeatherDesc = list.weather.First().description;
+            Day1Weather = list.DaysWeather.First().Name;
+            Day1WeatherDesc = list.DaysWeather.First().Description;
 
-            Day1Cloudiness = list.clouds.all.ToString();
+            Day1Cloudiness = list.Clouds.Cloudiness.ToString();
 
-            Day1WindSpeed = list.wind.speed.ToString() + "m/s";
+            Day1WindSpeed = list.Wind.Speed.ToString() + "m/s";
 
-            Day1PoP = list.pop.ToString();
+            Day1PoP = list.PoP.ToString();
         }
 
         private int ConvertToIntC(double K)
         {
             var C = K - 273.15;
+
             return Convert.ToInt32(C);
         }
 
@@ -390,5 +393,6 @@ namespace MapNotepad.ViewModels
         }
 
         #endregion
+
     }
 }

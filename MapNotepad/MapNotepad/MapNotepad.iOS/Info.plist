@@ -42,6 +42,7 @@
 	<string>Can we use your location at all times?</string>
   <key>NSCameraUsageDescription</key>
   <string>Can we use your camera to scan barcodes?</string>
+  <key>NSAppTransportSecurity</key>
   <dict>
     <key>NSAllowsArbitraryLoads</key>
     <true/>
