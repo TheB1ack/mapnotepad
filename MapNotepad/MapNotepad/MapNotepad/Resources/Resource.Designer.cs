@@ -241,6 +241,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to empty_heart.png.
+        /// </summary>
+        public static string EmptyHeartImage {
+            get {
+                return ResourceManager.GetString("EmptyHeartImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nothing here :(.
         /// </summary>
         public static string EmptyListLabel {
@@ -268,11 +277,11 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to full_heart.png.
         /// </summary>
-        public static string Fe {
+        public static string FullHeartImage {
             get {
-                return ResourceManager.GetString("Fe", resourceCulture);
+                return ResourceManager.GetString("FullHeartImage", resourceCulture);
             }
         }
         

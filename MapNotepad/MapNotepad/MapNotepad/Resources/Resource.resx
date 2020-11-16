@@ -177,6 +177,9 @@
   <data name="EmailPlaceholder" xml:space="preserve">
     <value>Email address</value>
   </data>
+  <data name="EmptyHeartImage" xml:space="preserve">
+    <value>empty_heart.png</value>
+  </data>
   <data name="EmptyListLabel" xml:space="preserve">
     <value>Nothing here :(</value>
   </data>
@@ -186,8 +189,8 @@
   <data name="ExistNameAlert" xml:space="preserve">
     <value>Pin's name is already exist!</value>
   </data>
-  <data name="Fe" xml:space="preserve">
-    <value />
+  <data name="FullHeartImage" xml:space="preserve">
+    <value>full_heart.png</value>
   </data>
   <data name="GymCategory" xml:space="preserve">
     <value>Gym</value>

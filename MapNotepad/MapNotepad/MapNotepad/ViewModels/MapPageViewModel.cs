@@ -233,7 +233,6 @@ namespace MapNotepad.ViewModels
                 IsMyLocationEnabled = true;
             }
 
-            OnUserSearchingCommandAsync();
         }
 
         private async Task SetLocationPermissionsAsync()
@@ -242,6 +241,7 @@ namespace MapNotepad.ViewModels
 
             if (status != PermissionStatus.Granted)
             {
+                IsMyLocationEnabled = false;
                 string alertText = Resources.Resource.LocationAlert;
                 string button = Resources.Resource.OkButton;
 
@@ -249,20 +249,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                Debug.WriteLine("status isn't granded");
-            }
-
-            if (status == PermissionStatus.Granted)
-            {
                 IsMyLocationEnabled = true;
-            }
-            else if (status != PermissionStatus.Unknown)
-            {
-                IsMyLocationEnabled = false;
-            }
-            else
-            {
-                Debug.WriteLine("status is unknown");
             }
 
         }

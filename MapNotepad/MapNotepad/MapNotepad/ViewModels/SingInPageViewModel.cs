@@ -66,6 +66,7 @@ namespace MapNotepad.ViewModels
             if(parameters.TryGetValue(Constants.EMAIL, out string email))
             {
                 EmailEntry = email;
+                PasswordEntry = string.Empty;
             }
             else
             {

@@ -196,18 +196,17 @@ namespace MapNotepad.ViewModels
         {
             if (pin.IsFavourite)
             {
-                pin.FavouriteImageSource = "empty_heart.png";
+                pin.FavouriteImageSource = Resources.Resource.EmptyHeartImage;
             }
             else
             {
-                pin.FavouriteImageSource = "full_heart.png";
+                pin.FavouriteImageSource = Resources.Resource.FullHeartImage;
             }
 
             pin.IsFavourite = !pin.IsFavourite;
             await _pinService.UpdatePinAsync(pin);
 
-            var items = await _pinService.GetPinsAsync();
-            PinsCollection = new ObservableCollection<CustomPin>(items);
+            OnUserSearchingCommandAsync();
         }
 
         private async void OnAddButtonClickCommandAsync()
@@ -267,7 +266,7 @@ namespace MapNotepad.ViewModels
             {
                 if (!pin.IsFavourite)
                 {
-                    pin.FavouriteImageSource = "full_heart.png";
+                    pin.FavouriteImageSource = Resources.Resource.FullHeartImage;
                     pin.IsFavourite = true;
 
                     await _pinService.UpdatePinAsync(pin);

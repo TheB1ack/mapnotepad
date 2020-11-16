@@ -264,7 +264,7 @@ namespace MapNotepad.ViewModels
                             Description = DescriptionEditor ?? string.Empty,
                             PositionLat = PinsCollection.First().PositionLat,
                             PositionLong = PinsCollection.First().PositionLong,
-                            FavouriteImageSource = "empty_heart.png",
+                            FavouriteImageSource = Resources.Resource.EmptyHeartImage,
                             Category = PickerItem
                         };
 
@@ -352,6 +352,8 @@ namespace MapNotepad.ViewModels
             LongitudeEntry = pin.PositionLong;
             LatitudeEntry = pin.PositionLat;
             PickerItem = pin.Category;
+
+            ExistPin = pin;
 
             PinsCollection = new ObservableCollection<CustomPin>
             {

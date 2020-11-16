@@ -54,6 +54,7 @@ namespace MapNotepad.ViewModels
                 if (pin != null)
                 {
                     var isValid = await _pinService.CheckPinName(pin.Name);
+
                     if (isValid)
                     {
                         await _pinService.AddPinAsync(pin);
@@ -103,7 +104,7 @@ namespace MapNotepad.ViewModels
             {
                 pin = JsonConvert.DeserializeObject<CustomPin>(text);
                 pin.IsFavourite = true;
-                pin.FavouriteImageSource = "full_heart.png";
+                pin.FavouriteImageSource = Resources.Resource.FullHeartImage;
             }
             catch (JsonException ex)
             {

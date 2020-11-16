@@ -26,10 +26,9 @@ namespace MapNotepad.Services.Authorization
         }
 
         public async Task<bool> SignUpAsync(string userName, string userEmail, string userPassword)
-        {           
-            var items = await _repositoryService.GetItemsAsync<User>(x => x.Email == userEmail);
-            User userResult = items.FirstOrDefault();
+        {
             var isSignedUp = true;
+            var userResult = await GetUserByMail(userEmail);
 
             if (userResult != null)
             {
@@ -53,8 +52,7 @@ namespace MapNotepad.Services.Authorization
         public async Task<bool> SignInAsync(string userEmail, string userPassword)
         {
             var isSignedIn = false;
-            var items = await _repositoryService.GetItemsAsync<User>(x => x.Email.ToUpper().Equals(userEmail.ToUpper()));
-            User userResult = items.FirstOrDefault();
+            var userResult = await GetUserByMail(userEmail);
 
             if (userResult?.Password == userPassword)
             {
@@ -67,6 +65,12 @@ namespace MapNotepad.Services.Authorization
             }
 
             return isSignedIn;
+        }
+
+        public async Task<User> GetUserByMail(string userEmail)
+        {
+            var items = await _repositoryService.GetItemsAsync<User>(x => x.Email.ToUpper().Equals(userEmail.ToUpper()));
+            return items.FirstOrDefault();
         }
 
         public void LogOut()

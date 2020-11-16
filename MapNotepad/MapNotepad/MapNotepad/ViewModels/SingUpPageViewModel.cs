@@ -121,10 +121,19 @@ namespace MapNotepad.ViewModels
         {
             var isValid = true;
 
-            if (string.IsNullOrWhiteSpace(UsernameEntry) || 
-                string.IsNullOrWhiteSpace(EmailEntry) || 
-                string.IsNullOrWhiteSpace(PasswordEntry) ||
-                string.IsNullOrWhiteSpace(SPasswordEntry))
+            if (string.IsNullOrWhiteSpace(UsernameEntry))
+            {
+                isValid = false;
+            }
+            else if (string.IsNullOrWhiteSpace(EmailEntry))
+            {
+                isValid = false;
+            }
+            else if (string.IsNullOrWhiteSpace(PasswordEntry))
+            {
+                isValid = false;
+            }
+            else if (string.IsNullOrWhiteSpace(SPasswordEntry))
             {
                 isValid = false;
             }

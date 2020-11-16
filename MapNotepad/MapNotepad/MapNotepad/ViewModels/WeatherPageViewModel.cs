@@ -281,14 +281,7 @@ namespace MapNotepad.ViewModels
         private async void FillPicker()
         {
             var items = await _pinService.GetPinsAsync();
-            var pickerItems = new List<string>();
-
-            foreach (var item in items)
-            {
-                pickerItems.Add(item.Name);
-            }
-
-            PickerSource = pickerItems;
+            PickerSource = items.Select(x => x.Name).ToList();
         }
 
         private async void OnSelectedItemChangedCommand()
@@ -318,8 +311,7 @@ namespace MapNotepad.ViewModels
                 }
                 else
                 {
-                    string text = Resources.Resource.InternetLabel;
-                    LabelText = text;
+                    LabelText = Resources.Resource.InternetLabel;
                     IsShowLabel = true;
                     IsShowContent = false;
                 }

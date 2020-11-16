@@ -38,8 +38,7 @@ namespace MapNotepad.Services.Pins
                 items = items.Where(x => (x.Name.ToUpper().Contains(searchText.ToUpper())) ||
                                          (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper())) ||
                                          (x.PositionLong.ToString().ToUpper().Contains(searchText.ToUpper())) ||
-                                         (x.Description.ToString().ToUpper().Contains(searchText.ToUpper())) ||
-                                         (x.PositionLat.ToString().ToUpper().Contains(searchText.ToUpper())));
+                                         (x.Description.ToString().ToUpper().Contains(searchText.ToUpper())));
             }
             else
             {
