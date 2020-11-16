@@ -30,9 +30,9 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>MapNotepad</string>
-	<key>XSAppIconAssets</key>
   <key>UIUserInterfaceStyle</key>
   <string>Light</string>
+	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Can we use your location at all times?</string>
@@ -42,7 +42,6 @@
 	<string>Can we use your location at all times?</string>
   <key>NSCameraUsageDescription</key>
   <string>Can we use your camera to scan barcodes?</string>
-  <key>NSAppTransportSecurity</key>
   <dict>
     <key>NSAllowsArbitraryLoads</key>
     <true/>
