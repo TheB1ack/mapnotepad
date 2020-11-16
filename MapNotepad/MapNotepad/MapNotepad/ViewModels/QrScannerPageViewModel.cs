@@ -5,9 +5,7 @@ using MapNotepad.Services.Pins;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing;
 

@@ -210,6 +210,9 @@
   <data name="LatitudePlaceholder" xml:space="preserve">
     <value>Pin latitude</value>
   </data>
+  <data name="ListImage" xml:space="preserve">
+    <value>List.png</value>
+  </data>
   <data name="LocationAlert" xml:space="preserve">
     <value>To work correctly app needs your location!</value>
   </data>
@@ -233,6 +236,9 @@
   </data>
   <data name="LongitudePlaceholder" xml:space="preserve">
     <value>Pin longitude</value>
+  </data>
+  <data name="MapImage" xml:space="preserve">
+    <value>Map.png</value>
   </data>
   <data name="MapNotepanTitle" xml:space="preserve">
     <value>MAP Notepad</value>
@@ -323,6 +329,9 @@
   </data>
   <data name="UserNamePlaceholder" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="WeatherImage" xml:space="preserve">
+    <value>weather.png</value>
   </data>
   <data name="WeatherTitle" xml:space="preserve">
     <value>Weather</value>

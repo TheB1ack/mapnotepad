@@ -114,7 +114,6 @@ namespace MapNotepad.Controls
 
         private static void OnCameraPositionOnMapPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
-
             var map = bindable as CustomMap;
             var newPosition = newValue as CameraPosition;
 
@@ -126,6 +125,7 @@ namespace MapNotepad.Controls
             {
                 Debug.WriteLine("map or newPosition is null");
             }
+
         }
 
         private static void UpdatePinsSource(Map bindableMap, IEnumerable<CustomPin> newSource)
@@ -137,6 +137,7 @@ namespace MapNotepad.Controls
                 var pin = item.ConvertToPin();
                 bindableMap.Pins.Add(pin);
             }
+
         }
 
         private static void FocuseOnPin(Map bindableMap, CustomPin newPin)

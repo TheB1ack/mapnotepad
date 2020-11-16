@@ -18,16 +18,12 @@ namespace MapNotepad.Services.Authorization
             _settingsService = settingsService;
         }
 
-        #region -- Public properties --
+        #region -- IAuthorizationService implementation --
 
         public bool IsAuthorized
         {
             get => _settingsService.UserId != -1;
         }
-
-        #endregion
-
-        #region -- IAuthorizationService implementation --
 
         public async Task<bool> SignUpAsync(string userName, string userEmail, string userPassword)
         {           

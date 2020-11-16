@@ -34,7 +34,7 @@
 
         </Frame>
 
-        <Label Text="{Binding LabetText}"
+        <Label Text="{Binding LabelText}"
                IsVisible="{Binding IsShowLabel}"
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center"/>
@@ -318,7 +318,6 @@
 
                     <Image Source="{Binding Day5Icon}"
                            HeightRequest="70"/>
-
 
                 </StackLayout>
 

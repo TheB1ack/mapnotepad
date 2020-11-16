@@ -172,12 +172,14 @@ namespace MapNotepad.ViewModels
             IsFrameShowed = false;
             IsSettingFrameVisible = false;
             SelectedIndex = 0;
-            ResizeCollection();
+
+            ResizeCollectionAsync();
         }
 
         public async override void Initialize(INavigationParameters parameters)
         {
             var current = Connectivity.NetworkAccess;
+
             if (current == NetworkAccess.Internet)
             {
                 await CheckLocationPermissionsAsync();
@@ -186,6 +188,7 @@ namespace MapNotepad.ViewModels
             {
                 IsMyLocationEnabled = false;
             }
+
         }
 
         #endregion
@@ -301,7 +304,7 @@ namespace MapNotepad.ViewModels
             PinsCollection = new ObservableCollection<CustomPin>(items.Where(x => x.IsFavourite));
         }
 
-        private async void ResizeCollection()
+        private async void ResizeCollectionAsync()
         {
             var items = await _pinService.GetPinsAsync();
             PinsCollection = new ObservableCollection<CustomPin>(items.Where(x => x.IsFavourite));

@@ -13,5 +13,6 @@ namespace MapNotepad.Extentions
                 Position = new Position(customPin.PositionLat, customPin.PositionLong)
             };
         }
+
     }
 }

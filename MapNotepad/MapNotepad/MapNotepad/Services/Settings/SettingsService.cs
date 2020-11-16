@@ -11,7 +11,7 @@ namespace MapNotepad.Services.Settings
             _appSettings = appSettings;
         }
 
-        #region -- Public properties --
+        #region -- ISettingsService implementation --
 
         public int UserId 
         {
@@ -40,10 +40,6 @@ namespace MapNotepad.Services.Settings
 
             set => _appSettings.AddOrUpdateValue(nameof(MapZoom), value);
         }
-
-        #endregion
-
-        #region -- ISettingsService implementation --
 
         public void ClearData()
         {

@@ -340,6 +340,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List.png.
+        /// </summary>
+        public static string ListImage {
+            get {
+                return ResourceManager.GetString("ListImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To work correctly app needs your location!.
         /// </summary>
         public static string LocationAlert {
@@ -408,6 +417,15 @@ namespace MapNotepad.Resources {
         public static string LongitudePlaceholder {
             get {
                 return ResourceManager.GetString("LongitudePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.png.
+        /// </summary>
+        public static string MapImage {
+            get {
+                return ResourceManager.GetString("MapImage", resourceCulture);
             }
         }
         
@@ -678,6 +696,15 @@ namespace MapNotepad.Resources {
         public static string UserNamePlaceholder {
             get {
                 return ResourceManager.GetString("UserNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to weather.png.
+        /// </summary>
+        public static string WeatherImage {
+            get {
+                return ResourceManager.GetString("WeatherImage", resourceCulture);
             }
         }
         

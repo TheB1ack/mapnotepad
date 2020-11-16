@@ -52,6 +52,7 @@ namespace MapNotepad.ViewModels
             {
                 Debug.WriteLine("result was false");
             }
+
         }
         private async Task<bool> CheckCameraPermissions()
         {
@@ -73,7 +74,6 @@ namespace MapNotepad.ViewModels
         private async Task<bool> SetCameraPermissionsAsync()
         {
             var isGranted = false;
-            
             var status = await _permissionsService.RequestPermissionsAsync<Permissions.Camera>();
 
             if (status != PermissionStatus.Granted)
@@ -113,5 +113,6 @@ namespace MapNotepad.ViewModels
         }
 
         #endregion
+
     }
 }

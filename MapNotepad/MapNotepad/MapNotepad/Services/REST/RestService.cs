@@ -7,6 +7,7 @@ namespace MapNotepad.Services.REST
     public class RestService : IRestService
     {
         private readonly HttpClient _httpClient;
+
         public RestService()
         {
             _httpClient = new HttpClient();

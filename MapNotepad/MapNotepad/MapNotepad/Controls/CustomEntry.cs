@@ -5,6 +5,7 @@ namespace MapNotepad.Controls
 {
     public class CustomEntry : Entry
     {
+
         #region -- Public Properties --
 
         public bool IsTextValid

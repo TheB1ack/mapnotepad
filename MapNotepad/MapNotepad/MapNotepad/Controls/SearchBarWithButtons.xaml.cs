@@ -8,6 +8,7 @@ namespace MapNotepad.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchBarWithButtons : ContentView
     {
+
         public SearchBarWithButtons()
         {
             InitializeComponent();
@@ -87,5 +88,6 @@ namespace MapNotepad.Controls
         }
 
         #endregion
+
     }
 }

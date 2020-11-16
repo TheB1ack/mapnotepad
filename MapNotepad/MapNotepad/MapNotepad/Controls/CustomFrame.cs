@@ -5,6 +5,7 @@ namespace MapNotepad.Controls
 {
     public class CustomFrame : Frame
     {
+
         #region -- Public Properties --
 
         public bool IsMoveFrame
@@ -42,6 +43,7 @@ namespace MapNotepad.Controls
                 {
                     frame.TranslateTo(0, 40, 500);
                 }
+
             }
             else
             {
@@ -51,5 +53,6 @@ namespace MapNotepad.Controls
         }
 
         #endregion
+
     }
 }

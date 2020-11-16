@@ -148,7 +148,7 @@ namespace MapNotepad.ViewModels
             IsSettingFrameVisible = false;
             IsVisibleButton = true;
 
-            ResizeCollection();
+            ResizeCollectionAsync();
         }
 
         #endregion
@@ -170,10 +170,9 @@ namespace MapNotepad.ViewModels
             IsVisibleButton = false;
         }
 
-        private async void ResizeCollection()
+        private async void ResizeCollectionAsync()
         {
             var items = await _pinService.GetPinsAsync();
-
             PinsCollection = new ObservableCollection<CustomPin>(items);
 
             CheckCollectionSize();
@@ -205,10 +204,9 @@ namespace MapNotepad.ViewModels
             }
 
             pin.IsFavourite = !pin.IsFavourite;
-
             await _pinService.UpdatePinAsync(pin);
-            var items = await _pinService.GetPinsAsync();
 
+            var items = await _pinService.GetPinsAsync();
             PinsCollection = new ObservableCollection<CustomPin>(items);
         }
 

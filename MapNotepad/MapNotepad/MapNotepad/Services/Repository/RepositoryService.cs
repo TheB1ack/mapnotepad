@@ -46,12 +46,14 @@ namespace MapNotepad.Services.Repository
 
             return await dataBase.Table<T>().Where(predicate).ToListAsync();
         }
+
         public async Task<int> SaveItemAsync<T>(T item) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<T>();
 
             return await dataBase.InsertAsync(item);
         }
+
         public async Task UpdateItemAsync<T>(T item) where T : IBaseModel, new()
         {
             await dataBase.CreateTableAsync<User>();

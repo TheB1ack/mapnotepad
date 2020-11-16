@@ -100,7 +100,6 @@
             
         </Frame>
 
-
         <controls:CustomFrame Grid.Row="1"
                               IsMoveFrame="{Binding IsFrameShowed}"
                               BackgroundColor="WhiteSmoke"

@@ -33,7 +33,7 @@ namespace MapNotepad.ViewModels
         #region-- Public properties --  
 
         private string _labetText;
-        public string LabetText
+        public string LabelText
         {
             get => _labetText;
 
@@ -267,7 +267,7 @@ namespace MapNotepad.ViewModels
             }
 
             string text = Resources.Resource.EmptyListLabel;
-            LabetText = text;
+            LabelText = text;
             IsShowLabel = true;
             IsShowContent = false;
 
@@ -319,7 +319,7 @@ namespace MapNotepad.ViewModels
                 else
                 {
                     string text = Resources.Resource.InternetLabel;
-                    LabetText = text;
+                    LabelText = text;
                     IsShowLabel = true;
                     IsShowContent = false;
                 }

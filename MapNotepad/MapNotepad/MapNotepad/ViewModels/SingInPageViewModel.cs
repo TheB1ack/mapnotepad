@@ -91,12 +91,7 @@ namespace MapNotepad.ViewModels
             {
                 isActive = false;
             }
-            else
-            {
-                Debug.WriteLine("IsNullOrWhiteSpace returned false");
-            }
-
-            if (string.IsNullOrWhiteSpace(PasswordEntry))
+            else if (string.IsNullOrWhiteSpace(PasswordEntry))
             {
                 isActive = false;
             }

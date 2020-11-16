@@ -20,7 +20,7 @@ namespace MapNotepad.Services.Pins
             _settingsService = settingsService;
         }
 
-        #region -- IterfaceName implementation --
+        #region -- IPinService implementation --
 
         public Task AddPinAsync(CustomPin pin)
         {
@@ -94,5 +94,6 @@ namespace MapNotepad.Services.Pins
         }
 
         #endregion
+
     }
 }

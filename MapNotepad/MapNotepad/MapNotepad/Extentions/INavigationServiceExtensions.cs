@@ -48,5 +48,6 @@ namespace MapNotepad.Extentions
 
             return result;
         }
+
     }
 }

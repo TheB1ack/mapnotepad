@@ -20,6 +20,7 @@ namespace MapNotepad
 {
     public partial class App : PrismApplication
     {
+
         public App(IPlatformInitializer initializer = null)
         : base(initializer)
         {

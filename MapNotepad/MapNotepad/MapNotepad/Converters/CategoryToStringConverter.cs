@@ -16,5 +16,6 @@ namespace MapNotepad.Converters
         {
             return (int)(SearchCategories)value;
         }
+
     }
 }

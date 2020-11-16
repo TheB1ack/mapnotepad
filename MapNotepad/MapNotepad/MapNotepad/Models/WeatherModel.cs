@@ -7,6 +7,7 @@ namespace MapNotepad.Models
     {
         [JsonProperty("list")]
         public List<WeatherInfo> WeatherList { get; set; }
+
     }
 
     public class Temperature

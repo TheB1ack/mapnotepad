@@ -163,7 +163,6 @@ namespace MapNotepad.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-
             CheckLocationPermissionsAsync();
 
             IsCheckBoxChecked = true;
@@ -358,7 +357,6 @@ namespace MapNotepad.ViewModels
             {
                 pin
             };
-
         }
 
         private void SetCameraPosition(double zoom)
@@ -383,5 +381,6 @@ namespace MapNotepad.ViewModels
         }
 
         #endregion
+
     }
 }
