@@ -1,4 +1,4 @@
-﻿using MapNotepad.Services.Map;
+﻿  using MapNotepad.Services.Map;
 using MapNotepad.Services.Settings;
 using Xamarin.Forms.GoogleMaps;
 

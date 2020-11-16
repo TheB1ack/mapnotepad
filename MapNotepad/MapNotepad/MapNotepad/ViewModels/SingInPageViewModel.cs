@@ -28,7 +28,6 @@ namespace MapNotepad.ViewModels
         public string EmailEntry
         {
             get => _emailEntry;
-
             set => SetProperty(ref _emailEntry, value);
         }
 
@@ -36,7 +35,6 @@ namespace MapNotepad.ViewModels
         public string PasswordEntry
         {
             get => _passwordEntry;
-
             set => SetProperty(ref _passwordEntry, value);
         }
 
@@ -44,7 +42,6 @@ namespace MapNotepad.ViewModels
         public bool IsButtonEnable
         {
             get => _isButtonEnable;
-
             set => SetProperty(ref _isButtonEnable, value);
         }
 

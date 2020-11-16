@@ -9,6 +9,9 @@ namespace MapNotepad.iOS.Renderers
 {
     public class BorderlessEntryRenderer : EntryRenderer
     {
+
+        #region -- EntryRenderer implementation --
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);
@@ -18,7 +21,14 @@ namespace MapNotepad.iOS.Renderers
                 Control.Layer.BorderWidth = 0;
                 Control.BorderStyle = UITextBorderStyle.None;
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Control is null");
+            }
 
         }
+
+        #endregion
+
     }
 }

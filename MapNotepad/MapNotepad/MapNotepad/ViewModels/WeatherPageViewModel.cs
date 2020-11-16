@@ -36,7 +36,6 @@ namespace MapNotepad.ViewModels
         public string LabelText
         {
             get => _labetText;
-
             set => SetProperty(ref _labetText, value);
         }
 
@@ -44,7 +43,6 @@ namespace MapNotepad.ViewModels
         public bool IsShowLabel
         {
             get => _isShowLabel;
-
             set => SetProperty(ref _isShowLabel, value);
         }
 
@@ -52,7 +50,6 @@ namespace MapNotepad.ViewModels
         public bool IsShowContent
         {
             get => _isShowContent;
-
             set => SetProperty(ref _isShowContent, value);
         }
 
@@ -60,7 +57,6 @@ namespace MapNotepad.ViewModels
         public string Day5Icon
         {
             get => _day5Icon;
-
             set => SetProperty(ref _day5Icon, value);
         }
 
@@ -68,7 +64,6 @@ namespace MapNotepad.ViewModels
         public string Day5Date
         {
             get => _day5Date;
-
             set => SetProperty(ref _day5Date, value);
         }
 
@@ -76,7 +71,6 @@ namespace MapNotepad.ViewModels
         public string Day5Temp
         {
             get => _day5Temp;
-
             set => SetProperty(ref _day5Temp, value);
         }
 
@@ -84,7 +78,6 @@ namespace MapNotepad.ViewModels
         public string Day4Date
         {
             get => _day4Date;
-
             set => SetProperty(ref _day4Date, value);
         }
 
@@ -92,7 +85,6 @@ namespace MapNotepad.ViewModels
         public string Day4Temp
         {
             get => _day4Temp;
-
             set => SetProperty(ref _day4Temp, value);
         }
 
@@ -100,7 +92,6 @@ namespace MapNotepad.ViewModels
         public string Day4Icon
         {
             get => _day4Icon;
-
             set => SetProperty(ref _day4Icon, value);
         }
 
@@ -108,7 +99,6 @@ namespace MapNotepad.ViewModels
         public string Day3Date
         {
             get => _day3Date;
-
             set => SetProperty(ref _day3Date, value);
         }
 
@@ -116,7 +106,6 @@ namespace MapNotepad.ViewModels
         public string Day3Temp
         {
             get => _day3Temp;
-
             set => SetProperty(ref _day3Temp, value);
         }
 
@@ -124,7 +113,6 @@ namespace MapNotepad.ViewModels
         public string Day3Icon
         {
             get => _day3Icon;
-
             set => SetProperty(ref _day3Icon, value);
         }
 
@@ -132,7 +120,6 @@ namespace MapNotepad.ViewModels
         public string Day2Date
         {
             get => _day2Date;
-
             set => SetProperty(ref _day2Date, value);
         }
 
@@ -140,7 +127,6 @@ namespace MapNotepad.ViewModels
         public string Day2Temp
         {
             get => _day2Temp;
-
             set => SetProperty(ref _day2Temp, value);
         }
 
@@ -148,7 +134,6 @@ namespace MapNotepad.ViewModels
         public string Day2Icon
         {
             get => _day2Icon;
-
             set => SetProperty(ref _day2Icon, value);
         }
 
@@ -156,7 +141,6 @@ namespace MapNotepad.ViewModels
         public string Day1PoP
         {
             get => _day1PoP;
-
             set => SetProperty(ref _day1PoP, value);
         }
 
@@ -164,7 +148,6 @@ namespace MapNotepad.ViewModels
         public string Day1WindSpeed
         {
             get => _day1WindSpeed;
-
             set => SetProperty(ref _day1WindSpeed, value);
         }
 
@@ -172,7 +155,6 @@ namespace MapNotepad.ViewModels
         public string Day1Cloudiness
         {
             get => _day1Cloudiness;
-
             set => SetProperty(ref _day1Cloudiness, value);
         }
 
@@ -180,7 +162,6 @@ namespace MapNotepad.ViewModels
         public string Day1WeatherDesc
         {
             get => _day1WeatherDesc;
-
             set => SetProperty(ref _day1WeatherDesc, value);
         }
 
@@ -188,7 +169,6 @@ namespace MapNotepad.ViewModels
         public string Day1Weather
         {
             get => _day1Weather;
-
             set => SetProperty(ref _day1Weather, value);
         }
 
@@ -196,7 +176,6 @@ namespace MapNotepad.ViewModels
         public string Day1Date
         {
             get => _day1Date;
-
             set => SetProperty(ref _day1Date, value);
         }
 
@@ -204,7 +183,6 @@ namespace MapNotepad.ViewModels
         public string Day1Temp
         {
             get => _day1Temp;
-
             set => SetProperty(ref _day1Temp, value);
         }
 
@@ -212,7 +190,6 @@ namespace MapNotepad.ViewModels
         public string Day1FillTemp
         {
             get => _day1FillTemp;
-
             set => SetProperty(ref _day1FillTemp, value);
         }
 
@@ -220,7 +197,6 @@ namespace MapNotepad.ViewModels
         public string Day1MinTemp
         {
             get => _day1MinTemp;
-
             set => SetProperty(ref _day1MinTemp, value);
         }
 
@@ -228,7 +204,6 @@ namespace MapNotepad.ViewModels
         public string Day1MaxTemp
         {
             get => _day1MaxTemp;
-
             set => SetProperty(ref _day1MaxTemp, value);
         }
 
@@ -236,7 +211,6 @@ namespace MapNotepad.ViewModels
         public List<string> PickerSource
         {
             get => _pickerSource;
-
             set => SetProperty(ref _pickerSource, value);
         }
 
@@ -244,7 +218,6 @@ namespace MapNotepad.ViewModels
         public string SelectedItem
         {
             get => _selectedItem;
-
             set => SetProperty(ref _selectedItem, value);
         }
 

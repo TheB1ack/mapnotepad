@@ -28,13 +28,6 @@ namespace MapNotepad.Controls
 
         #region -- Public Properties --
 
-        public ObservableCollection<CustomPin> PinsSource
-        {
-            get => (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty);
-
-            set => SetValue(PinsSourceProperty, value);
-        }
-
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(
                                                          propertyName: nameof(PinsSource),
                                                          returnType: typeof(ObservableCollection<CustomPin>),
@@ -43,12 +36,10 @@ namespace MapNotepad.Controls
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: PinsSourcePropertyChanged);
-
-        public CustomPin FocusedPin
+        public ObservableCollection<CustomPin> PinsSource
         {
-            get => (CustomPin)GetValue(FocusedPinProperty);
-
-            set => SetValue(FocusedPinProperty, value);
+            get => (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty);
+            set => SetValue(PinsSourceProperty, value);
         }
 
         public static readonly BindableProperty FocusedPinProperty = BindableProperty.Create(
@@ -59,12 +50,10 @@ namespace MapNotepad.Controls
                                                  defaultBindingMode: BindingMode.TwoWay,
                                                  validateValue: null,
                                                  propertyChanged: OnFocusedPinPropertyChanged);
-
-        public CameraPosition CameraPositionOnMap
+        public CustomPin FocusedPin
         {
-            get => (CameraPosition)GetValue(CameraPositionOnMapProperty);
-
-            set => SetValue(CameraPositionOnMapProperty, value);
+            get => (CustomPin)GetValue(FocusedPinProperty);
+            set => SetValue(FocusedPinProperty, value);
         }
 
         public static readonly BindableProperty CameraPositionOnMapProperty = BindableProperty.Create(
@@ -75,6 +64,11 @@ namespace MapNotepad.Controls
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: OnCameraPositionOnMapPropertyChanged);
+        public CameraPosition CameraPositionOnMap
+        {
+            get => (CameraPosition)GetValue(CameraPositionOnMapProperty);
+            set => SetValue(CameraPositionOnMapProperty, value);
+        }
 
         #endregion
 

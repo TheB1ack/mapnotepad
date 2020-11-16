@@ -34,7 +34,6 @@ namespace MapNotepad.ViewModels
         public bool IsUsernameValid
         {
             get => _isUsernameValid;
-
             set => SetProperty(ref _isUsernameValid, value);
         }
 
@@ -42,7 +41,6 @@ namespace MapNotepad.ViewModels
         public bool IsEmailValid
         {
             get => _isEmailValid;
-
             set => SetProperty(ref _isEmailValid, value);
         }
 
@@ -50,7 +48,6 @@ namespace MapNotepad.ViewModels
         public bool IsPasswordValid
         {
             get => _isPasswordValid;
-
             set => SetProperty(ref _isPasswordValid, value);
         }
 
@@ -58,7 +55,6 @@ namespace MapNotepad.ViewModels
         public bool IsSPasswordValid
         {
             get => _isSPasswordValid;
-
             set => SetProperty(ref _isSPasswordValid, value);
         }
 
@@ -66,7 +62,6 @@ namespace MapNotepad.ViewModels
         public string UsernameEntry
         {
             get => _usernameEntry;
-
             set => SetProperty(ref _usernameEntry, value);
         }
 
@@ -74,7 +69,6 @@ namespace MapNotepad.ViewModels
         public string EmailEntry
         {
             get => _emailEntry;
-
             set => SetProperty(ref _emailEntry, value);
         }
 
@@ -82,7 +76,6 @@ namespace MapNotepad.ViewModels
         public string PasswordEntry
         {
             get => _passwordEntry;
-
             set => SetProperty(ref _passwordEntry, value);
         }
 
@@ -90,7 +83,6 @@ namespace MapNotepad.ViewModels
         public string SPasswordEntry
         {
             get => _sPasswordEntry;
-
             set => SetProperty(ref _sPasswordEntry, value);
         }
 
@@ -98,7 +90,6 @@ namespace MapNotepad.ViewModels
         public bool IsButtonEnable
         {
             get => _isButtonEnable;
-
             set => SetProperty(ref _isButtonEnable, value);
         }
 

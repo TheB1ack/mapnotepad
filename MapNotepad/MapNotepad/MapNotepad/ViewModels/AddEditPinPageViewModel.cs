@@ -40,7 +40,6 @@ namespace MapNotepad.ViewModels
         public int PickerItem
         {
             get => _pickerItem;
-
             set => SetProperty(ref _pickerItem, value);
         }
 
@@ -48,7 +47,6 @@ namespace MapNotepad.ViewModels
         public ObservableCollection<CustomPin> PinsCollection
         {
             get => _pinsCollection;
-
             set => SetProperty(ref _pinsCollection, value);
         }
 
@@ -56,7 +54,6 @@ namespace MapNotepad.ViewModels
         public string Title
         {
             get => _title;
-
             set => SetProperty(ref _title, value);
         }
 
@@ -64,7 +61,6 @@ namespace MapNotepad.ViewModels
         public string OldName
         {
             get => _oldName;
-
             set => SetProperty(ref _oldName, value);
         }
 
@@ -72,7 +68,6 @@ namespace MapNotepad.ViewModels
         public string NameEntry
         {
             get => _nameEntry;
-
             set => SetProperty(ref _nameEntry, value);
         }
 
@@ -80,7 +75,6 @@ namespace MapNotepad.ViewModels
         public string DescriptionEditor
         {
             get => _descriptionEditor;
-
             set => SetProperty(ref _descriptionEditor, value);
         }
 
@@ -88,7 +82,6 @@ namespace MapNotepad.ViewModels
         public double LatitudeEntry
         {
             get => _latitudeEntry;
-
             set => SetProperty(ref _latitudeEntry, value);
         }
 
@@ -96,7 +89,6 @@ namespace MapNotepad.ViewModels
         public double LongitudeEntry
         {
             get => _longitudeEntry;
-
             set => SetProperty(ref _longitudeEntry, value);
         }
 
@@ -104,7 +96,6 @@ namespace MapNotepad.ViewModels
         public CustomPin ExistPin
         {
             get => _existPin;
-
             set => SetProperty(ref _existPin, value);
         }
 
@@ -112,7 +103,6 @@ namespace MapNotepad.ViewModels
         public CameraPosition CameraPositionBinding
         {
             get => _cameraPositionBinding;
-
             set => SetProperty(ref _cameraPositionBinding, value);
         }
 
@@ -120,7 +110,6 @@ namespace MapNotepad.ViewModels
         public bool IsCheckBoxChecked
         {
             get => _isCheckBoxChecked;
-
             set => SetProperty(ref _isCheckBoxChecked, value);
         }
 
@@ -128,7 +117,6 @@ namespace MapNotepad.ViewModels
         public bool IsMapVisible
         {
             get => _isMapVisible;
-
             set => SetProperty(ref _isMapVisible, value);
         }
 
@@ -136,7 +124,6 @@ namespace MapNotepad.ViewModels
         public bool IsEntryVisible
         {
             get => _isEntryVisible;
-
             set => SetProperty(ref _isEntryVisible, value);
         }
 
@@ -144,7 +131,6 @@ namespace MapNotepad.ViewModels
         public bool IsMyLocationEnabled
         {
             get => _isMyLocationEnabled;
-
             set => SetProperty(ref _isMyLocationEnabled, value);
         }
 

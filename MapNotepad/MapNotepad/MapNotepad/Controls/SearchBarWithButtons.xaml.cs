@@ -14,16 +14,9 @@ namespace MapNotepad.Controls
             InitializeComponent();
         }
 
-        #region -- Public Properties --
-
         public static event EventHandler<TextChangedEventArgs> TextChanged;
 
-        public ICommand SettingsClick
-        {
-            get => (ICommand)GetValue(SettingsClickProperty);
-
-            set => SetValue(SettingsClickProperty, value);
-        }
+        #region -- Public Properties --
 
         public static readonly BindableProperty SettingsClickProperty = BindableProperty.Create(
                                                          propertyName: nameof(SettingsClick),
@@ -32,12 +25,10 @@ namespace MapNotepad.Controls
                                                          defaultValue: null,
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null);
-
-        public string Placeholder
+        public ICommand SettingsClick
         {
-            get => (string)GetValue(PlaceholderProperty);
-
-            set => SetValue(PlaceholderProperty, value);
+            get => (ICommand)GetValue(SettingsClickProperty);
+            set => SetValue(SettingsClickProperty, value);
         }
 
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
@@ -47,12 +38,10 @@ namespace MapNotepad.Controls
                                                          defaultValue: null,
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null);
-
-        public string Text
+        public string Placeholder
         {
-            get => (string)GetValue(TextProperty);
-
-            set => SetValue(TextProperty, value);
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
         }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
@@ -63,15 +52,15 @@ namespace MapNotepad.Controls
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: (bindable, oldValue, newValue) => ((SearchBarWithButtons)bindable).OnTextChanged((string)oldValue, (string)newValue));
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
 
         #endregion
 
         #region -- Private Helpers --
-
-        private void CancelButton_Click(object sender, EventArgs args)
-        {
-            Text = null;
-        }
 
         protected virtual void OnTextChanged(string oldValue, string newValue)
         {
@@ -85,6 +74,11 @@ namespace MapNotepad.Controls
             }
 
             TextChanged?.Invoke(this, new TextChangedEventArgs(oldValue, newValue));
+        }
+
+        private void CancelButton_Click(object sender, EventArgs args)
+        {
+            Text = null;
         }
 
         #endregion

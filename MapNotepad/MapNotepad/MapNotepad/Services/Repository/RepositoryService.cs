@@ -17,12 +17,8 @@ namespace MapNotepad.Services.Repository
             _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME);
         }
 
-        #region -- Public properties --
-
         private SQLiteAsyncConnection _database;
         public SQLiteAsyncConnection dataBase => _database ??= new SQLiteAsyncConnection(_path);
-
-        #endregion
 
         #region -- IRepositoryService implementation --
 

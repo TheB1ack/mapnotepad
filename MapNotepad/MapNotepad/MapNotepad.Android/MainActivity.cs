@@ -6,12 +6,16 @@ using Prism;
 using Prism.Ioc;
 using Acr.UserDialogs;
 using System.Linq;
+using Xamarin.Forms.Platform.Android;
 
 namespace MapNotepad.Droid
 {
     [Activity(Label = "Map Notepad", Icon = "@mipmap/MainIcon", Theme = "@style/MainTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
+
+        #region -- FormsAppCompatActivity implementation --
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
@@ -38,8 +42,14 @@ namespace MapNotepad.Droid
             {
                 Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Permissions array doesn't contains ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION");
+            }
 
         }
+
+        #endregion
 
         public class AndroidInitializer : IPlatformInitializer
         {

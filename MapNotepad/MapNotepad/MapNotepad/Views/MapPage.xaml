@@ -54,6 +54,7 @@
                                               Command="{Binding MapClickCommand}"/>
 
             </controls:CustomMap.Behaviors>
+            
         </controls:CustomMap>
 
         <Frame Grid.Row="1"

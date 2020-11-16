@@ -34,7 +34,6 @@ namespace MapNotepad.ViewModels
         public Result ScanResult
         {
             get => _scanResult;
-
             set => SetProperty(ref _scanResult, value);
         }
 

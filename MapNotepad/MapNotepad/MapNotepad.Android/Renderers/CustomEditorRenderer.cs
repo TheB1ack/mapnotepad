@@ -13,7 +13,14 @@ namespace MapNotepad.Droid.Renderers
 {
     public class CustomEditorRenderer : EditorRenderer
     {
-        public CustomEditorRenderer(Context context) : base(context) { }
+        public CustomEditorRenderer(Context context) 
+                                    : base(context) 
+        {
+            
+        }
+
+        #region -- EditorRenderer implementation --
+
         protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
         {
             base.OnElementChanged(e);
@@ -36,7 +43,20 @@ namespace MapNotepad.Droid.Renderers
                     
                     nativeEditText.Background = shape;
                 }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Control isn't EditText");
+                }
+
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Control is null");
+            }
+
         }
+
+        #endregion
+
     }
 }

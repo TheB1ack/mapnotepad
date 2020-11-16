@@ -44,7 +44,6 @@ namespace MapNotepad.ViewModels
         public int SelectedIndex
         {
             get => _selectedIndex;
-
             set => SetProperty(ref _selectedIndex, value);
         }
 
@@ -52,7 +51,6 @@ namespace MapNotepad.ViewModels
         public bool IsSettingFrameVisible
         {
             get => _isSettingFrameVisible;
-
             set => SetProperty(ref _isSettingFrameVisible, value);
         }
 
@@ -60,7 +58,6 @@ namespace MapNotepad.ViewModels
         public bool IsFrameShowed
         {
             get => _isFrameShowed;
-
             set => SetProperty(ref _isFrameShowed, value);
         }
 
@@ -68,7 +65,6 @@ namespace MapNotepad.ViewModels
         public CustomPin MyFocusedPin
         {
             get => _myFocusedPin;
-
             set => SetProperty(ref _myFocusedPin, value);
         }
 
@@ -76,7 +72,6 @@ namespace MapNotepad.ViewModels
         public ObservableCollection<CustomPin> PinsCollection
         {
             get => _pinsCollection;
-
             set => SetProperty(ref _pinsCollection, value);
         }
 
@@ -84,7 +79,6 @@ namespace MapNotepad.ViewModels
         public string SearchBarText
         {
             get => _searchBarText;
-
             set => SetProperty(ref _searchBarText, value);
         }
 
@@ -92,7 +86,6 @@ namespace MapNotepad.ViewModels
         public CameraPosition CameraPositionBinding
         {
             get => _cameraPositionBinding;
-
             set => SetProperty(ref _cameraPositionBinding, value);
         }
 
@@ -100,7 +93,6 @@ namespace MapNotepad.ViewModels
         public string FrameNameLable
         {
             get => _frameNameLable;
-
             set => SetProperty(ref _frameNameLable, value);
         }
 
@@ -108,7 +100,6 @@ namespace MapNotepad.ViewModels
         public string FrameDescriptionLabel
         {
             get => _frameDescriptionLabel;
-
             set => SetProperty(ref _frameDescriptionLabel, value);
         }
 
@@ -116,7 +107,6 @@ namespace MapNotepad.ViewModels
         public string FrameLatitudeLabel
         {
             get => _frameLatitudeLabel;
-
             set => SetProperty(ref _frameLatitudeLabel, value);
         }
 
@@ -124,7 +114,6 @@ namespace MapNotepad.ViewModels
         public string FrameLongitudeLabel
         {
             get => _frameLongitudeLabel;
-
             set => SetProperty(ref _frameLongitudeLabel, value);
         }
 
@@ -132,7 +121,6 @@ namespace MapNotepad.ViewModels
         public bool IsMyLocationEnabled
         {
             get => _isMyLocationEnabled;
-
             set => SetProperty(ref _isMyLocationEnabled, value);
         }
 

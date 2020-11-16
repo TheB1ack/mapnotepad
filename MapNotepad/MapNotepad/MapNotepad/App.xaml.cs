@@ -22,7 +22,7 @@ namespace MapNotepad
     {
 
         public App(IPlatformInitializer initializer = null)
-        : base(initializer)
+                   : base(initializer)
         {
 
         }

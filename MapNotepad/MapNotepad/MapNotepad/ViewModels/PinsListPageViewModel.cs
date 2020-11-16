@@ -30,7 +30,6 @@ namespace MapNotepad.ViewModels
         public string BarcodeValue
         {
             get => _barcodeValue;
-
             set => SetProperty(ref _barcodeValue, value);
         }
 
@@ -38,7 +37,6 @@ namespace MapNotepad.ViewModels
         public bool IsQrFrameVisible
         {
             get => _isQrFrameVisible;
-
             set => SetProperty(ref _isQrFrameVisible, value);
         }
 
@@ -46,7 +44,6 @@ namespace MapNotepad.ViewModels
         public bool IsVisibleButton
         {
             get => _isVisibleButton;
-
             set => SetProperty(ref _isVisibleButton, value);
         }
 
@@ -54,7 +51,6 @@ namespace MapNotepad.ViewModels
         public int SelectedIndex
         {
             get => _selectedIndex;
-
             set => SetProperty(ref _selectedIndex, value);
         }
 
@@ -62,7 +58,6 @@ namespace MapNotepad.ViewModels
         public bool IsSettingFrameVisible
         {
             get => _isSettingFrameVisible;
-
             set => SetProperty(ref _isSettingFrameVisible, value);
         }
 
@@ -70,7 +65,6 @@ namespace MapNotepad.ViewModels
         public ObservableCollection<CustomPin> PinsCollection
         {
             get => _pinsCollection;
-
             set => SetProperty(ref _pinsCollection, value);
         }
 
@@ -78,7 +72,6 @@ namespace MapNotepad.ViewModels
         public bool IsVisibleText
         {
             get => _isVisibleText;
-
             set => SetProperty(ref _isVisibleText, value);
         }
 
@@ -86,7 +79,6 @@ namespace MapNotepad.ViewModels
         public bool IsVisibleList
         {
             get => _isVisibleList;
-
             set => SetProperty(ref _isVisibleList, value);
         }
 
@@ -94,7 +86,6 @@ namespace MapNotepad.ViewModels
         public string SearchBarText
         {
             get => _searchBarText;
-
             set => SetProperty(ref _searchBarText, value);
         }
 

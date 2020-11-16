@@ -8,13 +8,6 @@ namespace MapNotepad.Controls
 
         #region -- Public Properties --
 
-        public bool IsMoveFrame
-        {
-            get => (bool)GetValue(IsMoveFrameProperty);
-
-            set => SetValue(IsMoveFrameProperty, value);
-        }
-
         public static readonly BindableProperty IsMoveFrameProperty = BindableProperty.Create(
                                                          propertyName: nameof(IsMoveFrame),
                                                          returnType: typeof(bool),
@@ -23,6 +16,11 @@ namespace MapNotepad.Controls
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: IsMoveFramePropertyChanged);
+        public bool IsMoveFrame
+        {
+            get => (bool)GetValue(IsMoveFrameProperty);
+            set => SetValue(IsMoveFrameProperty, value);
+        }
 
         #endregion
 

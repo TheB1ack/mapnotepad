@@ -8,13 +8,6 @@ namespace MapNotepad.Controls
 
         #region -- Public Properties --
 
-        public bool IsTextValid
-        {
-            get => (bool)GetValue(IsTextValidProperty);
-
-            set => SetValue(IsTextValidProperty, value);
-        }
-
         public static readonly BindableProperty IsTextValidProperty = BindableProperty.Create(
                                                          propertyName: nameof(IsTextValid),
                                                          returnType: typeof(bool),
@@ -23,6 +16,12 @@ namespace MapNotepad.Controls
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
                                                          propertyChanged: IsTextValidPropertyChanged);
+        public bool IsTextValid
+        {
+            get => (bool)GetValue(IsTextValidProperty);
+
+            set => SetValue(IsTextValidProperty, value);
+        }
 
         #endregion
 
