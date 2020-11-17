@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MapNotepad.Services.WeatherService
+namespace MapNotepad.Services.Weather
 {
     public class WeatherService : IWeatherService
     {
@@ -18,32 +18,39 @@ namespace MapNotepad.Services.WeatherService
 
         #region -- IWeatherService implementation --
 
-        public Task<WeatherModel> GetWeather(double latitude, double longitude)
+        public Task<WeatherModel> GetWeatherAsync(double latitude, double longitude)
         {
             var url = Constants.WEATHER_URL + $"{latitude}&lon={longitude}&appid={Constants.WEATHER_APIKEY}";
 
             return _restService.GetAsync<WeatherModel>(url);
         }
 
-        public async Task<IEnumerable<WeatherInfo>> GetFiveDaysWeater(double latitude, double longitude)
+        public async Task<IEnumerable<WeatherInfo>> GetFiveDaysWeaterAsync(double latitude, double longitude)
         {
             List<WeatherInfo> fiveDaysForcast = new List<WeatherInfo>();
 
-            var result = await GetWeather(latitude, longitude);
+            var result = await GetWeatherAsync(latitude, longitude);
 
-            var listOfAllDays = result.WeatherList;
-            var nDaysForcast = listOfAllDays.Where(x => x.Date.Contains("15:00:00")).ToList();
-
-            if (nDaysForcast.Count() < 5)
+            if (result != null)
             {
-                fiveDaysForcast.Add(listOfAllDays.FirstOrDefault());
+                var listOfAllDays = result.WeatherList;
+                var nDaysForcast = listOfAllDays.Where(x => x.Date.Contains("15:00:00")).ToList();
+
+                if (nDaysForcast.Count() < 5)
+                {
+                    fiveDaysForcast.Add(listOfAllDays.FirstOrDefault());
+                }
+                else
+                {
+                    Debug.WriteLine("nDaysForcast.Count() is >= 5");
+                }
+
+                fiveDaysForcast.AddRange(nDaysForcast);
             }
             else
             {
-                Debug.WriteLine("nDaysForcast.Count() is >= 5");
+                fiveDaysForcast = null;
             }
-
-            fiveDaysForcast.AddRange(nDaysForcast);
 
             return fiveDaysForcast;
         }

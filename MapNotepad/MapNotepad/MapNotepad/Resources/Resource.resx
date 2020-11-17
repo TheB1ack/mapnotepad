@@ -120,6 +120,9 @@
   <data name="AddPinTitle" xml:space="preserve">
     <value>Add new Pin</value>
   </data>
+  <data name="APIErrorLabel" xml:space="preserve">
+    <value>Something went wrong when getting weather</value>
+  </data>
   <data name="BadEmailAlert" xml:space="preserve">
     <value>Email is not valid</value>
   </data>

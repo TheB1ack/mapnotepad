@@ -1,7 +1,7 @@
 ﻿using MapNotepad.Extentions;
 using MapNotepad.Models;
 using MapNotepad.Services.Pins;
-using MapNotepad.Services.WeatherService;
+using MapNotepad.Services.Weather;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System;
@@ -222,7 +222,7 @@ namespace MapNotepad.ViewModels
         }
 
         private ICommand _selectedItemChangedCommand;
-        public ICommand SelectedItemChangedCommand => _selectedItemChangedCommand ??= new Command(OnSelectedItemChangedCommand);
+        public ICommand SelectedItemChangedCommand => _selectedItemChangedCommand ??= new Command(OnSelectedItemChangedCommandAsync);
 
         #endregion
 
@@ -244,28 +244,28 @@ namespace MapNotepad.ViewModels
             IsShowLabel = true;
             IsShowContent = false;
 
-            FillPicker();
+            FillPickerAsync();
         }
 
         #endregion
 
         #region -- Private Helpers --
 
-        private async void FillPicker()
+        private async void FillPickerAsync()
         {
             var items = await _pinService.GetPinsAsync();
             PickerSource = items.Select(x => x.Name).ToList();
         }
 
-        private async void OnSelectedItemChangedCommand()
+        private async void OnSelectedItemChangedCommandAsync()
         {
             var items = await _pinService.GetPinsAsync();
             var pin = items.Where(x => x.Name == SelectedItem).FirstOrDefault();
 
-            await ShowWether(pin);
+            await ShowWetherAsync(pin);
         }
 
-        private async Task ShowWether(CustomPin pin)
+        private async Task ShowWetherAsync(CustomPin pin)
         {
             if (pin != null)
             {
@@ -273,14 +273,24 @@ namespace MapNotepad.ViewModels
 
                 if (current == NetworkAccess.Internet)
                 {
-                    var weatherResult = await _weatherService.GetFiveDaysWeater(pin.PositionLat, pin.PositionLong);
-                    var days = weatherResult.ToList();
+                    var weatherResult = await _weatherService.GetFiveDaysWeaterAsync(pin.PositionLat, pin.PositionLong);
 
-                    SetDay1Forcast(days[0]);
-                    SetAllDaysForcast(days);
+                    if (weatherResult != null)
+                    {
+                        var days = weatherResult.ToList();
 
-                    IsShowLabel = false;
-                    IsShowContent = true;
+                        SetDay1Forcast(days[0]);
+                        SetAllDaysForcast(days);
+
+                        IsShowLabel = false;
+                        IsShowContent = true;
+                    }
+                    else
+                    {
+                        LabelText = Resources.Resource.APIErrorLabel;
+                        IsShowLabel = true;
+                        IsShowContent = false;
+                    }
                 }
                 else
                 {

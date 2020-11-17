@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -17,8 +19,19 @@ namespace MapNotepad.Services.REST
 
         public async Task<T> GetAsync<T>(string url)
         {
-            var json = await _httpClient.GetStringAsync(url);
-            var model = JsonConvert.DeserializeObject<T>(json);
+            T model;
+
+            try
+            {
+                var json = await _httpClient.GetStringAsync(url);
+                model = JsonConvert.DeserializeObject<T>(json);
+
+            }
+            catch(Exception e)
+            {
+                model = default;
+                Debug.WriteLine(e.Message);
+            }
 
             return model;
         }

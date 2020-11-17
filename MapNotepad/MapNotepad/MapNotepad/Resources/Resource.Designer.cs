@@ -70,6 +70,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong when getting weather.
+        /// </summary>
+        public static string APIErrorLabel {
+            get {
+                return ResourceManager.GetString("APIErrorLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is not valid.
         /// </summary>
         public static string BadEmailAlert {

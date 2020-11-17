@@ -13,7 +13,7 @@ using Acr.UserDialogs;
 using MapNotepad.Services.Map;
 using MapNotepad.Services.MapService;
 using MapNotepad.Services.REST;
-using MapNotepad.Services.WeatherService;
+using MapNotepad.Services.Weather;
 using MapNotepad.Services.Permission;
 
 namespace MapNotepad

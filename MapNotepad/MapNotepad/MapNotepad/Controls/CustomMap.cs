@@ -35,7 +35,7 @@ namespace MapNotepad.Controls
                                                          defaultValue: null,
                                                          defaultBindingMode: BindingMode.TwoWay,
                                                          validateValue: null,
-                                                         propertyChanged: PinsSourcePropertyChanged);
+                                                         propertyChanged: OnPinsSourcePropertyChanged);
         public ObservableCollection<CustomPin> PinsSource
         {
             get => (ObservableCollection<CustomPin>)GetValue(PinsSourceProperty);
@@ -74,7 +74,7 @@ namespace MapNotepad.Controls
 
         #region -- Private Helpers --
 
-        private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+        private static void OnPinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
             var map = bindable as CustomMap;
             var newPinsSource = newValue as ObservableCollection<CustomPin>;
